@@ -57,7 +57,7 @@ namespace ArchiveCacheManager
             }
             else
             {
-                window = new ArchiveListWindow(Path.GetFileName(selectedGame.ApplicationPath), fileList, GameIndex.GetSelectedFile(selectedGame.Id));
+                window = new ArchiveListWindow(Path.GetFileName(selectedGame.ApplicationPath), fileList, Path.GetDirectoryName(selectedGame.ApplicationPath), GameIndex.GetSelectedFile(selectedGame.Id));
             }
             //NativeWindow parent = new NativeWindow();
 
