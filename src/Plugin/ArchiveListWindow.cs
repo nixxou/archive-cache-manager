@@ -12,6 +12,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Windows.Navigation;
 using System.Text.RegularExpressions;
+using CefSharp;
+
 
 namespace ArchiveCacheManager
 {
@@ -95,7 +97,7 @@ namespace ArchiveCacheManager
 
                 if (match.Success)
                 {
-                    DisplayHtml(format_hack(match.Groups[2].Value));
+                    chromiumWebBrowser1.LoadHtml(format_hack(match.Groups[2].Value));
                     return;
                 }
             }
@@ -107,14 +109,15 @@ namespace ArchiveCacheManager
 
                 if (match.Success)
                 {
-                    DisplayHtml(format_translation(match.Groups[2].Value));
+                    chromiumWebBrowser1.LoadHtml(format_translation(match.Groups[2].Value));
                     return;
                 }
 
 
             }
 
-            DisplayHtml("<html><body bgcolor=\"F0F0F0\">No Info</body></html>");
+            //DisplayHtml("<html><body bgcolor=\"F0F0F0\">No Info</body></html>");
+            chromiumWebBrowser1.LoadHtml("<html><body bgcolor=\"F0F0F0\">No Info</body></html>");
 
 
         }
@@ -124,10 +127,7 @@ namespace ArchiveCacheManager
 
         }
 
-        private void webBrowser1_LoadCompleted(object sender, NavigationEventArgs e)
-        {
-           // webBrowser1.
-        }
+
 
         private string format_translation(string idh)
         {
@@ -267,15 +267,7 @@ a:hover, a:active {
             return html_data;
 
         }
-        private void DisplayHtml(string html)
-        {
-            webBrowser1.Navigate("about:blank");
-            if (webBrowser1.Document != null)
-            {
-                webBrowser1.Document.Write(string.Empty);
-            }
-            webBrowser1.DocumentText = html;
-        }
+
 
 
 
