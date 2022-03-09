@@ -20,14 +20,19 @@ namespace ArchiveCacheManager
     public partial class ArchiveListWindow : Form
     {
         public string SelectedFile;
+        
+        //Retrocompatibility NES System-Depreciated
         public dynamic json_hack;
         public bool hack_exist;
         public dynamic json_translation;
         public bool translation_exist;
+        //END-Retrocompatibility
 
         public ArchiveListWindow(string archiveName, string[] fileList, string dirpath, string selection = "")
         {
             InitializeComponent();
+
+            //Retrocompatibility NES System-Depreciated
             this.hack_exist = false;
             string hack_file = dirpath + "\\hacks.json";
             if (File.Exists(hack_file)) {
@@ -56,8 +61,8 @@ namespace ArchiveCacheManager
                 label3.Text = "Not Found";
                 label3.ForeColor = System.Drawing.Color.Red;
             }
+            //END-Retrocompatibility
 
-            //dynamic stuff = JObject.Parse("{ 'Name': 'Jon Smith', 'Address': { 'City': 'New York', 'State': 'NY' }, 'Age': 42 }");
 
 
             archiveNameLabel.Text = archiveName;
@@ -88,13 +93,12 @@ namespace ArchiveCacheManager
 
         private void fileListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ///label1.Text = this.json_hack["469"]["patch_name"];
+            //Retrocompatibility NES System-Depreciated
             if (this.hack_exist)
             {
                 string pattern = @"\[H.([^\]]*)-([0-9]+)\]";
                 Regex rgx = new Regex(pattern);
                 Match match = rgx.Match(fileListBox.SelectedItem.ToString());
-
                 if (match.Success)
                 {
                     chromiumWebBrowser1.LoadHtml(format_hack(match.Groups[2].Value));
@@ -106,17 +110,14 @@ namespace ArchiveCacheManager
                 string pattern = @"\[T.([^\]]*)-([0-9]+)\]";
                 Regex rgx = new Regex(pattern);
                 Match match = rgx.Match(fileListBox.SelectedItem.ToString());
-
                 if (match.Success)
                 {
                     chromiumWebBrowser1.LoadHtml(format_translation(match.Groups[2].Value));
                     return;
                 }
-
-
             }
+            //End Retrocompatibility
 
-            //DisplayHtml("<html><body bgcolor=\"F0F0F0\">No Info</body></html>");
             chromiumWebBrowser1.LoadHtml("<html><body bgcolor=\"F0F0F0\">No Info</body></html>");
 
 
@@ -128,158 +129,133 @@ namespace ArchiveCacheManager
         }
 
 
-
+        //Retrocompatibility NES System-Depreciated
         private string format_translation(string idh)
         {
-
             string html_data = "<html><head>";
             html_data += @"<style>
-<style>
-table {
-	border-collapse: collapse;
-    font-family: Tahoma, Geneva, sans-serif;
+                <style>
+                table {
+	                border-collapse: collapse;
+                    font-family: Tahoma, Geneva, sans-serif;
 	
-}
-table td {
-	padding: 5px;
-}
-table thead td {
-	color: #ffffff;
-	font-weight: bold;
-	font-size: 11px;
-	border: none;
-}
-table tbody td {
-	color: brown;
+                }
+                table td {
+	                padding: 5px;
+                }
+                table thead td {
+	                color: #ffffff;
+	                font-weight: bold;
+	                font-size: 11px;
+	                border: none;
+                }
+                table tbody td {
+	                color: brown;
 	
 	
-}
-table tbody tr {
-	border: 2px solid red;
-}
-table h2{
-	text-align:center;
-}
-a:link, a:visited {
-  color: brown;
-  padding: 8px 8px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-}
+                }
+                table tbody tr {
+	                border: 2px solid red;
+                }
+                table h2{
+	                text-align:center;
+                }
+                a:link, a:visited {
+                  color: brown;
+                  padding: 8px 8px;
+                  text-align: center;
+                  text-decoration: none;
+                  display: inline-block;
+                }
 
-a:hover, a:active {
+                a:hover, a:active {
 
-}
-.title{
+                }
+                .title{
 	
-}
-.val{
-	font-weight: bold;
-}
-</style>";
-
-
+                }
+                .val{
+	                font-weight: bold;
+                }
+                </style>";
             html_data += "</head><body bgcolor=\"F0F0F0\"> ";
             html_data += "<table>";
             html_data += "<tr><td colspan=\"4\"><h2><a target=\"_blank\" href=\"" + this.json_translation[idh]["url"] + "\">" + this.json_translation[idh]["patch_name"] + "</a><h2></td></tr>";
             html_data += "<tr><td class=\"title\">Released by</td><td class=\"val\">" + this.json_translation[idh]["released_by"] + "</td>";
             html_data += "<td class=\"title\">Version</td><td class=\"val\">" + this.json_translation[idh]["patch_version"] + "</td></tr>";
-
             html_data += "<tr><td class=\"title\">Language</td><td class=\"val\">" + this.json_translation[idh]["language"] + "</td>";
             html_data += "<td class=\"title\">Status</td><td class=\"val\">" + this.json_translation[idh]["status"] + "</td></tr>";
-
             html_data += "<tr><td class=\"title\">Release date</td><td class=\"val\">" + this.json_translation[idh]["release_date"] + "</td>";
             html_data += "<td class=\"title\">Last modified</td><td class=\"val\">" + this.json_translation[idh]["last_modified"] + "</td></tr>";
-
             html_data += "<tr><td colspan=\"4\">" + this.json_translation[idh]["desc"] + "</td></tr>";
             html_data += "</table></body></html>";
-
             return html_data;
-
         }
+
+        //Retrocompatibility NES System-Depreciated
         private string format_hack(string idh)
         {
 
             string html_data = "<html><head>";
             html_data += @"<style>
-<style>
-table {
-	border-collapse: collapse;
-    font-family: Tahoma, Geneva, sans-serif;
+                <style>
+                table {
+	                border-collapse: collapse;
+                    font-family: Tahoma, Geneva, sans-serif;
 	
-}
-table td {
-	padding: 5px;
-}
-table thead td {
-	color: #ffffff;
-	font-weight: bold;
-	font-size: 11px;
-	border: none;
-}
-table tbody td {
-	color: brown;
+                }
+                table td {
+	                padding: 5px;
+                }
+                table thead td {
+	                color: #ffffff;
+	                font-weight: bold;
+	                font-size: 11px;
+	                border: none;
+                }
+                table tbody td {
+	                color: brown;
 	
 	
-}
-table tbody tr {
-	border: 2px solid red;
-}
-table h2{
-	text-align:center;
-}
-a:link, a:visited {
-  color: brown;
-  padding: 8px 8px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-}
+                }
+                table tbody tr {
+	                border: 2px solid red;
+                }
+                table h2{
+	                text-align:center;
+                }
+                a:link, a:visited {
+                  color: brown;
+                  padding: 8px 8px;
+                  text-align: center;
+                  text-decoration: none;
+                  display: inline-block;
+                }
 
-a:hover, a:active {
+                a:hover, a:active {
 
-}
-.title{
+                }
+                .title{
 	
-}
-.val{
-	font-weight: bold;
-}
-</style>";
-
-
+                }
+                .val{
+	                font-weight: bold;
+                }
+                </style>";
             html_data += "</head><body bgcolor=\"F0F0F0\"> ";
             html_data += "<table>";
             html_data += "<tr><td colspan=\"4\"><h2><a target=\"_blank\" href=\"" + this.json_hack[idh]["url"] + "\">" + this.json_hack[idh]["patch_name"] + "</a><h2></td></tr>";
             html_data += "<tr><td class=\"title\">Released by</td><td class=\"val\">" + this.json_hack[idh]["released_by"] + "</td>";
             html_data += "<td class=\"title\">Version</td><td class=\"val\">" + this.json_hack[idh]["patch_version"] + "</td></tr>";
-
             html_data += "<tr><td class=\"title\">Category</td><td class=\"val\">" + this.json_hack[idh]["category"] + "</td>";
             html_data += "<td class=\"title\">Mods</td><td class=\"val\">" + this.json_hack[idh]["mods"] + "</td></tr>";
-
             html_data += "<tr><td class=\"title\">Release date</td><td class=\"val\">" + this.json_hack[idh]["hack_release_date"] + "</td>";
             html_data += "<td class=\"title\">Last modified</td><td class=\"val\">" + this.json_hack[idh]["last_modified"] + "</td></tr>";
-
             html_data += "<tr><td colspan=\"4\">" + this.json_hack[idh]["desc"] + "</td></tr>";
             html_data += "</table></body></html>";
-
             return html_data;
-
         }
 
 
-
-
-        /*
-private string TextToHtml(string text)
-{
-   text = text.Replace("\r\n", "\r");
-   text = text.Replace("\n", "\r");
-   text = text.Replace("\r", "<br>\r\n");
-   text = text.Replace("  ", " &nbsp;");
-   return text;
-}
-*/
     }
 }
