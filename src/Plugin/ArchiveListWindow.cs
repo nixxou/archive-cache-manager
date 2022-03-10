@@ -20,13 +20,19 @@ namespace ArchiveCacheManager
     public partial class ArchiveListWindow : Form
     {
         public string SelectedFile;
-        
+
+        public bool useDepreciatedSystem = false;
+        public bool useNewSystem = false;
+        public string HtmlTemplate = "";
+        public dynamic JsonData;
+
         //Retrocompatibility NES System-Depreciated
         public dynamic json_hack;
         public bool hack_exist;
         public dynamic json_translation;
         public bool translation_exist;
         //END-Retrocompatibility
+
 
         public ArchiveListWindow(string archiveName, string[] fileList, string dirpath, string selection = "")
         {
@@ -35,7 +41,9 @@ namespace ArchiveCacheManager
             //Retrocompatibility NES System-Depreciated
             this.hack_exist = false;
             string hack_file = dirpath + "\\hacks.json";
-            if (File.Exists(hack_file)) {
+            if (File.Exists(hack_file))
+            {
+                this.useDepreciatedSystem = true;
                 this.hack_exist = true;
                 this.json_hack = JObject.Parse(File.ReadAllText(hack_file));
                 label2.Text = "Found";
@@ -51,6 +59,7 @@ namespace ArchiveCacheManager
             string translation_file = dirpath + "\\translations.json";
             if (File.Exists(translation_file))
             {
+                this.useDepreciatedSystem = true;
                 this.translation_exist = true;
                 this.json_translation = JObject.Parse(File.ReadAllText(translation_file));
                 label3.Text = "Found";
@@ -61,7 +70,44 @@ namespace ArchiveCacheManager
                 label3.Text = "Not Found";
                 label3.ForeColor = System.Drawing.Color.Red;
             }
+            if (this.useDepreciatedSystem)
+            {
+                label1.Visible = true;
+                label2.Visible = true;
+                label3.Visible = true;
+                label4.Visible = true;
+            }
+            else
+            {
+                label1.Visible = false;
+                label2.Visible = false;
+                label3.Visible = false;
+                label4.Visible = false;
+            }
             //END-Retrocompatibility
+
+
+            if (this.useDepreciatedSystem == false)
+            {
+                //New System Load
+                DirectoryInfo dinfo = new DirectoryInfo(dirpath);
+                string Metadata_folder = dinfo.Parent.FullName + "\\metadata\\" + dinfo.Name;
+                FileInfo finfo = new FileInfo(dinfo.FullName + "\\" + archiveName);
+                string Metadata_file = Metadata_folder + "\\" + Path.GetFileNameWithoutExtension(archiveName) + ".json";
+                string Metadata_template = Metadata_folder + "\\template.html";
+                if (File.Exists(Metadata_file) && File.Exists(Metadata_template))
+                {
+                    this.useNewSystem = true;
+                    this.HtmlTemplate = File.ReadAllText(Metadata_template);
+                    this.JsonData = JObject.Parse(File.ReadAllText(Metadata_file));
+                }
+            }
+
+            if (this.useDepreciatedSystem == false && this.useNewSystem == false)
+            {
+                this.Width = 1005;
+                chromiumWebBrowser1.Visible = false;
+            }
 
 
 
@@ -93,33 +139,53 @@ namespace ArchiveCacheManager
 
         private void fileListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //Retrocompatibility NES System-Depreciated
-            if (this.hack_exist)
+            if (this.useDepreciatedSystem)
             {
-                string pattern = @"\[H.([^\]]*)-([0-9]+)\]";
-                Regex rgx = new Regex(pattern);
-                Match match = rgx.Match(fileListBox.SelectedItem.ToString());
-                if (match.Success)
+                //Retrocompatibility NES System-Depreciated
+                if (this.hack_exist)
                 {
-                    chromiumWebBrowser1.LoadHtml(format_hack(match.Groups[2].Value));
-                    return;
+                    string pattern = @"\[H.([^\]]*)-([0-9]+)\]";
+                    Regex rgx = new Regex(pattern);
+                    Match match = rgx.Match(fileListBox.SelectedItem.ToString());
+                    if (match.Success)
+                    {
+                        chromiumWebBrowser1.LoadHtml(format_hack(match.Groups[2].Value));
+                        return;
+                    }
                 }
+                if (this.translation_exist)
+                {
+                    string pattern = @"\[T.([^\]]*)-([0-9]+)\]";
+                    Regex rgx = new Regex(pattern);
+                    Match match = rgx.Match(fileListBox.SelectedItem.ToString());
+                    if (match.Success)
+                    {
+                        chromiumWebBrowser1.LoadHtml(format_translation(match.Groups[2].Value));
+                        return;
+                    }
+                }
+                //End Retrocompatibility
+                chromiumWebBrowser1.LoadHtml("<html><body bgcolor=\"F0F0F0\">No Info</body></html>");
             }
-            if(this.translation_exist)
+            else
             {
-                string pattern = @"\[T.([^\]]*)-([0-9]+)\]";
-                Regex rgx = new Regex(pattern);
-                Match match = rgx.Match(fileListBox.SelectedItem.ToString());
-                if (match.Success)
+                if (this.useNewSystem)
                 {
-                    chromiumWebBrowser1.LoadHtml(format_translation(match.Groups[2].Value));
-                    return;
+                    //New System
+                    if (this.JsonData.ContainsKey(fileListBox.SelectedItem.ToString()))
+                    {
+                        string sval = this.JsonData[fileListBox.SelectedItem.ToString()].ToString();
+                        string html_data = this.HtmlTemplate.Replace("[[JSONDATA]]", sval);
+                        chromiumWebBrowser1.LoadHtml(html_data);
+                        return;
+                    }
+                    chromiumWebBrowser1.LoadHtml("<html><body bgcolor=\"F0F0F0\">No Info</body></html>");
                 }
+
+
+
+
             }
-            //End Retrocompatibility
-
-            chromiumWebBrowser1.LoadHtml("<html><body bgcolor=\"F0F0F0\">No Info</body></html>");
-
 
         }
 
