@@ -8,17 +8,47 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using System.IO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Windows.Navigation;
+using System.Text.RegularExpressions;
+using CefSharp;
+
+
 namespace ArchiveCacheManager
 {
     public partial class ArchiveListWindow : Form
     {
         public string SelectedFile;
 
-        public ArchiveListWindow(string archiveName, string[] fileList, string selection = "")
+        public bool useDepreciatedSystem = false;
+        public bool useNewSystem = false;
+        public string HtmlTemplate = "";
+        public dynamic JsonData;
+
+        public ArchiveListWindow(string archiveName, string[] fileList, string dirpath, string selection = "")
         {
             InitializeComponent();
 
-            archiveNameLabel.Text = archiveName;
+            DirectoryInfo dinfo = new DirectoryInfo(dirpath);
+            string Metadata_folder = dinfo.Parent.FullName + "\\metadata\\" + dinfo.Name;
+            FileInfo finfo = new FileInfo(dinfo.FullName + "\\" + archiveName);
+            string Metadata_file = Metadata_folder + "\\" + Path.GetFileNameWithoutExtension(archiveName) + ".json";
+            string Metadata_template = Metadata_folder + "\\template.html";
+            if (File.Exists(Metadata_file) && File.Exists(Metadata_template))
+            {
+                this.useNewSystem = true;
+                this.HtmlTemplate = File.ReadAllText(Metadata_template);
+                this.JsonData = JObject.Parse(File.ReadAllText(Metadata_file));
+            }
+            else
+            {
+                this.Width = 1005;
+                //chromiumWebBrowser1.Visible = false;
+            }
+
+        archiveNameLabel.Text = archiveName;
 
             fileListBox.Items.Clear();
             fileListBox.Items.AddRange(fileList);
@@ -42,6 +72,22 @@ namespace ArchiveCacheManager
         private void fileListBox_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             okButton.PerformClick();
+        }
+
+        private void fileListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.useNewSystem)
+            {
+                //New System
+                if (this.JsonData.ContainsKey(fileListBox.SelectedItem.ToString()))
+                {
+                    string sval = this.JsonData[fileListBox.SelectedItem.ToString()].ToString();
+                    string html_data = this.HtmlTemplate.Replace("[[JSONDATA]]", sval);
+                    //chromiumWebBrowser1.LoadHtml(html_data);
+                    return;
+                }
+                //chromiumWebBrowser1.LoadHtml("<html><body bgcolor=\"F0F0F0\">No Info</body></html>");
+            }
         }
     }
 }
