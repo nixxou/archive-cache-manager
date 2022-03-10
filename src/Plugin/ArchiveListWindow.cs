@@ -45,7 +45,7 @@ namespace ArchiveCacheManager
             else
             {
                 this.Width = 1005;
-                //chromiumWebBrowser1.Visible = false;
+                chromiumWebBrowser1.Visible = false;
             }
 
         archiveNameLabel.Text = archiveName;
@@ -83,10 +83,10 @@ namespace ArchiveCacheManager
                 {
                     string sval = this.JsonData[fileListBox.SelectedItem.ToString()].ToString();
                     string html_data = this.HtmlTemplate.Replace("[[JSONDATA]]", sval);
-                    //chromiumWebBrowser1.LoadHtml(html_data);
+                    chromiumWebBrowser1.LoadHtml(html_data);
                     return;
                 }
-                //chromiumWebBrowser1.LoadHtml("<html><body bgcolor=\"F0F0F0\">No Info</body></html>");
+                chromiumWebBrowser1.LoadHtml("<html><body bgcolor=\"F0F0F0\">No Info</body></html>");
             }
         }
     }

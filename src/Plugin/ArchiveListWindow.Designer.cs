@@ -34,6 +34,7 @@ namespace ArchiveCacheManager
             this.cancelButton = new System.Windows.Forms.Button();
             this.okButton = new System.Windows.Forms.Button();
             this.archiveNameLabel = new System.Windows.Forms.Label();
+            this.chromiumWebBrowser1 = new CefSharp.WinForms.ChromiumWebBrowser();
             this.SuspendLayout();
             // 
             // fileListBox
@@ -87,6 +88,14 @@ namespace ArchiveCacheManager
             this.archiveNameLabel.Text = "Game.zip";
             this.archiveNameLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // chromiumWebBrowser1
+            // 
+            this.chromiumWebBrowser1.ActivateBrowserOnCreation = false;
+            this.chromiumWebBrowser1.Location = new System.Drawing.Point(854, 12);
+            this.chromiumWebBrowser1.Name = "chromiumWebBrowser1";
+            this.chromiumWebBrowser1.Size = new System.Drawing.Size(455, 585);
+            this.chromiumWebBrowser1.TabIndex = 5;
+            // 
             // ArchiveListWindow
             // 
             this.AcceptButton = this.okButton;
@@ -94,6 +103,7 @@ namespace ArchiveCacheManager
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
             this.ClientSize = new System.Drawing.Size(1321, 609);
+            this.Controls.Add(this.chromiumWebBrowser1);
             this.Controls.Add(this.archiveNameLabel);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.okButton);
@@ -115,5 +125,6 @@ namespace ArchiveCacheManager
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.Label archiveNameLabel;
+        private CefSharp.WinForms.ChromiumWebBrowser chromiumWebBrowser1;
     }
 }
