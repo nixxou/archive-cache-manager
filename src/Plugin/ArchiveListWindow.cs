@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace ArchiveCacheManager
 {
@@ -54,11 +55,9 @@ namespace ArchiveCacheManager
 
                         foreach (string fl in fileList)
                         {
-                            MessageBox.Show(string.Format("Check [{0}] vs [{1}]", string.Format("*{0}", extension.ToLower().Trim()), fl.ToLower()));
                             if (Wildcard.Match(fl.ToLower(),string.Format("*{0}", extension.ToLower().Trim())))
                             {
                                 priority_file = fl;
-                                MessageBox.Show("Valid !");
                                 break;
                             }
                         }
@@ -81,7 +80,7 @@ namespace ArchiveCacheManager
                 string icon_img = "";
                 if (fl == priority_file) icon_img = "star_yellow";
                 if(fl == selection) icon_img = "star_blue";
-                roms.Add(new Rom(fl.ToString(), sizeList[i], "None", icon_img));
+                roms.Add(new Rom(fl.ToString(), sizeList[i], icon_img));
                 if (selection != string.Empty && fl.ToString() == selection) selected_index = i;
                 i++;
                 
@@ -98,6 +97,13 @@ namespace ArchiveCacheManager
                 objectListView1.SelectedIndex = 0;
             }
             SelectedFile = string.Empty;
+            this.objectListView1.AutoResizeColumn(2, ColumnHeaderAutoResizeStyle.ColumnContent);
+            this.objectListView1.AutoResizeColumn(3, ColumnHeaderAutoResizeStyle.ColumnContent);
+            this.objectListView1.AutoResizeColumn(4, ColumnHeaderAutoResizeStyle.ColumnContent);
+            this.objectListView1.AutoResizeColumn(5, ColumnHeaderAutoResizeStyle.ColumnContent);
+            this.objectListView1.AutoResizeColumn(6, ColumnHeaderAutoResizeStyle.ColumnContent);
+            this.objectListView1.AutoResizeColumn(7, ColumnHeaderAutoResizeStyle.ColumnContent);
+            this.objectListView1.AutoResizeColumn(8, ColumnHeaderAutoResizeStyle.ColumnContent);
 
 
 
@@ -135,8 +141,8 @@ namespace ArchiveCacheManager
 
                 return String.Format("{0} bytes", size); ;
             };
+            objectListView1.ItemActivate += new System.EventHandler(this.objectListView1_ItemActivate);
 
-            
         }
 
         private void okButton_Click(object sender, EventArgs e)
@@ -173,6 +179,7 @@ namespace ArchiveCacheManager
         private void objectListView1_ItemActivate(object sender, EventArgs e)
         {
             okButton.PerformClick();
+            //MessageBox.Show("Activate !");
         }
     }
 
@@ -183,18 +190,105 @@ namespace ArchiveCacheManager
         {
         }
 
-        public Rom(string title, long sizeInBytes, string tags, string iconImg = "")
+        public Rom(string title, long sizeInBytes, string iconImg = "")
         {
             this.Title = title;
             this.SizeInBytes = sizeInBytes;
-            this.Tags = tags;
             this.IconImg = iconImg;
+            string pattern = @"\[([^[]*)\]";
+            RegexOptions options = RegexOptions.Multiline;
+            MatchCollection matches = Regex.Matches(title, pattern, options);
+            
+            string[] taglist = new string[matches.Count];
+            int i = 0;
+
+            int index_interesting_tag = -1;
+            foreach (Match m in matches)
+            {
+                i++;
+                string valtag = m.Value.Trim().ToUpper();
+                if(valtag== "[GOODSET]" || valtag== "[N64V]" || valtag == "[RHCOM]" || valtag == "[HTGDB]" || valtag == "[MEGAPACK]")
+                {
+                    index_interesting_tag = i;
+                    
+                    break;
+                }
+                
+            }
+            i = 0;
+
+            int target_tag = 1;
+            bool hackset = false;
+            foreach (Match m in matches)
+            {
+
+                string valtag = m.Value.Trim();
+                i++;
+                
+
+                if(target_tag == 2)
+                {
+                    if (valtag.Length <= 4 || (valtag.ToLower().StartsWith("[rev ") && valtag.Length == 6) || valtag.ToLower() == "[virtual console]") target_tag = 1;
+                    if (i < index_interesting_tag) target_tag = 1;
+                }
+                if (target_tag <= 3 && (valtag.StartsWith("[H.") || valtag.StartsWith("[T.") || valtag.StartsWith("[T+") || valtag.StartsWith("[T-")))
+                {
+                    target_tag = 3;
+                    hackset = true;
+                }
+                if (target_tag == 4 && hackset)
+                {
+                    target_tag = 3;
+                    hackset = false;
+                }
+                else if (target_tag == 3 && valtag.StartsWith("[H.")==false && valtag.StartsWith("[T.") == false && valtag.StartsWith("[T+") == false && valtag.StartsWith("[T-") == false) target_tag = 4;
+
+                if (target_tag > 4 && valtag.Length <= 4) target_tag--;
+
+                //else if(valtag.Length <= 4) target_tag--;
+
+                //valtag += index_interesting_tag.ToString();
+
+                switch (target_tag)
+                {
+                    case 1:
+                        this.Tag1 += valtag;
+                        break;
+                    case 2:
+                        this.Tag2 += valtag;
+                        break;
+                    case 3:
+                        this.Tag3 += valtag;
+                        break;
+                    case 4:
+                        this.Tag4 += valtag;
+                        break;
+                    case 5:
+                        this.Tag5 += valtag;
+                        break;
+                    case 6:
+                        this.Tag6 += valtag;
+                        break;
+                    case 7:
+                        this.Tag7 += valtag;
+                        break;
+                }
+                target_tag++;
+            }
         }
 
         public string Title;
         public long SizeInBytes;
-        public string Tags;
         public string IconImg;
+        //public string[] ListTags;
+        public string Tag1 = "";
+        public string Tag2 = "";
+        public string Tag3 = "";
+        public string Tag4 = "";
+        public string Tag5 = "";
+        public string Tag6 = "";
+        public string Tag7 = "";
+
 
 
         public double GetSizeInMb()
@@ -206,8 +300,8 @@ namespace ArchiveCacheManager
         {
             List<Rom> roms = new List<Rom>();
 
-            roms.Add(new Rom("Zoo Station", 5501234, "Achtung Baby"));
-            roms.Add(new Rom("Who's Gonna Ride Your Wild Horses", 6301234, "Achtung Baby"));
+            //roms.Add(new Rom("Zoo Station", 5501234, "Achtung Baby"));
+            //roms.Add(new Rom("Who's Gonna Ride Your Wild Horses", 6301234, "Achtung Baby"));
             return roms;
         }
 

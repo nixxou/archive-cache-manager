@@ -40,7 +40,13 @@ namespace ArchiveCacheManager
             this.objectListView1 = new BrightIdeasSoftware.ObjectListView();
             this.titleColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.sizeColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.tagsColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.tag1Column = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.tag2Column = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.tag3Column = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.tag4Column = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.tag5Column = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.tag6Column = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.tag7Column = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.SuspendLayout();
@@ -118,15 +124,29 @@ namespace ArchiveCacheManager
             // 
             // objectListView1
             // 
+            this.objectListView1.Activation = System.Windows.Forms.ItemActivation.TwoClick;
             this.objectListView1.AllColumns.Add(this.titleColumn);
             this.objectListView1.AllColumns.Add(this.sizeColumn);
-            this.objectListView1.AllColumns.Add(this.tagsColumn);
+            this.objectListView1.AllColumns.Add(this.tag1Column);
+            this.objectListView1.AllColumns.Add(this.tag2Column);
+            this.objectListView1.AllColumns.Add(this.tag3Column);
+            this.objectListView1.AllColumns.Add(this.tag4Column);
+            this.objectListView1.AllColumns.Add(this.tag5Column);
+            this.objectListView1.AllColumns.Add(this.tag6Column);
+            this.objectListView1.AllColumns.Add(this.tag7Column);
             this.objectListView1.CellEditUseWholeCell = false;
             this.objectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.titleColumn,
             this.sizeColumn,
-            this.tagsColumn});
+            this.tag1Column,
+            this.tag2Column,
+            this.tag3Column,
+            this.tag4Column,
+            this.tag5Column,
+            this.tag6Column,
+            this.tag7Column});
             this.objectListView1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.objectListView1.FullRowSelect = true;
             this.objectListView1.HideSelection = false;
             this.objectListView1.Location = new System.Drawing.Point(547, 31);
             this.objectListView1.Name = "objectListView1";
@@ -135,28 +155,65 @@ namespace ArchiveCacheManager
             this.objectListView1.SmallImageList = this.imageList1;
             this.objectListView1.TabIndex = 0;
             this.objectListView1.UseCompatibleStateImageBehavior = false;
+            this.objectListView1.UseFilterIndicator = true;
+            this.objectListView1.UseFiltering = true;
+            this.objectListView1.UseTranslucentSelection = true;
             this.objectListView1.View = System.Windows.Forms.View.Details;
             this.objectListView1.SelectedIndexChanged += new System.EventHandler(this.objectListView1_SelectedIndexChanged);
             // 
             // titleColumn
             // 
             this.titleColumn.AspectName = "Title";
+            this.titleColumn.MinimumWidth = 590;
             this.titleColumn.Text = "Title";
-            this.titleColumn.Width = 525;
+            this.titleColumn.Width = 590;
             // 
             // sizeColumn
             // 
             this.sizeColumn.AspectName = "SizeInBytes";
             this.sizeColumn.AspectToStringFormat = "";
+            this.sizeColumn.MinimumWidth = 80;
             this.sizeColumn.Text = "Size";
-            this.sizeColumn.Width = 77;
+            this.sizeColumn.Width = 80;
             // 
-            // tagsColumn
+            // tag1Column
             // 
-            this.tagsColumn.AspectName = "Tags";
-            this.tagsColumn.AspectToStringFormat = "";
-            this.tagsColumn.Text = "Tags";
-            this.tagsColumn.Width = 199;
+            this.tag1Column.AspectName = "Tag1";
+            this.tag1Column.AspectToStringFormat = "";
+            this.tag1Column.Text = "Region/Version";
+            this.tag1Column.Width = 25;
+            // 
+            // tag2Column
+            // 
+            this.tag2Column.AspectName = "Tag2";
+            this.tag2Column.Text = "Collection";
+            this.tag2Column.Width = 25;
+            // 
+            // tag3Column
+            // 
+            this.tag3Column.AspectName = "Tag3";
+            this.tag3Column.Text = "Hack & Trad";
+            this.tag3Column.Width = 25;
+            // 
+            // tag4Column
+            // 
+            this.tag4Column.AspectName = "Tag4";
+            this.tag4Column.Text = "Tag4";
+            // 
+            // tag5Column
+            // 
+            this.tag5Column.AspectName = "Tag5";
+            this.tag5Column.Text = "Tag5";
+            // 
+            // tag6Column
+            // 
+            this.tag6Column.AspectName = "Tag6";
+            this.tag6Column.Text = "Tag6";
+            // 
+            // tag7Column
+            // 
+            this.tag7Column.AspectName = "Tag7";
+            this.tag7Column.Text = "Tag7";
             // 
             // imageList1
             // 
@@ -204,7 +261,13 @@ namespace ArchiveCacheManager
         private BrightIdeasSoftware.ObjectListView objectListView1;
         private BrightIdeasSoftware.OLVColumn titleColumn;
         private BrightIdeasSoftware.OLVColumn sizeColumn;
-        private BrightIdeasSoftware.OLVColumn tagsColumn;
+        private BrightIdeasSoftware.OLVColumn tag1Column;
         private System.Windows.Forms.ImageList imageList1;
+        private BrightIdeasSoftware.OLVColumn tag2Column;
+        private BrightIdeasSoftware.OLVColumn tag3Column;
+        private BrightIdeasSoftware.OLVColumn tag4Column;
+        private BrightIdeasSoftware.OLVColumn tag5Column;
+        private BrightIdeasSoftware.OLVColumn tag6Column;
+        private BrightIdeasSoftware.OLVColumn tag7Column;
     }
 }
