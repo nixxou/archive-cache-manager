@@ -10,14 +10,17 @@ using System.Windows.Forms;
 
 namespace ArchiveCacheManager
 {
+
+
     public partial class ArchiveListWindow : Form
     {
         public string SelectedFile;
         public int EmulatorIndex;
 
-        public ArchiveListWindow(string archiveName, string[] fileList, string[] emulatorList, string selection = "")
+        public ArchiveListWindow(string archiveName, string[] fileList, long[] sizeList, string plateform, string emulator, string[] emulatorList, string selection = "")
         {
             InitializeComponent();
+            InitializeListView();
 
             archiveNameLabel.Text = archiveName;
 
@@ -34,6 +37,70 @@ namespace ArchiveCacheManager
                 emulatorComboBox.Enabled = false;
             }
 
+            Dictionary<string, string> FnP = Config.FilenamePriority;
+
+            string priority_file = "";
+            List<string> prioritySections = new List<string>();
+            prioritySections.Add(string.Format(@"{0} \ {1}", emulator, plateform));
+            prioritySections.Add(@"All \ All");
+            foreach (var prioritySection in prioritySections)
+            {
+                try
+                {
+                    string[] extensionPriority = Config.FilenamePriority[prioritySection].Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                    // Search the extensions in priority order
+                    foreach (string extension in extensionPriority)
+                    {
+
+                        foreach (string fl in fileList)
+                        {
+                            MessageBox.Show(string.Format("Check [{0}] vs [{1}]", string.Format("*{0}", extension.ToLower().Trim()), fl.ToLower()));
+                            if (Wildcard.Match(fl.ToLower(),string.Format("*{0}", extension.ToLower().Trim())))
+                            {
+                                priority_file = fl;
+                                MessageBox.Show("Valid !");
+                                break;
+                            }
+                        }
+                    }
+                }
+                catch (KeyNotFoundException)
+                {
+
+                }
+                if (priority_file != "") break;
+            }
+
+
+            //objectListView1.Clear();
+            List<Rom> roms = new List<Rom>();
+            int i = 0;
+            int selected_index = -1;
+            foreach(string fl in fileList)
+            {
+                string icon_img = "";
+                if (fl == priority_file) icon_img = "star_yellow";
+                if(fl == selection) icon_img = "star_blue";
+                roms.Add(new Rom(fl.ToString(), sizeList[i], "None", icon_img));
+                if (selection != string.Empty && fl.ToString() == selection) selected_index = i;
+                i++;
+                
+            }
+            this.objectListView1.SetObjects(roms);
+            if (selection != string.Empty && selected_index != -1)
+            {
+
+                objectListView1.SelectedIndex = selected_index;
+            }
+            // Check that setting the selected item above actually worked. If not, set it to the first item.
+            if (objectListView1.SelectedItems.Count == 0)
+            {
+                objectListView1.SelectedIndex = 0;
+            }
+            SelectedFile = string.Empty;
+
+
+
             fileListBox.Items.Clear();
             fileListBox.Items.AddRange(fileList);
             if (selection != string.Empty)
@@ -48,15 +115,354 @@ namespace ArchiveCacheManager
             SelectedFile = string.Empty;
         }
 
+        private void InitializeListView()
+        {
+            this.titleColumn.ImageGetter = delegate (object rowObject) {
+                Rom s = (Rom)rowObject;
+                return s.IconImg;
+            };
+
+            this.sizeColumn.AspectToStringConverter = delegate (object x) {
+                long size = (long)x;
+                int[] limits = new int[] { 1024 * 1024 * 1024, 1024 * 1024, 1024 };
+                string[] units = new string[] { "GB", "MB", "KB" };
+
+                for (int i = 0; i < limits.Length; i++)
+                {
+                    if (size >= limits[i])
+                        return String.Format("{0:#,##0.##} " + units[i], ((double)size / limits[i]));
+                }
+
+                return String.Format("{0} bytes", size); ;
+            };
+
+            
+        }
+
         private void okButton_Click(object sender, EventArgs e)
         {
-            SelectedFile = fileListBox.SelectedItem.ToString();
+            SelectedFile = objectListView1.SelectedItem.Text;
             EmulatorIndex = emulatorComboBox.SelectedIndex;
         }
 
         private void fileListBox_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             okButton.PerformClick();
+        }
+
+        private void fileListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ArchiveListWindow_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void archiveNameLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void objectListView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //MessageBox.Show(objectListView1.SelectedIndex.ToString());
+        }
+
+        private void objectListView1_ItemActivate(object sender, EventArgs e)
+        {
+            okButton.PerformClick();
+        }
+    }
+
+
+    public class Rom
+    {
+        public Rom()
+        {
+        }
+
+        public Rom(string title, long sizeInBytes, string tags, string iconImg = "")
+        {
+            this.Title = title;
+            this.SizeInBytes = sizeInBytes;
+            this.Tags = tags;
+            this.IconImg = iconImg;
+        }
+
+        public string Title;
+        public long SizeInBytes;
+        public string Tags;
+        public string IconImg;
+
+
+        public double GetSizeInMb()
+        {
+            return ((double)this.SizeInBytes) / (1024.0 * 1024.0);
+        }
+
+        static private List<Rom> InitializeSongs()
+        {
+            List<Rom> roms = new List<Rom>();
+
+            roms.Add(new Rom("Zoo Station", 5501234, "Achtung Baby"));
+            roms.Add(new Rom("Who's Gonna Ride Your Wild Horses", 6301234, "Achtung Baby"));
+            return roms;
+        }
+
+        static internal List<Rom> GetSongs()
+        {
+            return Rom.AllSongs;
+        }
+        static private List<Rom> AllSongs = new List<Rom>();
+    }
+
+    public class Wildcard
+    {
+        private readonly string _pattern;
+
+        public Wildcard(string pattern)
+        {
+            _pattern = pattern;
+        }
+
+        public static bool Match(string value, string pattern)
+        {
+            int start = -1;
+            int end = -1;
+            return Match(value, pattern, ref start, ref end);
+        }
+
+        public static bool Match(string value, string pattern, char[] toLowerTable)
+        {
+            int start = -1;
+            int end = -1;
+            return Match(value, pattern, ref start, ref end, toLowerTable);
+        }
+
+        public static bool Match(string value, string pattern, ref int start, ref int end)
+        {
+            return new Wildcard(pattern).IsMatch(value, ref start, ref end);
+        }
+
+        public static bool Match(string value, string pattern, ref int start, ref int end, char[] toLowerTable)
+        {
+            return new Wildcard(pattern).IsMatch(value, ref start, ref end, toLowerTable);
+        }
+
+        public bool IsMatch(string str)
+        {
+            int start = -1;
+            int end = -1;
+            return IsMatch(str, ref start, ref end);
+        }
+
+        public bool IsMatch(string str, char[] toLowerTable)
+        {
+            int start = -1;
+            int end = -1;
+            return IsMatch(str, ref start, ref end, toLowerTable);
+        }
+
+        public bool IsMatch(string str, ref int start, ref int end)
+        {
+            if (_pattern.Length == 0) return false;
+            int pindex = 0;
+            int sindex = 0;
+            int pattern_len = _pattern.Length;
+            int str_len = str.Length;
+            start = -1;
+            while (true)
+            {
+                bool star = false;
+                if (_pattern[pindex] == '*')
+                {
+                    star = true;
+                    do
+                    {
+                        pindex++;
+                    }
+                    while (pindex < pattern_len && _pattern[pindex] == '*');
+                }
+                end = sindex;
+                int i;
+                while (true)
+                {
+                    int si = 0;
+                    bool breakLoops = false;
+                    for (i = 0; pindex + i < pattern_len && _pattern[pindex + i] != '*'; i++)
+                    {
+                        si = sindex + i;
+                        if (si == str_len)
+                        {
+                            return false;
+                        }
+                        if (str[si] == _pattern[pindex + i])
+                        {
+                            continue;
+                        }
+                        if (si == str_len)
+                        {
+                            return false;
+                        }
+                        if (_pattern[pindex + i] == '?' && str[si] != '.')
+                        {
+                            continue;
+                        }
+                        breakLoops = true;
+                        break;
+                    }
+                    if (breakLoops)
+                    {
+                        if (!star)
+                        {
+                            return false;
+                        }
+                        sindex++;
+                        if (si == str_len)
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        if (start == -1)
+                        {
+                            start = sindex;
+                        }
+                        if (pindex + i < pattern_len && _pattern[pindex + i] == '*')
+                        {
+                            break;
+                        }
+                        if (sindex + i == str_len)
+                        {
+                            if (end <= start)
+                            {
+                                end = str_len;
+                            }
+                            return true;
+                        }
+                        if (i != 0 && _pattern[pindex + i - 1] == '*')
+                        {
+                            return true;
+                        }
+                        if (!star)
+                        {
+                            return false;
+                        }
+                        sindex++;
+                    }
+                }
+                sindex += i;
+                pindex += i;
+                if (start == -1)
+                {
+                    start = sindex;
+                }
+            }
+        }
+
+        public bool IsMatch(string str, ref int start, ref int end, char[] toLowerTable)
+        {
+            if (_pattern.Length == 0) return false;
+
+            int pindex = 0;
+            int sindex = 0;
+            int pattern_len = _pattern.Length;
+            int str_len = str.Length;
+            start = -1;
+            while (true)
+            {
+                bool star = false;
+                if (_pattern[pindex] == '*')
+                {
+                    star = true;
+                    do
+                    {
+                        pindex++;
+                    }
+                    while (pindex < pattern_len && _pattern[pindex] == '*');
+                }
+                end = sindex;
+                int i;
+                while (true)
+                {
+                    int si = 0;
+                    bool breakLoops = false;
+
+                    for (i = 0; pindex + i < pattern_len && _pattern[pindex + i] != '*'; i++)
+                    {
+                        si = sindex + i;
+                        if (si == str_len)
+                        {
+                            return false;
+                        }
+                        char c = toLowerTable[str[si]];
+                        if (c == _pattern[pindex + i])
+                        {
+                            continue;
+                        }
+                        if (si == str_len)
+                        {
+                            return false;
+                        }
+                        if (_pattern[pindex + i] == '?' && c != '.')
+                        {
+                            continue;
+                        }
+                        breakLoops = true;
+                        break;
+                    }
+                    if (breakLoops)
+                    {
+                        if (!star)
+                        {
+                            return false;
+                        }
+                        sindex++;
+                        if (si == str_len)
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        if (start == -1)
+                        {
+                            start = sindex;
+                        }
+                        if (pindex + i < pattern_len && _pattern[pindex + i] == '*')
+                        {
+                            break;
+                        }
+                        if (sindex + i == str_len)
+                        {
+                            if (end <= start)
+                            {
+                                end = str_len;
+                            }
+                            return true;
+                        }
+                        if (i != 0 && _pattern[pindex + i - 1] == '*')
+                        {
+                            return true;
+                        }
+                        if (!star)
+                        {
+                            return false;
+                        }
+                        sindex++;
+                        continue;
+                    }
+                }
+                sindex += i;
+                pindex += i;
+                if (start == -1)
+                {
+                    start = sindex;
+                }
+            }
         }
     }
 }

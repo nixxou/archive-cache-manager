@@ -29,6 +29,7 @@ namespace ArchiveCacheManager
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ArchiveListWindow));
             this.fileListBox = new System.Windows.Forms.ListBox();
             this.cancelButton = new System.Windows.Forms.Button();
@@ -36,6 +37,12 @@ namespace ArchiveCacheManager
             this.archiveNameLabel = new System.Windows.Forms.Label();
             this.emulatorComboBox = new System.Windows.Forms.ComboBox();
             this.emulatorComboBoxLabel = new System.Windows.Forms.Label();
+            this.objectListView1 = new BrightIdeasSoftware.ObjectListView();
+            this.titleColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.sizeColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.tagsColumn = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.SuspendLayout();
             // 
             // fileListBox
@@ -47,6 +54,7 @@ namespace ArchiveCacheManager
             this.fileListBox.Name = "fileListBox";
             this.fileListBox.Size = new System.Drawing.Size(519, 372);
             this.fileListBox.TabIndex = 0;
+            this.fileListBox.SelectedIndexChanged += new System.EventHandler(this.fileListBox_SelectedIndexChanged);
             this.fileListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.fileListBox_MouseDoubleClick);
             // 
             // cancelButton
@@ -87,6 +95,7 @@ namespace ArchiveCacheManager
             this.archiveNameLabel.TabIndex = 4;
             this.archiveNameLabel.Text = "Game.zip";
             this.archiveNameLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.archiveNameLabel.Click += new System.EventHandler(this.archiveNameLabel_Click);
             // 
             // emulatorComboBox
             // 
@@ -107,13 +116,63 @@ namespace ArchiveCacheManager
             this.emulatorComboBoxLabel.TabIndex = 6;
             this.emulatorComboBoxLabel.Text = "Emulator:";
             // 
+            // objectListView1
+            // 
+            this.objectListView1.AllColumns.Add(this.titleColumn);
+            this.objectListView1.AllColumns.Add(this.sizeColumn);
+            this.objectListView1.AllColumns.Add(this.tagsColumn);
+            this.objectListView1.CellEditUseWholeCell = false;
+            this.objectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.titleColumn,
+            this.sizeColumn,
+            this.tagsColumn});
+            this.objectListView1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.objectListView1.HideSelection = false;
+            this.objectListView1.Location = new System.Drawing.Point(547, 31);
+            this.objectListView1.Name = "objectListView1";
+            this.objectListView1.ShowGroups = false;
+            this.objectListView1.Size = new System.Drawing.Size(672, 372);
+            this.objectListView1.SmallImageList = this.imageList1;
+            this.objectListView1.TabIndex = 0;
+            this.objectListView1.UseCompatibleStateImageBehavior = false;
+            this.objectListView1.View = System.Windows.Forms.View.Details;
+            this.objectListView1.SelectedIndexChanged += new System.EventHandler(this.objectListView1_SelectedIndexChanged);
+            // 
+            // titleColumn
+            // 
+            this.titleColumn.AspectName = "Title";
+            this.titleColumn.Text = "Title";
+            this.titleColumn.Width = 525;
+            // 
+            // sizeColumn
+            // 
+            this.sizeColumn.AspectName = "SizeInBytes";
+            this.sizeColumn.AspectToStringFormat = "";
+            this.sizeColumn.Text = "Size";
+            this.sizeColumn.Width = 77;
+            // 
+            // tagsColumn
+            // 
+            this.tagsColumn.AspectName = "Tags";
+            this.tagsColumn.AspectToStringFormat = "";
+            this.tagsColumn.Text = "Tags";
+            this.tagsColumn.Width = 199;
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "star_blue");
+            this.imageList1.Images.SetKeyName(1, "star_yellow");
+            // 
             // ArchiveListWindow
             // 
             this.AcceptButton = this.okButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(543, 453);
+            this.ClientSize = new System.Drawing.Size(1231, 453);
+            this.Controls.Add(this.objectListView1);
             this.Controls.Add(this.emulatorComboBoxLabel);
             this.Controls.Add(this.emulatorComboBox);
             this.Controls.Add(this.archiveNameLabel);
@@ -127,6 +186,8 @@ namespace ArchiveCacheManager
             this.Name = "ArchiveListWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Select File";
+            this.Load += new System.EventHandler(this.ArchiveListWindow_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -140,5 +201,10 @@ namespace ArchiveCacheManager
         private System.Windows.Forms.Label archiveNameLabel;
         private System.Windows.Forms.ComboBox emulatorComboBox;
         private System.Windows.Forms.Label emulatorComboBoxLabel;
+        private BrightIdeasSoftware.ObjectListView objectListView1;
+        private BrightIdeasSoftware.OLVColumn titleColumn;
+        private BrightIdeasSoftware.OLVColumn sizeColumn;
+        private BrightIdeasSoftware.OLVColumn tagsColumn;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }
