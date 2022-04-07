@@ -72,8 +72,9 @@ namespace ArchiveCacheManager
                 if (priority_file != "") break;
             }
 
-            
-            List<Rom> roms = new List<Rom>();
+
+            //List<Rom> roms = new List<Rom>();
+            Rom.ClearRom();
             int i = 0;
             int selected_index = -1;
 
@@ -82,20 +83,21 @@ namespace ArchiveCacheManager
                 string icon_img = "";
                 if (fl == priority_file) icon_img = "star_yellow";
                 if (fl == selection) icon_img = "star_blue";
-                roms.Add(new Rom(fl.ToString(), sizeList[i], icon_img));
+                //roms.Add(new Rom(fl.ToString(), sizeList[i], icon_img));
+                Rom.AddRom(fl.ToString(), sizeList[i], icon_img);
                 if (selection != string.Empty && fl.ToString() == selection) selected_index = i;
                 i++;
                     
 
             }
-            this.fastObjectListView1.SetObjects(roms);
+            this.fastObjectListView1.SetObjects(Rom.GetRoms());
             if (selection != string.Empty && selected_index != -1)
             {
                 fastObjectListView1.SelectedIndex = selected_index;
             }
             SelectedFile = string.Empty;
 
-
+            /*
             Dictionary<int, bool> validTagColumns = new Dictionary<int, bool>();
             for (int z = 1; z <= 7; z++)
             {
@@ -111,6 +113,8 @@ namespace ArchiveCacheManager
                 if (r.Tag6 != "") validTagColumns[6] = true;
                 if (r.Tag7 != "") validTagColumns[7] = true;
             }
+            */
+
             
             this.tag1ColumnF.IsVisible = false;
             this.tag2ColumnF.IsVisible = false;
@@ -121,37 +125,37 @@ namespace ArchiveCacheManager
             this.tag7ColumnF.IsVisible = false;
             
             bool redraw = false;
-            if (validTagColumns[1])
+            if (Rom.validTagColumns[1])
             {
                 redraw = true;
                 this.tag1ColumnF.IsVisible = true;
             }
-            if (validTagColumns[2])
+            if (Rom.validTagColumns[2])
             {
                 redraw = true;
                 this.tag2ColumnF.IsVisible = true;
             }
-            if (validTagColumns[3])
+            if (Rom.validTagColumns[3])
             {
                 redraw = true;
                 this.tag3ColumnF.IsVisible = true;
             }
-            if (validTagColumns[4])
+            if (Rom.validTagColumns[4])
             {
                 redraw = true;
                 this.tag4ColumnF.IsVisible = true;
             }
-            if (validTagColumns[5])
+            if (Rom.validTagColumns[5])
             {
                 redraw = true;
                 this.tag5ColumnF.IsVisible = true;
             }
-            if (validTagColumns[6])
+            if (Rom.validTagColumns[6])
             {
                 redraw = true;
                 this.tag6ColumnF.IsVisible = true;
             }
-            if (validTagColumns[7])
+            if (Rom.validTagColumns[7])
             {
                 redraw = true;
                 this.tag7ColumnF.IsVisible = true;
@@ -362,6 +366,7 @@ namespace ArchiveCacheManager
                 if (valtag == "[USA]" || valtag == "[EUROPE]" || valtag == "[FRANCE]" || valtag == "[JAPAN]" || valtag == "[AUSTRALIA]" || valtag == "[GERMANY]" || valtag == "[ITALY]")
                 {
                     this.Tag1 += m.Value.Trim();
+                    validTagColumns[1] = true;
                     continue;
                 }
 
@@ -369,30 +374,35 @@ namespace ArchiveCacheManager
                 {
                     category = i + 1;
                     this.Tag2 += m.Value.Trim();
+                    validTagColumns[2] = true;
                     continue;
                 }
                 if (valtag == "[GOODSET]" || valtag == "[N64V]" || valtag == "[RHCOM]" || valtag == "[HTGDB]")
                 {
                     if (valtag == "[GOODSET]") is_goodset = i;
                     this.Tag2 += m.Value.Trim();
+                    validTagColumns[2] = true;
                     continue;
                 }
                 if (m.Value.Trim().StartsWith("[H.") || m.Value.Trim().StartsWith("[T.") || m.Value.Trim().StartsWith("[T+") || m.Value.Trim().StartsWith("[T-"))
                 {
                     this.Tag3 += m.Value.Trim();
+                    validTagColumns[3] = true;
                     continue;
                 }
                 if (is_goodset > 0 && i > is_goodset && valtag.Contains("HACK"))
                 {
                     this.Tag3 += m.Value.Trim();
+                    validTagColumns[3] = true;
                     continue;
                 }
                 if (i == category)
                 {
                     this.Tag4 += m.Value.Trim();
+                    validTagColumns[4] = true;
                     continue;
                 }
-
+                validTagColumns[5] = true;
                 this.Tag5 += m.Value.Trim();
             }
         }
@@ -404,6 +414,31 @@ namespace ArchiveCacheManager
         {
             return ((double)this.SizeInBytes) / (1024.0 * 1024.0);
         }
+
+        static internal void ClearRom()
+        {
+            AllRoms.Clear();
+            validTagColumns.Clear();
+            for (int z = 1; z <= 7; z++)
+            {
+                validTagColumns[z] = false;
+            }
+        }
+        static internal void AddRom(string title, long sizeInBytes, string iconImg = "")
+        {
+            AllRoms.Add(new Rom(title, sizeInBytes, iconImg));
+        }
+        static internal List<Rom> GetRoms()
+        {
+            return Rom.AllRoms;
+        }
+        static internal Dictionary<int, bool> GetValidTagColumns()
+        {
+            return Rom.validTagColumns;
+        }
+        static public List<Rom> AllRoms = new List<Rom>();
+        static public Dictionary<int, bool> validTagColumns = new Dictionary<int, bool>();
+
 
     }
 
