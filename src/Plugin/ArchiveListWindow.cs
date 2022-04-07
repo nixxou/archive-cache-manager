@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace ArchiveCacheManager
 {
@@ -24,6 +25,7 @@ namespace ArchiveCacheManager
             InitializeListView();
 
             archiveNameLabel.Text = archiveName;
+            
 
             emulatorComboBox.Items.Clear();
             if (emulatorList.Count() > 0)
@@ -70,65 +72,48 @@ namespace ArchiveCacheManager
                 if (priority_file != "") break;
             }
 
-
-            //objectListView1.Clear();
+            
+            List<Rom> roms = new List<Rom>();
             int i = 0;
             int selected_index = -1;
-            foreach(string fl in fileList)
+            foreach (string fl in fileList)
             {
                 string icon_img = "";
                 if (fl == priority_file) icon_img = "star_yellow";
-                if(fl == selection) icon_img = "star_blue";
-                Rom.AddRom(fl.ToString(), sizeList[i], icon_img);
+                if (fl == selection) icon_img = "star_blue";
+                roms.Add(new Rom(fl.ToString(), sizeList[i], icon_img));
                 if (selection != string.Empty && fl.ToString() == selection) selected_index = i;
                 i++;
-                
+
             }
-            this.objectListView1.SetObjects(Rom.AllRoms);
+            this.fastObjectListView1.SetObjects(roms);
+            
             if (selection != string.Empty && selected_index != -1)
             {
+                fastObjectListView1.SelectedIndex = selected_index;
+            }
 
-                objectListView1.SelectedIndex = selected_index;
-            }
-            // Check that setting the selected item above actually worked. If not, set it to the first item.
-            if (objectListView1.SelectedItems.Count == 0)
-            {
-                objectListView1.SelectedIndex = 0;
-            }
             SelectedFile = string.Empty;
-            this.objectListView1.AutoResizeColumn(2, ColumnHeaderAutoResizeStyle.ColumnContent);
-            this.objectListView1.AutoResizeColumn(3, ColumnHeaderAutoResizeStyle.ColumnContent);
-            this.objectListView1.AutoResizeColumn(4, ColumnHeaderAutoResizeStyle.ColumnContent);
-            this.objectListView1.AutoResizeColumn(5, ColumnHeaderAutoResizeStyle.ColumnContent);
-            this.objectListView1.AutoResizeColumn(6, ColumnHeaderAutoResizeStyle.ColumnContent);
-            this.objectListView1.AutoResizeColumn(7, ColumnHeaderAutoResizeStyle.ColumnContent);
-            this.objectListView1.AutoResizeColumn(8, ColumnHeaderAutoResizeStyle.ColumnContent);
-            //this.objectListView1.GetColumn(4)..AllColumns["colRating"].
+            this.fastObjectListView1.AutoResizeColumn(2, ColumnHeaderAutoResizeStyle.ColumnContent);
+            this.fastObjectListView1.AutoResizeColumn(3, ColumnHeaderAutoResizeStyle.ColumnContent);
+            this.fastObjectListView1.AutoResizeColumn(4, ColumnHeaderAutoResizeStyle.ColumnContent);
+            this.fastObjectListView1.AutoResizeColumn(5, ColumnHeaderAutoResizeStyle.ColumnContent);
+            this.fastObjectListView1.AutoResizeColumn(6, ColumnHeaderAutoResizeStyle.ColumnContent);
+            this.fastObjectListView1.AutoResizeColumn(7, ColumnHeaderAutoResizeStyle.ColumnContent);
+            this.fastObjectListView1.AutoResizeColumn(8, ColumnHeaderAutoResizeStyle.ColumnContent);
+            
 
 
-
-            fileListBox.Items.Clear();
-            fileListBox.Items.AddRange(fileList);
-            if (selection != string.Empty)
-            {
-                fileListBox.SelectedItem = selection;
-            }
-            // Check that setting the selected item above actually worked. If not, set it to the first item.
-            if (fileListBox.SelectedItems.Count == 0)
-            {
-                fileListBox.SelectedIndex = 0;
-            }
-            SelectedFile = string.Empty;
         }
 
         private void InitializeListView()
         {
-            this.titleColumn.ImageGetter = delegate (object rowObject) {
+            this.titleColumnF.ImageGetter = delegate (object rowObject) {
                 Rom s = (Rom)rowObject;
                 return s.IconImg;
             };
 
-            this.sizeColumn.AspectToStringConverter = delegate (object x) {
+            this.sizeColumnF.AspectToStringConverter = delegate (object x) {
                 long size = (long)x;
                 int[] limits = new int[] { 1024 * 1024 * 1024, 1024 * 1024, 1024 };
                 string[] units = new string[] { "GB", "MB", "KB" };
@@ -141,25 +126,17 @@ namespace ArchiveCacheManager
 
                 return String.Format("{0} bytes", size); ;
             };
-            objectListView1.ItemActivate += new System.EventHandler(this.objectListView1_ItemActivate);
+            fastObjectListView1.ItemActivate += new System.EventHandler(this.fastObjectListView1_ItemActivate);
 
         }
 
         private void okButton_Click(object sender, EventArgs e)
         {
-            SelectedFile = objectListView1.SelectedItem.Text;
+            SelectedFile = fastObjectListView1.SelectedItem.Text;
             EmulatorIndex = emulatorComboBox.SelectedIndex;
         }
 
-        private void fileListBox_MouseDoubleClick(object sender, MouseEventArgs e)
-        {
-            okButton.PerformClick();
-        }
 
-        private void fileListBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void ArchiveListWindow_Load(object sender, EventArgs e)
         {
@@ -171,18 +148,13 @@ namespace ArchiveCacheManager
 
         }
 
-        private void objectListView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //MessageBox.Show(objectListView1.SelectedIndex.ToString());
-        }
-
-        private void objectListView1_ItemActivate(object sender, EventArgs e)
+        private void fastObjectListView1_ItemActivate(object sender, EventArgs e)
         {
             okButton.PerformClick();
             //MessageBox.Show("Activate !");
         }
 
-        public async void updatetags()
+        private void fastObjectListView1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
@@ -200,7 +172,7 @@ namespace ArchiveCacheManager
             this.Title = title;
             this.SizeInBytes = sizeInBytes;
             this.IconImg = iconImg;
-
+            SetTags();
         }
 
         public string Title;
@@ -287,22 +259,12 @@ namespace ArchiveCacheManager
             }
         }
 
+
         public double GetSizeInMb()
         {
             return ((double)this.SizeInBytes) / (1024.0 * 1024.0);
         }
 
-
-        static public void AddRom(string title, long sizeInBytes, string iconImg = "")
-        {
-            Rom.AllRoms.Add(new Rom(title, sizeInBytes, iconImg));
-        }
-        static internal List<Rom> GetRoms()
-        {
-            return Rom.AllRoms;
-        }
-
-        static public List<Rom> AllRoms = new List<Rom>();
     }
 
     public class Wildcard
