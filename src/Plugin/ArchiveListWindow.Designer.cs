@@ -146,7 +146,7 @@ namespace ArchiveCacheManager
             this.fastObjectListView1.ShowGroups = false;
             this.fastObjectListView1.Size = new System.Drawing.Size(667, 372);
             this.fastObjectListView1.SmallImageList = this.imageList1;
-            this.fastObjectListView1.TabIndex = 7;
+            this.fastObjectListView1.TabIndex = 0;
             this.fastObjectListView1.UseCompatibleStateImageBehavior = false;
             this.fastObjectListView1.UseFilterIndicator = true;
             this.fastObjectListView1.UseFiltering = true;
@@ -171,32 +171,29 @@ namespace ArchiveCacheManager
             // tag1ColumnF
             // 
             this.tag1ColumnF.AspectName = "Tag1";
-            this.tag1ColumnF.Text = "Tag1";
-            this.tag1ColumnF.Width = 25;
+            this.tag1ColumnF.Text = "Region";
             // 
             // tag2ColumnF
             // 
             this.tag2ColumnF.AspectName = "Tag2";
-            this.tag2ColumnF.Text = "Tag2";
-            this.tag2ColumnF.Width = 25;
+            this.tag2ColumnF.Text = "Collection";
             // 
             // tag3ColumnF
             // 
             this.tag3ColumnF.AspectName = "Tag3";
-            this.tag3ColumnF.Text = "Tag3";
-            this.tag3ColumnF.Width = 25;
+            this.tag3ColumnF.Text = "Hack & Trad";
+            this.tag3ColumnF.Width = 120;
             // 
             // tag4ColumnF
             // 
             this.tag4ColumnF.AspectName = "Tag4";
-            this.tag4ColumnF.Text = "Tag4";
-            this.tag4ColumnF.Width = 25;
+            this.tag4ColumnF.Text = "Category";
+            this.tag4ColumnF.Width = 80;
             // 
             // tag5ColumnF
             // 
             this.tag5ColumnF.AspectName = "Tag5";
-            this.tag5ColumnF.Text = "Tag5";
-            this.tag5ColumnF.Width = 25;
+            this.tag5ColumnF.Text = "Other tags";
             // 
             // tag6ColumnF
             // 
