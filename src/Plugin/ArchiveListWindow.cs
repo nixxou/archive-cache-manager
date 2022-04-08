@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Threading;
+using BrightIdeasSoftware;
 
 namespace ArchiveCacheManager
 {
@@ -18,6 +19,12 @@ namespace ArchiveCacheManager
     {
         public string SelectedFile;
         public int EmulatorIndex;
+        public bool TagsActive = false;
+        public string filter_text = "";
+        public bool filter_french = false;
+        public bool filter_english = false;
+        public bool filter_romhacker = false;
+
 
         public ArchiveListWindow(string archiveName, string[] fileList, long[] sizeList, string plateform, string emulator, string[] emulatorList, string selection = "")
         {
@@ -96,26 +103,18 @@ namespace ArchiveCacheManager
                 fastObjectListView1.SelectedIndex = selected_index;
             }
             SelectedFile = string.Empty;
+            HideTags();
+            //if (Rom.have_french) 
+                FilterFrenchToolStripMenuItem1.Visible = true;
+            //if (Rom.have_english) 
+                FilterEnglishToolStripMenuItem2.Visible = true;
+            //if (Rom.have_romhackernet) 
+               FilterRHToolStripMenuItem3.Visible = true;
 
-            /*
-            Dictionary<int, bool> validTagColumns = new Dictionary<int, bool>();
-            for (int z = 1; z <= 7; z++)
-            {
-                validTagColumns[z] = false;
-            }
-            foreach (Rom r in roms)
-            {
-                if (r.Tag1 != "") validTagColumns[1] = true;
-                if (r.Tag2 != "") validTagColumns[2] = true;
-                if (r.Tag3 != "") validTagColumns[3] = true;
-                if (r.Tag4 != "") validTagColumns[4] = true;
-                if (r.Tag5 != "") validTagColumns[5] = true;
-                if (r.Tag6 != "") validTagColumns[6] = true;
-                if (r.Tag7 != "") validTagColumns[7] = true;
-            }
-            */
+        }
 
-            
+        private void ShowTags()
+        {
             this.tag1ColumnF.IsVisible = false;
             this.tag2ColumnF.IsVisible = false;
             this.tag3ColumnF.IsVisible = false;
@@ -123,7 +122,8 @@ namespace ArchiveCacheManager
             this.tag5ColumnF.IsVisible = false;
             this.tag6ColumnF.IsVisible = false;
             this.tag7ColumnF.IsVisible = false;
-            
+            this.sizeColumnF.FillsFreeSpace = false;
+
             bool redraw = false;
             if (Rom.validTagColumns[1])
             {
@@ -160,43 +160,43 @@ namespace ArchiveCacheManager
                 redraw = true;
                 this.tag7ColumnF.IsVisible = true;
             }
-            
-            
-            if (redraw)
+            if (Rom.validTagColumns[8])
             {
-                
-                this.fastObjectListView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
-
-                this.fastObjectListView1.RebuildColumns();
-                /*
-                if (validTagColumns[1]) this.fastObjectListView1.AutoResizeColumn(this.tag1ColumnF.Index, ColumnHeaderAutoResizeStyle.ColumnContent);
-                if (validTagColumns[2]) this.fastObjectListView1.AutoResizeColumn(this.tag2ColumnF.Index, ColumnHeaderAutoResizeStyle.ColumnContent);
-                if (validTagColumns[3]) this.fastObjectListView1.AutoResizeColumn(this.tag3ColumnF.Index, ColumnHeaderAutoResizeStyle.ColumnContent);
-                if (validTagColumns[4]) this.fastObjectListView1.AutoResizeColumn(this.tag4ColumnF.Index, ColumnHeaderAutoResizeStyle.ColumnContent);
-                if (validTagColumns[5]) this.fastObjectListView1.AutoResizeColumn(this.tag5ColumnF.Index, ColumnHeaderAutoResizeStyle.ColumnContent);
-                if (validTagColumns[6]) this.fastObjectListView1.AutoResizeColumn(this.tag6ColumnF.Index, ColumnHeaderAutoResizeStyle.ColumnContent);
-                if (validTagColumns[7]) this.fastObjectListView1.AutoResizeColumn(this.tag7ColumnF.Index, ColumnHeaderAutoResizeStyle.ColumnContent);
-                */
-
-
-                /*
-                if (validTagColumns[1]) this.fastObjectListView1.AutoResizeColumn(2, ColumnHeaderAutoResizeStyle.ColumnContent);
-                if (validTagColumns[2]) this.fastObjectListView1.AutoResizeColumn(3, ColumnHeaderAutoResizeStyle.ColumnContent);
-                if (validTagColumns[3]) this.fastObjectListView1.AutoResizeColumn(4, ColumnHeaderAutoResizeStyle.ColumnContent);
-                
-                if (validTagColumns[4]) this.fastObjectListView1.AutoResizeColumn(5, ColumnHeaderAutoResizeStyle.ColumnContent);
-                if (validTagColumns[5]) this.fastObjectListView1.AutoResizeColumn(6, ColumnHeaderAutoResizeStyle.ColumnContent);
-                if (validTagColumns[6]) this.fastObjectListView1.AutoResizeColumn(7, ColumnHeaderAutoResizeStyle.ColumnContent);
-                
-                if (validTagColumns[7]) this.fastObjectListView1.AutoResizeColumn(8, ColumnHeaderAutoResizeStyle.ColumnContent);
-                */
+                redraw = true;
+                this.tag8ColumnF.IsVisible = true;
+            }
+            if (Rom.validTagColumns[9])
+            {
+                redraw = true;
+                this.tag9ColumnF.IsVisible = true;
             }
 
-
-
-
-
+            if (redraw)
+            {
+                this.fastObjectListView1.RebuildColumns();
+                this.fastObjectListView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+                this.fastObjectListView1.RebuildColumns();
+            }
+            this.TagsActive = true;
         }
+
+        private void HideTags()
+        {
+            this.tag1ColumnF.IsVisible = false;
+            this.tag2ColumnF.IsVisible = false;
+            this.tag3ColumnF.IsVisible = false;
+            this.tag4ColumnF.IsVisible = false;
+            this.tag5ColumnF.IsVisible = false;
+            this.tag6ColumnF.IsVisible = false;
+            this.tag7ColumnF.IsVisible = false;
+            this.tag8ColumnF.IsVisible = false;
+            this.tag9ColumnF.IsVisible = false;
+            this.sizeColumnF.FillsFreeSpace = true;
+            this.fastObjectListView1.RebuildColumns();
+            this.TagsActive = false;
+        }
+
+
 
         private void InitializeListView()
         {
@@ -219,6 +219,9 @@ namespace ArchiveCacheManager
                 return String.Format("{0} bytes", size); ;
             };
             fastObjectListView1.ItemActivate += new System.EventHandler(this.fastObjectListView1_ItemActivate);
+            contextMenuStrip1.Opened += new System.EventHandler(this.contextMenuStrip1_Opened);
+            toolStripTextBox1.LostFocus += new System.EventHandler(this.toolStripTextBox1_Leave);
+            toolStripTextBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.toolStripTextBox1_CheckEnterKeyPress);
 
         }
 
@@ -250,6 +253,187 @@ namespace ArchiveCacheManager
         {
 
         }
+        Control _sourceControl = null;
+        private void contextMenuStrip1_Opened(object sender, EventArgs e)
+        {
+            _sourceControl = contextMenuStrip1.SourceControl;
+            //MessageBox.Show(_sourceControl.Name.ToString());
+            /*
+            if (olvSongs.SelectedIndex > 0) dddToolStripMenuItem.Visible = true;
+            else dddToolStripMenuItem.Visible = false;
+            */
+            if (this.TagsActive)
+            {
+                
+                showTagsToolStripMenuItem.Visible = false;
+                hideTagsToolStripMenuItem.Visible = true;
+            }
+            else
+            {
+                showTagsToolStripMenuItem.Visible = true;
+                hideTagsToolStripMenuItem.Visible = false;
+            } 
+
+        }
+
+        /*
+        private bool Updatefilter(string input)
+        {
+            if(input != this.textfilter)
+            {
+                this.textfilter = input;
+                if (this.textfilter.Contains("*"))
+                {
+                    ModelFilter filter2 = new ModelFilter(delegate (object x) {
+                        return ((Rom)x).Match(input);
+                    });
+                    this.fastObjectListView1.AdditionalFilter = filter2;
+                }
+                else
+                {
+                    TextMatchFilter filter1 = TextMatchFilter.Contains(this.fastObjectListView1, this.textfilter);
+                    this.fastObjectListView1.AdditionalFilter = filter1;
+                }
+
+                return true;
+            }
+            return false;
+        }
+        */
+        private void Updatefilter()
+        {
+            List<IModelFilter> filter_list = new List<IModelFilter>();
+            if (this.filter_text != "")
+            {
+                if (this.filter_text.Contains("*") || this.filter_text.Contains("?"))
+                {
+                    filter_list.Add(new ModelFilter(delegate (object x) {
+                        return ((Rom)x).Match(this.filter_text);
+                    }));
+                }
+                else
+                {
+                    filter_list.Add(TextMatchFilter.Contains(this.fastObjectListView1, this.filter_text));
+                }
+                toolStripTextBox1.BackColor = Color.Yellow;
+            }
+            else toolStripTextBox1.BackColor = showTagsToolStripMenuItem.BackColor;
+
+            if (this.filter_french)
+            {
+                filter_list.Add(new ModelFilter(delegate (object x) {
+                    return ((Rom)x).is_french;
+                }));
+                FilterFrenchToolStripMenuItem1.BackColor = Color.Yellow;
+            }
+            else FilterFrenchToolStripMenuItem1.BackColor = showTagsToolStripMenuItem.BackColor;
+
+            if (this.filter_english)
+            {
+                filter_list.Add(new ModelFilter(delegate (object x) {
+                    return ((Rom)x).is_english;
+                }));
+                FilterEnglishToolStripMenuItem2.BackColor = Color.Yellow;
+            }
+            else FilterEnglishToolStripMenuItem2.BackColor = showTagsToolStripMenuItem.BackColor;
+
+            if (this.filter_romhacker)
+            {
+                filter_list.Add(new ModelFilter(delegate (object x) {
+                    return ((Rom)x).is_romhackernet;
+                }));
+                FilterRHToolStripMenuItem3.BackColor = Color.Yellow;
+            }
+            else FilterRHToolStripMenuItem3.BackColor = showTagsToolStripMenuItem.BackColor;
+
+            if (filter_list.Count > 0)
+            {
+                this.fastObjectListView1.AdditionalFilter = new CompositeAllFilter(filter_list);
+                ClearFiltersToolStripMenuItem.Enabled = true;
+            }
+            else
+            {
+                this.fastObjectListView1.AdditionalFilter = null;
+                ClearFiltersToolStripMenuItem.Enabled = false;
+            }
+
+
+        }
+
+        private void toolStripTextBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void hideTagsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+           this.HideTags();
+        }
+        
+        private void showTagsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.ShowTags();
+        }
+        private void toolStripTextBox1_Leave(object sender, EventArgs e)
+        {
+            if(toolStripTextBox1.Text != this.filter_text)
+            {
+                this.filter_text = toolStripTextBox1.Text;
+                Updatefilter();
+            }
+        }
+        private void toolStripTextBox1_CheckEnterKeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Return)
+            {
+                // Then Do your Thang
+                contextMenuStrip1.Hide();
+                if (toolStripTextBox1.Text != this.filter_text)
+                {
+                    this.filter_text = toolStripTextBox1.Text;
+                    Updatefilter();
+                }
+            }
+        }
+
+        private void FilterFrenchToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            this.filter_french = !this.filter_french;
+            Updatefilter();
+            //FilterFrenchToolStripMenuItem1.BackColor = Color.Red;
+        }
+
+        private void FilterEnglishToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            this.filter_english = !this.filter_english;
+            Updatefilter();
+        }
+
+        private void FilterRHToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            this.filter_romhacker = !this.filter_romhacker;
+            Updatefilter();
+        }
+
+        private void emulatorComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ClearFiltersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.filter_english = false;
+            this.filter_french = false;
+            this.filter_romhacker = false;
+            toolStripTextBox1.Text = "";
+            this.filter_text = "";
+            Updatefilter();
+        }
+        /*
+
+private void toolStripTextBox1_Click(object sender, EventArgs e)
+{
+
+}  */
     }
 
 
@@ -265,6 +449,7 @@ namespace ArchiveCacheManager
             this.SizeInBytes = sizeInBytes;
             this.IconImg = iconImg;
             SetTags();
+            SetFiltersVars();
         }
 
         public string Title;
@@ -277,7 +462,14 @@ namespace ArchiveCacheManager
         public string Tag5 = "";
         public string Tag6 = "";
         public string Tag7 = "";
+        public string Tag8 = "";
+        public string Tag9 = "";
+        public bool is_french = false;
+        public bool is_english = false;
+        public bool is_romhackernet = false;
 
+
+        /*
         public void SetTagsBak()
         {
             string pattern = @"\[([^[]*)\]";
@@ -350,6 +542,25 @@ namespace ArchiveCacheManager
                 target_tag++;
             }
         }
+        */
+
+        public void SetFiltersVars()
+        {
+            string valstr = this.Title.Trim();
+            if (valstr.Contains("[T.Fre") || valstr.Contains("[T-Fre") || valstr.Contains("[T+Fre") || valstr.ToUpper().Contains("[FRANCE]") || valstr.ToUpper().Contains("[FR]")){
+                this.is_french = true;
+                Rom.have_french = true;
+            }
+            if (valstr.Contains("[T.Eng") || valstr.Contains("[T-Eng") || valstr.Contains("[T+Eng")){
+                this.is_english = true;
+                Rom.have_english = true;
+            }
+            if (Regex.Match(valstr, @"\[H\.([^\]]*)-([0-9]+)\]").Success)
+            {
+                this.is_romhackernet = true;
+                Rom.have_romhackernet = true;
+            }
+        }
 
         public void SetTags()
         {
@@ -359,6 +570,7 @@ namespace ArchiveCacheManager
             int i = 0;
             int category = -1;
             int is_goodset = -1;
+            int target_tag = 6;
             foreach (Match m in matches)
             {
                 i++;
@@ -402,8 +614,41 @@ namespace ArchiveCacheManager
                     validTagColumns[4] = true;
                     continue;
                 }
-                validTagColumns[5] = true;
-                this.Tag5 += m.Value.Trim();
+                if (valtag.Length<=5)
+                {
+                    validTagColumns[5] = true;
+                    this.Tag5 += m.Value.Trim();
+                    continue;
+                }
+                if(target_tag == 6)
+                {
+                    validTagColumns[6] = true;
+                    this.Tag6 += m.Value.Trim();
+                    target_tag++;
+                    continue;
+                }
+                if (target_tag == 7)
+                {
+                    validTagColumns[7] = true;
+                    this.Tag7 += m.Value.Trim();
+                    target_tag++;
+                    continue;
+                }
+                if (target_tag == 8)
+                {
+                    validTagColumns[8] = true;
+                    this.Tag8 += m.Value.Trim();
+                    target_tag++;
+                    continue;
+                }
+                if (target_tag == 9)
+                {
+                    validTagColumns[9] = true;
+                    this.Tag9 += m.Value.Trim();
+                    continue;
+                }
+
+
             }
         }
 
@@ -415,11 +660,15 @@ namespace ArchiveCacheManager
             return ((double)this.SizeInBytes) / (1024.0 * 1024.0);
         }
 
+        public bool Match(string input) {
+            return Wildcard.Match(this.Title.ToLower(), input.ToLower().Trim());
+        }
+
         static internal void ClearRom()
         {
             AllRoms.Clear();
             validTagColumns.Clear();
-            for (int z = 1; z <= 7; z++)
+            for (int z = 1; z <= 9; z++)
             {
                 validTagColumns[z] = false;
             }
@@ -438,6 +687,9 @@ namespace ArchiveCacheManager
         }
         static public List<Rom> AllRoms = new List<Rom>();
         static public Dictionary<int, bool> validTagColumns = new Dictionary<int, bool>();
+        static public bool have_french = false;
+        static public bool have_english = false;
+        static public bool have_romhackernet = false;
 
 
     }

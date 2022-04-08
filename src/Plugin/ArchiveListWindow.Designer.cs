@@ -47,7 +47,20 @@ namespace ArchiveCacheManager
             this.tag5ColumnF = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.tag6ColumnF = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.tag7ColumnF = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.tag8ColumnF = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.tag9ColumnF = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.showTagsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hideTagsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.filterTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
+            this.FilterFrenchToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.FilterEnglishToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.FilterRHToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.ClearFiltersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // cancelButton
@@ -99,6 +112,7 @@ namespace ArchiveCacheManager
             this.emulatorComboBox.Name = "emulatorComboBox";
             this.emulatorComboBox.Size = new System.Drawing.Size(228, 21);
             this.emulatorComboBox.TabIndex = 5;
+            this.emulatorComboBox.SelectedIndexChanged += new System.EventHandler(this.emulatorComboBox_SelectedIndexChanged);
             // 
             // emulatorComboBoxLabel
             // 
@@ -128,6 +142,8 @@ namespace ArchiveCacheManager
             this.fastObjectListView1.AllColumns.Add(this.tag5ColumnF);
             this.fastObjectListView1.AllColumns.Add(this.tag6ColumnF);
             this.fastObjectListView1.AllColumns.Add(this.tag7ColumnF);
+            this.fastObjectListView1.AllColumns.Add(this.tag8ColumnF);
+            this.fastObjectListView1.AllColumns.Add(this.tag9ColumnF);
             this.fastObjectListView1.CellEditUseWholeCell = false;
             this.fastObjectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.titleColumnF,
@@ -138,7 +154,11 @@ namespace ArchiveCacheManager
             this.tag4ColumnF,
             this.tag5ColumnF,
             this.tag6ColumnF,
-            this.tag7ColumnF});
+            this.tag7ColumnF,
+            this.tag8ColumnF,
+            this.tag9ColumnF});
+            this.fastObjectListView1.ContextMenuStrip = this.contextMenuStrip1;
+            this.fastObjectListView1.Cursor = System.Windows.Forms.Cursors.Default;
             this.fastObjectListView1.FullRowSelect = true;
             this.fastObjectListView1.HideSelection = false;
             this.fastObjectListView1.Location = new System.Drawing.Point(12, 33);
@@ -164,6 +184,7 @@ namespace ArchiveCacheManager
             // sizeColumnF
             // 
             this.sizeColumnF.AspectName = "SizeInBytes";
+            this.sizeColumnF.FillsFreeSpace = true;
             this.sizeColumnF.MinimumWidth = 50;
             this.sizeColumnF.Text = "Size";
             this.sizeColumnF.Width = 80;
@@ -193,19 +214,109 @@ namespace ArchiveCacheManager
             // tag5ColumnF
             // 
             this.tag5ColumnF.AspectName = "Tag5";
-            this.tag5ColumnF.Text = "Other tags";
+            this.tag5ColumnF.Text = "Small tags";
             // 
             // tag6ColumnF
             // 
             this.tag6ColumnF.AspectName = "Tag6";
-            this.tag6ColumnF.Text = "Tag6";
+            this.tag6ColumnF.Text = "Other tag 1";
             this.tag6ColumnF.Width = 25;
             // 
             // tag7ColumnF
             // 
             this.tag7ColumnF.AspectName = "Tag7";
-            this.tag7ColumnF.Text = "Tag7";
+            this.tag7ColumnF.Text = "Other tag 2";
             this.tag7ColumnF.Width = 25;
+            // 
+            // tag8ColumnF
+            // 
+            this.tag8ColumnF.AspectName = "Tag8";
+            this.tag8ColumnF.Text = "Other tag 3";
+            // 
+            // tag9ColumnF
+            // 
+            this.tag9ColumnF.AspectName = "Tag9";
+            this.tag9ColumnF.Text = "Other tag 4";
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.showTagsToolStripMenuItem,
+            this.hideTagsToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.filterTextToolStripMenuItem,
+            this.toolStripTextBox1,
+            this.FilterFrenchToolStripMenuItem1,
+            this.FilterEnglishToolStripMenuItem2,
+            this.FilterRHToolStripMenuItem3,
+            this.ClearFiltersToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(184, 211);
+            // 
+            // showTagsToolStripMenuItem
+            // 
+            this.showTagsToolStripMenuItem.Name = "showTagsToolStripMenuItem";
+            this.showTagsToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.showTagsToolStripMenuItem.Text = "Show Tags";
+            this.showTagsToolStripMenuItem.Click += new System.EventHandler(this.showTagsToolStripMenuItem_Click);
+            // 
+            // hideTagsToolStripMenuItem
+            // 
+            this.hideTagsToolStripMenuItem.Name = "hideTagsToolStripMenuItem";
+            this.hideTagsToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.hideTagsToolStripMenuItem.Text = "Hide Tags";
+            this.hideTagsToolStripMenuItem.Click += new System.EventHandler(this.hideTagsToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(180, 6);
+            // 
+            // filterTextToolStripMenuItem
+            // 
+            this.filterTextToolStripMenuItem.Enabled = false;
+            this.filterTextToolStripMenuItem.Name = "filterTextToolStripMenuItem";
+            this.filterTextToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.filterTextToolStripMenuItem.Text = "↓↓↓Filter Text ↓↓↓";
+            // 
+            // toolStripTextBox1
+            // 
+            this.toolStripTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.toolStripTextBox1.Name = "toolStripTextBox1";
+            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
+            this.toolStripTextBox1.Click += new System.EventHandler(this.toolStripTextBox1_Click);
+            // 
+            // FilterFrenchToolStripMenuItem1
+            // 
+            this.FilterFrenchToolStripMenuItem1.Name = "FilterFrenchToolStripMenuItem1";
+            this.FilterFrenchToolStripMenuItem1.Size = new System.Drawing.Size(183, 22);
+            this.FilterFrenchToolStripMenuItem1.Text = "Filter French";
+            this.FilterFrenchToolStripMenuItem1.Visible = false;
+            this.FilterFrenchToolStripMenuItem1.Click += new System.EventHandler(this.FilterFrenchToolStripMenuItem1_Click);
+            // 
+            // FilterEnglishToolStripMenuItem2
+            // 
+            this.FilterEnglishToolStripMenuItem2.Name = "FilterEnglishToolStripMenuItem2";
+            this.FilterEnglishToolStripMenuItem2.Size = new System.Drawing.Size(183, 22);
+            this.FilterEnglishToolStripMenuItem2.Text = "Filter Eng Trad";
+            this.FilterEnglishToolStripMenuItem2.Visible = false;
+            this.FilterEnglishToolStripMenuItem2.Click += new System.EventHandler(this.FilterEnglishToolStripMenuItem2_Click);
+            // 
+            // FilterRHToolStripMenuItem3
+            // 
+            this.FilterRHToolStripMenuItem3.Name = "FilterRHToolStripMenuItem3";
+            this.FilterRHToolStripMenuItem3.Size = new System.Drawing.Size(183, 22);
+            this.FilterRHToolStripMenuItem3.Text = "Filter Romhacker.net";
+            this.FilterRHToolStripMenuItem3.Visible = false;
+            this.FilterRHToolStripMenuItem3.Click += new System.EventHandler(this.FilterRHToolStripMenuItem3_Click);
+            // 
+            // ClearFiltersToolStripMenuItem
+            // 
+            this.ClearFiltersToolStripMenuItem.Enabled = false;
+            this.ClearFiltersToolStripMenuItem.Name = "ClearFiltersToolStripMenuItem";
+            this.ClearFiltersToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.ClearFiltersToolStripMenuItem.Text = "Clear Filters !";
+            this.ClearFiltersToolStripMenuItem.Click += new System.EventHandler(this.ClearFiltersToolStripMenuItem_Click);
             // 
             // ArchiveListWindow
             // 
@@ -229,6 +340,8 @@ namespace ArchiveCacheManager
             this.Text = "Select File";
             this.Load += new System.EventHandler(this.ArchiveListWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
+            this.contextMenuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -251,5 +364,17 @@ namespace ArchiveCacheManager
         private BrightIdeasSoftware.OLVColumn tag5ColumnF;
         private BrightIdeasSoftware.OLVColumn tag6ColumnF;
         private BrightIdeasSoftware.OLVColumn tag7ColumnF;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem showTagsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem hideTagsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem filterTextToolStripMenuItem;
+        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
+        private BrightIdeasSoftware.OLVColumn tag8ColumnF;
+        private BrightIdeasSoftware.OLVColumn tag9ColumnF;
+        private System.Windows.Forms.ToolStripMenuItem FilterFrenchToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem FilterEnglishToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem FilterRHToolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem ClearFiltersToolStripMenuItem;
     }
 }
