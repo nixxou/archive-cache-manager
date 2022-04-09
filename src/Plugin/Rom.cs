@@ -153,29 +153,35 @@ namespace ArchiveCacheManager
             }
         }
 
-        public Dictionary<int, bool> Savestate = new Dictionary<int, bool>();
+        public Dictionary<int, string> Savestate = new Dictionary<int, string>();
         public string TitleWithoutExt = "";
         public static string retroarch_savedir = "";
         public static string retroarch_savestatedir = "";
-        public Dictionary<int, bool> loadSave(bool force_refresh=false)
+        public Dictionary<int, string> loadSave(bool force_refresh=false)
         {
+            
             if (this.TitleWithoutExt != "" && force_refresh == false) return this.Savestate;
-            this.Savestate.Clear();
-            string[] liste_savestate = Directory.GetFiles(Rom.retroarch_savestatedir, string.Format("{0}.*", System.IO.Path.GetFileNameWithoutExtension(this.Title)));
             this.TitleWithoutExt = Path.GetFileNameWithoutExtension(this.Title);
+            this.Savestate.Clear();
+            //MessageBox.Show(this.TitleWithoutExt);
+            //MessageBox.Show(string.Format("{0}.*", this.TitleWithoutExt));
+            string[] liste_savestate = Directory.GetFiles(Rom.retroarch_savestatedir, string.Format("{0}.*", this.TitleWithoutExt));
             foreach (string save_file in liste_savestate)
             {
                 if(this.TitleWithoutExt == Path.GetFileNameWithoutExtension(save_file))
                 {
                     string ext = Path.GetExtension(save_file);
-                    MessageBox.Show(ext);
+                    //MessageBox.Show(ext);
+                    int slot = 0;
                     Match m = Regex.Match(ext, @"\.state([0-9]*)$");
                     if (m.Success)
                     {
-                        int slot = 0;
-                        if (m.Value != "") slot = Int32.Parse(m.Value);
-                        this.Savestate[slot] = true;
+                        string res = m.Value.ToString().Replace(".state", "");
+                        if (res != "") slot = Int32.Parse(res);
+                        //if (m.Value != "") slot = Int32.Parse(m.Value);
+                        this.Savestate[slot] = save_file;
                     }
+                    
                 }
             }
             return this.Savestate;

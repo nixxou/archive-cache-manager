@@ -60,7 +60,28 @@ namespace ArchiveCacheManager
             this.MenuItem_filterRH = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItem_clearFilters = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.LoadSaveStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_saveCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_loadSaveState0 = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_loadSaveState1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_loadSaveState2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_loadSaveState3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_loadSaveState4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_loadSaveState5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_loadSaveState6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_loadSaveState7 = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_loadSaveState8 = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_loadSaveState9 = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_pasteCopy = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_pasteSaveState0 = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_pasteSaveState1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_pasteSaveState2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_pasteSaveState3 = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_pasteSaveState4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_pasteSaveState5 = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_pasteSaveState6 = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_pasteSaveState7 = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_pasteSaveState8 = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_pasteSaveState9 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -253,9 +274,10 @@ namespace ArchiveCacheManager
             this.MenuItem_filterRH,
             this.MenuItem_clearFilters,
             this.toolStripSeparator2,
-            this.LoadSaveStateToolStripMenuItem});
+            this.MenuItem_saveCopy,
+            this.MenuItem_pasteCopy});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(184, 239);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(184, 261);
             // 
             // MenuItem_showTags
             // 
@@ -328,12 +350,180 @@ namespace ArchiveCacheManager
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(180, 6);
             // 
-            // LoadSaveStateToolStripMenuItem
+            // MenuItem_saveCopy
             // 
-            this.LoadSaveStateToolStripMenuItem.Name = "LoadSaveStateToolStripMenuItem";
-            this.LoadSaveStateToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
-            this.LoadSaveStateToolStripMenuItem.Text = "Load SaveStates";
-            this.LoadSaveStateToolStripMenuItem.Click += new System.EventHandler(this.LoadSaveStateToolStripMenuItem_Click);
+            this.MenuItem_saveCopy.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuItem_loadSaveState0,
+            this.MenuItem_loadSaveState1,
+            this.MenuItem_loadSaveState2,
+            this.MenuItem_loadSaveState3,
+            this.MenuItem_loadSaveState4,
+            this.MenuItem_loadSaveState5,
+            this.MenuItem_loadSaveState6,
+            this.MenuItem_loadSaveState7,
+            this.MenuItem_loadSaveState8,
+            this.MenuItem_loadSaveState9});
+            this.MenuItem_saveCopy.Name = "MenuItem_saveCopy";
+            this.MenuItem_saveCopy.Size = new System.Drawing.Size(183, 22);
+            this.MenuItem_saveCopy.Text = "Copy SaveState";
+            this.MenuItem_saveCopy.Click += new System.EventHandler(this.LoadSaveStateToolStripMenuItem_Click);
+            // 
+            // MenuItem_loadSaveState0
+            // 
+            this.MenuItem_loadSaveState0.Name = "MenuItem_loadSaveState0";
+            this.MenuItem_loadSaveState0.Size = new System.Drawing.Size(180, 22);
+            this.MenuItem_loadSaveState0.Text = "Slot 0";
+            this.MenuItem_loadSaveState0.Click += new System.EventHandler(this.MenuItem_loadSaveState_Click);
+            // 
+            // MenuItem_loadSaveState1
+            // 
+            this.MenuItem_loadSaveState1.Name = "MenuItem_loadSaveState1";
+            this.MenuItem_loadSaveState1.Size = new System.Drawing.Size(180, 22);
+            this.MenuItem_loadSaveState1.Text = "Slot 1";
+            this.MenuItem_loadSaveState1.Click += new System.EventHandler(this.MenuItem_loadSaveState_Click);
+            // 
+            // MenuItem_loadSaveState2
+            // 
+            this.MenuItem_loadSaveState2.Name = "MenuItem_loadSaveState2";
+            this.MenuItem_loadSaveState2.Size = new System.Drawing.Size(180, 22);
+            this.MenuItem_loadSaveState2.Text = "Slot 2";
+            this.MenuItem_loadSaveState2.Click += new System.EventHandler(this.MenuItem_loadSaveState_Click);
+            // 
+            // MenuItem_loadSaveState3
+            // 
+            this.MenuItem_loadSaveState3.Name = "MenuItem_loadSaveState3";
+            this.MenuItem_loadSaveState3.Size = new System.Drawing.Size(180, 22);
+            this.MenuItem_loadSaveState3.Text = "Slot 3";
+            this.MenuItem_loadSaveState3.Click += new System.EventHandler(this.MenuItem_loadSaveState_Click);
+            // 
+            // MenuItem_loadSaveState4
+            // 
+            this.MenuItem_loadSaveState4.Name = "MenuItem_loadSaveState4";
+            this.MenuItem_loadSaveState4.Size = new System.Drawing.Size(180, 22);
+            this.MenuItem_loadSaveState4.Text = "Slot 4";
+            this.MenuItem_loadSaveState4.Click += new System.EventHandler(this.MenuItem_loadSaveState_Click);
+            // 
+            // MenuItem_loadSaveState5
+            // 
+            this.MenuItem_loadSaveState5.Name = "MenuItem_loadSaveState5";
+            this.MenuItem_loadSaveState5.Size = new System.Drawing.Size(180, 22);
+            this.MenuItem_loadSaveState5.Text = "Slot 5";
+            this.MenuItem_loadSaveState5.Click += new System.EventHandler(this.MenuItem_loadSaveState_Click);
+            // 
+            // MenuItem_loadSaveState6
+            // 
+            this.MenuItem_loadSaveState6.Name = "MenuItem_loadSaveState6";
+            this.MenuItem_loadSaveState6.Size = new System.Drawing.Size(180, 22);
+            this.MenuItem_loadSaveState6.Text = "Slot 6";
+            this.MenuItem_loadSaveState6.Click += new System.EventHandler(this.MenuItem_loadSaveState_Click);
+            // 
+            // MenuItem_loadSaveState7
+            // 
+            this.MenuItem_loadSaveState7.Name = "MenuItem_loadSaveState7";
+            this.MenuItem_loadSaveState7.Size = new System.Drawing.Size(180, 22);
+            this.MenuItem_loadSaveState7.Text = "Slot 7";
+            this.MenuItem_loadSaveState7.Click += new System.EventHandler(this.MenuItem_loadSaveState_Click);
+            // 
+            // MenuItem_loadSaveState8
+            // 
+            this.MenuItem_loadSaveState8.Name = "MenuItem_loadSaveState8";
+            this.MenuItem_loadSaveState8.Size = new System.Drawing.Size(180, 22);
+            this.MenuItem_loadSaveState8.Text = "Slot 8";
+            this.MenuItem_loadSaveState8.Click += new System.EventHandler(this.MenuItem_loadSaveState_Click);
+            // 
+            // MenuItem_loadSaveState9
+            // 
+            this.MenuItem_loadSaveState9.Name = "MenuItem_loadSaveState9";
+            this.MenuItem_loadSaveState9.Size = new System.Drawing.Size(180, 22);
+            this.MenuItem_loadSaveState9.Text = "Slot 9";
+            this.MenuItem_loadSaveState9.Click += new System.EventHandler(this.MenuItem_loadSaveState_Click);
+            // 
+            // MenuItem_pasteCopy
+            // 
+            this.MenuItem_pasteCopy.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MenuItem_pasteSaveState0,
+            this.MenuItem_pasteSaveState1,
+            this.MenuItem_pasteSaveState2,
+            this.MenuItem_pasteSaveState3,
+            this.MenuItem_pasteSaveState4,
+            this.MenuItem_pasteSaveState5,
+            this.MenuItem_pasteSaveState6,
+            this.MenuItem_pasteSaveState7,
+            this.MenuItem_pasteSaveState8,
+            this.MenuItem_pasteSaveState9});
+            this.MenuItem_pasteCopy.Name = "MenuItem_pasteCopy";
+            this.MenuItem_pasteCopy.Size = new System.Drawing.Size(183, 22);
+            this.MenuItem_pasteCopy.Text = "Paste SaveState";
+            // 
+            // MenuItem_pasteSaveState0
+            // 
+            this.MenuItem_pasteSaveState0.Name = "MenuItem_pasteSaveState0";
+            this.MenuItem_pasteSaveState0.Size = new System.Drawing.Size(180, 22);
+            this.MenuItem_pasteSaveState0.Text = "Slot 0";
+            this.MenuItem_pasteSaveState0.Click += new System.EventHandler(this.MenuItem_pasteSaveState_Click);
+            // 
+            // MenuItem_pasteSaveState1
+            // 
+            this.MenuItem_pasteSaveState1.Name = "MenuItem_pasteSaveState1";
+            this.MenuItem_pasteSaveState1.Size = new System.Drawing.Size(180, 22);
+            this.MenuItem_pasteSaveState1.Text = "Slot 1";
+            this.MenuItem_pasteSaveState1.Click += new System.EventHandler(this.MenuItem_pasteSaveState_Click);
+            // 
+            // MenuItem_pasteSaveState2
+            // 
+            this.MenuItem_pasteSaveState2.Name = "MenuItem_pasteSaveState2";
+            this.MenuItem_pasteSaveState2.Size = new System.Drawing.Size(180, 22);
+            this.MenuItem_pasteSaveState2.Text = "Slot 2";
+            this.MenuItem_pasteSaveState2.Click += new System.EventHandler(this.MenuItem_pasteSaveState_Click);
+            // 
+            // MenuItem_pasteSaveState3
+            // 
+            this.MenuItem_pasteSaveState3.Name = "MenuItem_pasteSaveState3";
+            this.MenuItem_pasteSaveState3.Size = new System.Drawing.Size(180, 22);
+            this.MenuItem_pasteSaveState3.Text = "Slot 3";
+            this.MenuItem_pasteSaveState3.Click += new System.EventHandler(this.MenuItem_pasteSaveState_Click);
+            // 
+            // MenuItem_pasteSaveState4
+            // 
+            this.MenuItem_pasteSaveState4.Name = "MenuItem_pasteSaveState4";
+            this.MenuItem_pasteSaveState4.Size = new System.Drawing.Size(180, 22);
+            this.MenuItem_pasteSaveState4.Text = "Slot 4";
+            this.MenuItem_pasteSaveState4.Click += new System.EventHandler(this.MenuItem_pasteSaveState_Click);
+            // 
+            // MenuItem_pasteSaveState5
+            // 
+            this.MenuItem_pasteSaveState5.Name = "MenuItem_pasteSaveState5";
+            this.MenuItem_pasteSaveState5.Size = new System.Drawing.Size(180, 22);
+            this.MenuItem_pasteSaveState5.Text = "Slot 5";
+            this.MenuItem_pasteSaveState5.Click += new System.EventHandler(this.MenuItem_pasteSaveState_Click);
+            // 
+            // MenuItem_pasteSaveState6
+            // 
+            this.MenuItem_pasteSaveState6.Name = "MenuItem_pasteSaveState6";
+            this.MenuItem_pasteSaveState6.Size = new System.Drawing.Size(180, 22);
+            this.MenuItem_pasteSaveState6.Text = "Slot 6";
+            this.MenuItem_pasteSaveState6.Click += new System.EventHandler(this.MenuItem_pasteSaveState_Click);
+            // 
+            // MenuItem_pasteSaveState7
+            // 
+            this.MenuItem_pasteSaveState7.Name = "MenuItem_pasteSaveState7";
+            this.MenuItem_pasteSaveState7.Size = new System.Drawing.Size(180, 22);
+            this.MenuItem_pasteSaveState7.Text = "Slot 7";
+            this.MenuItem_pasteSaveState7.Click += new System.EventHandler(this.MenuItem_pasteSaveState_Click);
+            // 
+            // MenuItem_pasteSaveState8
+            // 
+            this.MenuItem_pasteSaveState8.Name = "MenuItem_pasteSaveState8";
+            this.MenuItem_pasteSaveState8.Size = new System.Drawing.Size(180, 22);
+            this.MenuItem_pasteSaveState8.Text = "Slot 8";
+            this.MenuItem_pasteSaveState8.Click += new System.EventHandler(this.MenuItem_pasteSaveState_Click);
+            // 
+            // MenuItem_pasteSaveState9
+            // 
+            this.MenuItem_pasteSaveState9.Name = "MenuItem_pasteSaveState9";
+            this.MenuItem_pasteSaveState9.Size = new System.Drawing.Size(180, 22);
+            this.MenuItem_pasteSaveState9.Text = "Slot 9";
+            this.MenuItem_pasteSaveState9.Click += new System.EventHandler(this.MenuItem_pasteSaveState_Click);
             // 
             // ArchiveListWindow
             // 
@@ -394,6 +584,27 @@ namespace ArchiveCacheManager
         private System.Windows.Forms.ToolStripMenuItem MenuItem_filterRH;
         private System.Windows.Forms.ToolStripMenuItem MenuItem_clearFilters;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem LoadSaveStateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_saveCopy;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_loadSaveState1;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_loadSaveState2;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_loadSaveState3;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_loadSaveState4;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_loadSaveState5;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_loadSaveState6;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_loadSaveState7;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_loadSaveState8;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_loadSaveState9;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_loadSaveState0;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_pasteCopy;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_pasteSaveState0;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_pasteSaveState1;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_pasteSaveState2;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_pasteSaveState3;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_pasteSaveState4;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_pasteSaveState5;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_pasteSaveState6;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_pasteSaveState7;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_pasteSaveState8;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_pasteSaveState9;
     }
 }

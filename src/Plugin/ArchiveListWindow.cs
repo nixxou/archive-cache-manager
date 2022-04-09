@@ -25,6 +25,7 @@ namespace ArchiveCacheManager
         public bool filter_english = false;
         public bool filter_romhacker = false;
         public string base_launchbox_dir = "";
+        public string buffer_savestatefile = "";
 
 
         public ArchiveListWindow(string archiveName, string[] fileList, long[] sizeList, string plateform, string emulator, string[] emulatorList, string selection = "")
@@ -273,7 +274,6 @@ namespace ArchiveCacheManager
             */
             if (this.TagsActive)
             {
-                
                 MenuItem_showTags.Visible = false;
                 MenuItem_hideTags.Visible = true;
             }
@@ -283,6 +283,181 @@ namespace ArchiveCacheManager
                 MenuItem_hideTags.Visible = false;
             } 
 
+            if(fastObjectListView1.SelectedIndex >= 0)
+            {
+                MenuItem_saveCopy.Visible = true;
+                Rom myrom = (Rom)this.fastObjectListView1.SelectedObject;
+                var liste_savestate = myrom.loadSave();
+                if(liste_savestate.Count > 0)
+                {
+                    MenuItem_saveCopy.Enabled = true;
+                    MenuItem_saveCopy.Text = string.Format("Copy SaveState ({0})",liste_savestate.Count);
+                }
+                else
+                {
+                    MenuItem_saveCopy.Enabled = false;
+                    MenuItem_saveCopy.Text = "Copy SaveState";
+                }
+                MenuItem_loadSaveState0.Enabled = false;
+                MenuItem_loadSaveState1.Enabled = false;
+                MenuItem_loadSaveState2.Enabled = false;
+                MenuItem_loadSaveState3.Enabled = false;
+                MenuItem_loadSaveState4.Enabled = false;
+                MenuItem_loadSaveState5.Enabled = false;
+                MenuItem_loadSaveState6.Enabled = false;
+                MenuItem_loadSaveState7.Enabled = false;
+                MenuItem_loadSaveState8.Enabled = false;
+                MenuItem_loadSaveState9.Enabled = false;
+                foreach (var savestate in liste_savestate)
+                {
+                    switch (savestate.Key)
+                    {
+                        case 0:
+                            MenuItem_loadSaveState0.Enabled = true;
+                            break;
+                        case 1:
+                            MenuItem_loadSaveState1.Enabled = true;
+                            break;
+                        case 2:
+                            MenuItem_loadSaveState2.Enabled = true;
+                            break;
+                        case 3:
+                            MenuItem_loadSaveState3.Enabled = true;
+                            break;
+                        case 4:
+                            MenuItem_loadSaveState4.Enabled = true;
+                            break;
+                        case 5:
+                            MenuItem_loadSaveState5.Enabled = true;
+                            break;
+                        case 6:
+                            MenuItem_loadSaveState6.Enabled = true;
+                            break;
+                        case 7:
+                            MenuItem_loadSaveState7.Enabled = true;
+                            break;
+                        case 8:
+                            MenuItem_loadSaveState8.Enabled = true;
+                            break;
+                        case 9:
+                            MenuItem_loadSaveState9.Enabled = true;
+                            break;
+                    }
+                }
+
+                if (this.buffer_savestatefile != "")
+                {
+                    MenuItem_pasteCopy.Enabled = true;
+                    MenuItem_pasteSaveState0.Text = "Slot 0 <empty>";
+                    MenuItem_pasteSaveState1.Text = "Slot 1 <empty>";
+                    MenuItem_pasteSaveState2.Text = "Slot 2 <empty>";
+                    MenuItem_pasteSaveState3.Text = "Slot 3 <empty>";
+                    MenuItem_pasteSaveState4.Text = "Slot 4 <empty>";
+                    MenuItem_pasteSaveState5.Text = "Slot 5 <empty>";
+                    MenuItem_pasteSaveState6.Text = "Slot 6 <empty>";
+                    MenuItem_pasteSaveState7.Text = "Slot 7 <empty>";
+                    MenuItem_pasteSaveState8.Text = "Slot 8 <empty>";
+                    MenuItem_pasteSaveState9.Text = "Slot 9 <empty>";
+
+                    MenuItem_pasteSaveState0.BackColor = MenuItem_showTags.BackColor;
+                    MenuItem_pasteSaveState1.BackColor = MenuItem_showTags.BackColor;
+                    MenuItem_pasteSaveState2.BackColor = MenuItem_showTags.BackColor;
+                    MenuItem_pasteSaveState3.BackColor = MenuItem_showTags.BackColor;
+                    MenuItem_pasteSaveState4.BackColor = MenuItem_showTags.BackColor;
+                    MenuItem_pasteSaveState5.BackColor = MenuItem_showTags.BackColor;
+                    MenuItem_pasteSaveState6.BackColor = MenuItem_showTags.BackColor;
+                    MenuItem_pasteSaveState7.BackColor = MenuItem_showTags.BackColor;
+                    MenuItem_pasteSaveState8.BackColor = MenuItem_showTags.BackColor;
+                    MenuItem_pasteSaveState9.BackColor = MenuItem_showTags.BackColor;
+
+                    foreach (var savestate in liste_savestate)
+                    {
+                        switch (savestate.Key)
+                        {
+                            case 0:
+                                MenuItem_pasteSaveState0.Text = "Slot 0";
+                                MenuItem_pasteSaveState0.BackColor = Color.Red;
+                                break;
+                            case 1:
+                                MenuItem_pasteSaveState1.Text = "Slot 1";
+                                MenuItem_pasteSaveState1.BackColor = Color.Red;
+                                break;
+                            case 2:
+                                MenuItem_pasteSaveState2.Text = "Slot 2";
+                                MenuItem_pasteSaveState2.BackColor = Color.Red;
+                                break;
+                            case 3:
+                                MenuItem_pasteSaveState3.Text = "Slot 3";
+                                MenuItem_pasteSaveState3.BackColor = Color.Red;
+                                break;
+                            case 4:
+                                MenuItem_pasteSaveState4.Text = "Slot 4";
+                                MenuItem_pasteSaveState4.BackColor = Color.Red;
+                                break;
+                            case 5:
+                                MenuItem_pasteSaveState5.Text = "Slot 5";
+                                MenuItem_pasteSaveState5.BackColor = Color.Red;
+                                break;
+                            case 6:
+                                MenuItem_pasteSaveState6.Text = "Slot 6";
+                                MenuItem_pasteSaveState6.BackColor = Color.Red;
+                                break;
+                            case 7:
+                                MenuItem_pasteSaveState7.Text = "Slot 7";
+                                MenuItem_pasteSaveState7.BackColor = Color.Red;
+                                break;
+                            case 8:
+                                MenuItem_pasteSaveState8.Text = "Slot 8";
+                                MenuItem_pasteSaveState8.BackColor = Color.Red;
+                                break;
+                            case 9:
+                                MenuItem_pasteSaveState9.Text = "Slot 9";
+                                MenuItem_pasteSaveState9.BackColor = Color.Red;
+                                break;
+                        }
+                    }
+
+                }
+                else
+                {
+                    MenuItem_pasteCopy.Enabled = false;
+                }
+
+            }
+            else
+            {
+                MenuItem_saveCopy.Visible = false;
+                MenuItem_pasteCopy.Visible = false;
+            }
+
+
+        }
+
+        private void MenuItem_loadSaveState_Click(object sender, EventArgs e)
+        {
+            var MenuItem = (System.Windows.Forms.ToolStripMenuItem)sender;
+            string lastCharacter = MenuItem.Name.ToString().Substring(MenuItem.Name.ToString().Length - 1);
+            int slot = Int32.Parse(lastCharacter);
+            var selected_rom = (Rom)fastObjectListView1.SelectedObject;
+            this.buffer_savestatefile = selected_rom.loadSave(false)[slot];
+        }
+
+        private void MenuItem_pasteSaveState_Click(object sender, EventArgs e)
+        {
+            var MenuItem = (System.Windows.Forms.ToolStripMenuItem)sender;
+            string lastCharacter = MenuItem.Name.ToString().Substring(MenuItem.Name.ToString().Length - 1);
+            int slot = Int32.Parse(lastCharacter);
+            var selected_rom = (Rom)fastObjectListView1.SelectedObject;
+            string state_str = ".state";
+            if (slot > 0) state_str = state_str + slot.ToString();
+            string out_savestatefile = Path.GetDirectoryName(this.buffer_savestatefile)+"\\"+selected_rom.TitleWithoutExt + state_str;
+            if (File.Exists(out_savestatefile))
+            {
+                File.Delete(out_savestatefile);
+            }
+            File.Copy(this.buffer_savestatefile, out_savestatefile);
+            this.buffer_savestatefile = "";
+            selected_rom.loadSave(true);
         }
 
         /*
