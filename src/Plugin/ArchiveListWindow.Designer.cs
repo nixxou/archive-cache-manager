@@ -50,15 +50,17 @@ namespace ArchiveCacheManager
             this.tag8ColumnF = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.tag9ColumnF = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.showTagsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.hideTagsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_showTags = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_hideTags = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.filterTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripTextBox1 = new System.Windows.Forms.ToolStripTextBox();
-            this.FilterFrenchToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.FilterEnglishToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.FilterRHToolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.ClearFiltersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_labelFilterText = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_textBoxFilter = new System.Windows.Forms.ToolStripTextBox();
+            this.MenuItem_filterFrench = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_filterEnglish = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_filterRH = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_clearFilters = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.LoadSaveStateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -241,82 +243,97 @@ namespace ArchiveCacheManager
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.showTagsToolStripMenuItem,
-            this.hideTagsToolStripMenuItem,
+            this.MenuItem_showTags,
+            this.MenuItem_hideTags,
             this.toolStripSeparator1,
-            this.filterTextToolStripMenuItem,
-            this.toolStripTextBox1,
-            this.FilterFrenchToolStripMenuItem1,
-            this.FilterEnglishToolStripMenuItem2,
-            this.FilterRHToolStripMenuItem3,
-            this.ClearFiltersToolStripMenuItem});
+            this.MenuItem_labelFilterText,
+            this.MenuItem_textBoxFilter,
+            this.MenuItem_filterFrench,
+            this.MenuItem_filterEnglish,
+            this.MenuItem_filterRH,
+            this.MenuItem_clearFilters,
+            this.toolStripSeparator2,
+            this.LoadSaveStateToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(184, 211);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(184, 239);
             // 
-            // showTagsToolStripMenuItem
+            // MenuItem_showTags
             // 
-            this.showTagsToolStripMenuItem.Name = "showTagsToolStripMenuItem";
-            this.showTagsToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
-            this.showTagsToolStripMenuItem.Text = "Show Tags";
-            this.showTagsToolStripMenuItem.Click += new System.EventHandler(this.showTagsToolStripMenuItem_Click);
+            this.MenuItem_showTags.Name = "MenuItem_showTags";
+            this.MenuItem_showTags.Size = new System.Drawing.Size(183, 22);
+            this.MenuItem_showTags.Text = "Show Tags";
+            this.MenuItem_showTags.Click += new System.EventHandler(this.MenuItem_showTags_Click);
             // 
-            // hideTagsToolStripMenuItem
+            // MenuItem_hideTags
             // 
-            this.hideTagsToolStripMenuItem.Name = "hideTagsToolStripMenuItem";
-            this.hideTagsToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
-            this.hideTagsToolStripMenuItem.Text = "Hide Tags";
-            this.hideTagsToolStripMenuItem.Click += new System.EventHandler(this.hideTagsToolStripMenuItem_Click);
+            this.MenuItem_hideTags.Name = "MenuItem_hideTags";
+            this.MenuItem_hideTags.Size = new System.Drawing.Size(183, 22);
+            this.MenuItem_hideTags.Text = "Hide Tags";
+            this.MenuItem_hideTags.Click += new System.EventHandler(this.MenuItem_hideTags_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(180, 6);
             // 
-            // filterTextToolStripMenuItem
+            // MenuItem_labelFilterText
             // 
-            this.filterTextToolStripMenuItem.Enabled = false;
-            this.filterTextToolStripMenuItem.Name = "filterTextToolStripMenuItem";
-            this.filterTextToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
-            this.filterTextToolStripMenuItem.Text = "↓↓↓Filter Text ↓↓↓";
+            this.MenuItem_labelFilterText.Enabled = false;
+            this.MenuItem_labelFilterText.Name = "MenuItem_labelFilterText";
+            this.MenuItem_labelFilterText.Size = new System.Drawing.Size(183, 22);
+            this.MenuItem_labelFilterText.Text = "↓↓↓Filter Text ↓↓↓";
             // 
-            // toolStripTextBox1
+            // MenuItem_textBoxFilter
             // 
-            this.toolStripTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.toolStripTextBox1.Name = "toolStripTextBox1";
-            this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
-            this.toolStripTextBox1.Click += new System.EventHandler(this.toolStripTextBox1_Click);
+            this.MenuItem_textBoxFilter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.MenuItem_textBoxFilter.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.MenuItem_textBoxFilter.Name = "MenuItem_textBoxFilter";
+            this.MenuItem_textBoxFilter.Size = new System.Drawing.Size(100, 23);
+            this.MenuItem_textBoxFilter.Click += new System.EventHandler(this.MenuItem_textBoxFilter_Click);
             // 
-            // FilterFrenchToolStripMenuItem1
+            // MenuItem_filterFrench
             // 
-            this.FilterFrenchToolStripMenuItem1.Name = "FilterFrenchToolStripMenuItem1";
-            this.FilterFrenchToolStripMenuItem1.Size = new System.Drawing.Size(183, 22);
-            this.FilterFrenchToolStripMenuItem1.Text = "Filter French";
-            this.FilterFrenchToolStripMenuItem1.Visible = false;
-            this.FilterFrenchToolStripMenuItem1.Click += new System.EventHandler(this.FilterFrenchToolStripMenuItem1_Click);
+            this.MenuItem_filterFrench.Name = "MenuItem_filterFrench";
+            this.MenuItem_filterFrench.Size = new System.Drawing.Size(183, 22);
+            this.MenuItem_filterFrench.Text = "Filter French";
+            this.MenuItem_filterFrench.Visible = false;
+            this.MenuItem_filterFrench.Click += new System.EventHandler(this.MenuItem_filterFrench_Click);
             // 
-            // FilterEnglishToolStripMenuItem2
+            // MenuItem_filterEnglish
             // 
-            this.FilterEnglishToolStripMenuItem2.Name = "FilterEnglishToolStripMenuItem2";
-            this.FilterEnglishToolStripMenuItem2.Size = new System.Drawing.Size(183, 22);
-            this.FilterEnglishToolStripMenuItem2.Text = "Filter Eng Trad";
-            this.FilterEnglishToolStripMenuItem2.Visible = false;
-            this.FilterEnglishToolStripMenuItem2.Click += new System.EventHandler(this.FilterEnglishToolStripMenuItem2_Click);
+            this.MenuItem_filterEnglish.Name = "MenuItem_filterEnglish";
+            this.MenuItem_filterEnglish.Size = new System.Drawing.Size(183, 22);
+            this.MenuItem_filterEnglish.Text = "Filter Eng Trad";
+            this.MenuItem_filterEnglish.Visible = false;
+            this.MenuItem_filterEnglish.Click += new System.EventHandler(this.MenuItem_filterEnglish_Click);
             // 
-            // FilterRHToolStripMenuItem3
+            // MenuItem_filterRH
             // 
-            this.FilterRHToolStripMenuItem3.Name = "FilterRHToolStripMenuItem3";
-            this.FilterRHToolStripMenuItem3.Size = new System.Drawing.Size(183, 22);
-            this.FilterRHToolStripMenuItem3.Text = "Filter Romhacker.net";
-            this.FilterRHToolStripMenuItem3.Visible = false;
-            this.FilterRHToolStripMenuItem3.Click += new System.EventHandler(this.FilterRHToolStripMenuItem3_Click);
+            this.MenuItem_filterRH.Name = "MenuItem_filterRH";
+            this.MenuItem_filterRH.Size = new System.Drawing.Size(183, 22);
+            this.MenuItem_filterRH.Text = "Filter Romhacker.net";
+            this.MenuItem_filterRH.Visible = false;
+            this.MenuItem_filterRH.Click += new System.EventHandler(this.MenuItem_filterRH_Click);
             // 
-            // ClearFiltersToolStripMenuItem
+            // MenuItem_clearFilters
             // 
-            this.ClearFiltersToolStripMenuItem.Enabled = false;
-            this.ClearFiltersToolStripMenuItem.Name = "ClearFiltersToolStripMenuItem";
-            this.ClearFiltersToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
-            this.ClearFiltersToolStripMenuItem.Text = "Clear Filters !";
-            this.ClearFiltersToolStripMenuItem.Click += new System.EventHandler(this.ClearFiltersToolStripMenuItem_Click);
+            this.MenuItem_clearFilters.Enabled = false;
+            this.MenuItem_clearFilters.Name = "MenuItem_clearFilters";
+            this.MenuItem_clearFilters.Size = new System.Drawing.Size(183, 22);
+            this.MenuItem_clearFilters.Text = "Clear Filters !";
+            this.MenuItem_clearFilters.Click += new System.EventHandler(this.MenuItem_clearFilters_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(180, 6);
+            // 
+            // LoadSaveStateToolStripMenuItem
+            // 
+            this.LoadSaveStateToolStripMenuItem.Name = "LoadSaveStateToolStripMenuItem";
+            this.LoadSaveStateToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.LoadSaveStateToolStripMenuItem.Text = "Load SaveStates";
+            this.LoadSaveStateToolStripMenuItem.Click += new System.EventHandler(this.LoadSaveStateToolStripMenuItem_Click);
             // 
             // ArchiveListWindow
             // 
@@ -365,16 +382,18 @@ namespace ArchiveCacheManager
         private BrightIdeasSoftware.OLVColumn tag6ColumnF;
         private BrightIdeasSoftware.OLVColumn tag7ColumnF;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem showTagsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem hideTagsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_showTags;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_hideTags;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-        private System.Windows.Forms.ToolStripMenuItem filterTextToolStripMenuItem;
-        private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_labelFilterText;
+        private System.Windows.Forms.ToolStripTextBox MenuItem_textBoxFilter;
         private BrightIdeasSoftware.OLVColumn tag8ColumnF;
         private BrightIdeasSoftware.OLVColumn tag9ColumnF;
-        private System.Windows.Forms.ToolStripMenuItem FilterFrenchToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem FilterEnglishToolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem FilterRHToolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem ClearFiltersToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_filterFrench;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_filterEnglish;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_filterRH;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_clearFilters;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem LoadSaveStateToolStripMenuItem;
     }
 }

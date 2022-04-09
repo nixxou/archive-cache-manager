@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Text.RegularExpressions;
+using System.IO;
 using System.Threading;
 using BrightIdeasSoftware;
 
@@ -24,10 +24,19 @@ namespace ArchiveCacheManager
         public bool filter_french = false;
         public bool filter_english = false;
         public bool filter_romhacker = false;
+        public string base_launchbox_dir = "";
 
 
         public ArchiveListWindow(string archiveName, string[] fileList, long[] sizeList, string plateform, string emulator, string[] emulatorList, string selection = "")
         {
+            this.base_launchbox_dir = Directory.GetParent(Path.GetDirectoryName(Application.ExecutablePath)).FullName;
+            string retroarch_savedir = this.base_launchbox_dir + "\\Emulators\\RetroArch\\saves";
+            string retroarch_savestatedir = this.base_launchbox_dir + "\\Emulators\\RetroArch\\states";
+            if (Directory.Exists(retroarch_savedir)) Rom.retroarch_savedir = retroarch_savedir;
+            if (Directory.Exists(retroarch_savestatedir)) Rom.retroarch_savestatedir = retroarch_savestatedir;
+
+
+
             InitializeComponent();
             InitializeListView();
 
@@ -105,11 +114,11 @@ namespace ArchiveCacheManager
             SelectedFile = string.Empty;
             HideTags();
             //if (Rom.have_french) 
-                FilterFrenchToolStripMenuItem1.Visible = true;
+                MenuItem_filterFrench.Visible = true;
             //if (Rom.have_english) 
-                FilterEnglishToolStripMenuItem2.Visible = true;
+                MenuItem_filterEnglish.Visible = true;
             //if (Rom.have_romhackernet) 
-               FilterRHToolStripMenuItem3.Visible = true;
+               MenuItem_filterRH.Visible = true;
 
         }
 
@@ -220,8 +229,8 @@ namespace ArchiveCacheManager
             };
             fastObjectListView1.ItemActivate += new System.EventHandler(this.fastObjectListView1_ItemActivate);
             contextMenuStrip1.Opened += new System.EventHandler(this.contextMenuStrip1_Opened);
-            toolStripTextBox1.LostFocus += new System.EventHandler(this.toolStripTextBox1_Leave);
-            toolStripTextBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.toolStripTextBox1_CheckEnterKeyPress);
+            MenuItem_textBoxFilter.LostFocus += new System.EventHandler(this.MenuItem_textBoxFilter_Leave);
+            MenuItem_textBoxFilter.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MenuItem_textBoxFilter_CheckEnterKeyPress);
 
         }
 
@@ -265,13 +274,13 @@ namespace ArchiveCacheManager
             if (this.TagsActive)
             {
                 
-                showTagsToolStripMenuItem.Visible = false;
-                hideTagsToolStripMenuItem.Visible = true;
+                MenuItem_showTags.Visible = false;
+                MenuItem_hideTags.Visible = true;
             }
             else
             {
-                showTagsToolStripMenuItem.Visible = true;
-                hideTagsToolStripMenuItem.Visible = false;
+                MenuItem_showTags.Visible = true;
+                MenuItem_hideTags.Visible = false;
             } 
 
         }
@@ -315,100 +324,99 @@ namespace ArchiveCacheManager
                 {
                     filter_list.Add(TextMatchFilter.Contains(this.fastObjectListView1, this.filter_text));
                 }
-                toolStripTextBox1.BackColor = Color.Yellow;
+                MenuItem_textBoxFilter.BackColor = Color.Yellow;
             }
-            else toolStripTextBox1.BackColor = showTagsToolStripMenuItem.BackColor;
+            else MenuItem_textBoxFilter.BackColor = MenuItem_showTags.BackColor;
 
             if (this.filter_french)
             {
                 filter_list.Add(new ModelFilter(delegate (object x) {
                     return ((Rom)x).is_french;
                 }));
-                FilterFrenchToolStripMenuItem1.BackColor = Color.Yellow;
+                MenuItem_filterFrench.BackColor = Color.Yellow;
             }
-            else FilterFrenchToolStripMenuItem1.BackColor = showTagsToolStripMenuItem.BackColor;
+            else MenuItem_filterFrench.BackColor = MenuItem_showTags.BackColor;
 
             if (this.filter_english)
             {
                 filter_list.Add(new ModelFilter(delegate (object x) {
                     return ((Rom)x).is_english;
                 }));
-                FilterEnglishToolStripMenuItem2.BackColor = Color.Yellow;
+                MenuItem_filterEnglish.BackColor = Color.Yellow;
             }
-            else FilterEnglishToolStripMenuItem2.BackColor = showTagsToolStripMenuItem.BackColor;
+            else MenuItem_filterEnglish.BackColor = MenuItem_showTags.BackColor;
 
             if (this.filter_romhacker)
             {
                 filter_list.Add(new ModelFilter(delegate (object x) {
                     return ((Rom)x).is_romhackernet;
                 }));
-                FilterRHToolStripMenuItem3.BackColor = Color.Yellow;
+                MenuItem_filterRH.BackColor = Color.Yellow;
             }
-            else FilterRHToolStripMenuItem3.BackColor = showTagsToolStripMenuItem.BackColor;
+            else MenuItem_filterRH.BackColor = MenuItem_showTags.BackColor;
 
             if (filter_list.Count > 0)
             {
                 this.fastObjectListView1.AdditionalFilter = new CompositeAllFilter(filter_list);
-                ClearFiltersToolStripMenuItem.Enabled = true;
+                MenuItem_clearFilters.Enabled = true;
             }
             else
             {
                 this.fastObjectListView1.AdditionalFilter = null;
-                ClearFiltersToolStripMenuItem.Enabled = false;
+                MenuItem_clearFilters.Enabled = false;
             }
 
 
         }
 
-        private void toolStripTextBox1_Click(object sender, EventArgs e)
+        private void MenuItem_textBoxFilter_Click(object sender, EventArgs e)
         {
 
         }
-        private void hideTagsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void MenuItem_hideTags_Click(object sender, EventArgs e)
         {
            this.HideTags();
         }
         
-        private void showTagsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void MenuItem_showTags_Click(object sender, EventArgs e)
         {
             this.ShowTags();
         }
-        private void toolStripTextBox1_Leave(object sender, EventArgs e)
+        private void MenuItem_textBoxFilter_Leave(object sender, EventArgs e)
         {
-            if(toolStripTextBox1.Text != this.filter_text)
+            if(MenuItem_textBoxFilter.Text != this.filter_text)
             {
-                this.filter_text = toolStripTextBox1.Text;
+                this.filter_text = MenuItem_textBoxFilter.Text;
                 Updatefilter();
             }
         }
-        private void toolStripTextBox1_CheckEnterKeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
+        private void MenuItem_textBoxFilter_CheckEnterKeyPress(object sender, System.Windows.Forms.KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Return)
             {
                 // Then Do your Thang
                 contextMenuStrip1.Hide();
-                if (toolStripTextBox1.Text != this.filter_text)
+                if (MenuItem_textBoxFilter.Text != this.filter_text)
                 {
-                    this.filter_text = toolStripTextBox1.Text;
+                    this.filter_text = MenuItem_textBoxFilter.Text;
                     Updatefilter();
                 }
             }
         }
 
-        private void FilterFrenchToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void MenuItem_filterFrench_Click(object sender, EventArgs e)
         {
             this.filter_french = !this.filter_french;
             Updatefilter();
-            //FilterFrenchToolStripMenuItem1.BackColor = Color.Red;
         }
 
-        private void FilterEnglishToolStripMenuItem2_Click(object sender, EventArgs e)
+        private void MenuItem_filterEnglish_Click(object sender, EventArgs e)
         {
             this.filter_english = !this.filter_english;
             Updatefilter();
         }
 
-        private void FilterRHToolStripMenuItem3_Click(object sender, EventArgs e)
+        private void MenuItem_filterRH_Click(object sender, EventArgs e)
         {
             this.filter_romhacker = !this.filter_romhacker;
             Updatefilter();
@@ -419,14 +427,33 @@ namespace ArchiveCacheManager
 
         }
 
-        private void ClearFiltersToolStripMenuItem_Click(object sender, EventArgs e)
+        private void MenuItem_clearFilters_Click(object sender, EventArgs e)
         {
             this.filter_english = false;
             this.filter_french = false;
             this.filter_romhacker = false;
-            toolStripTextBox1.Text = "";
+            MenuItem_textBoxFilter.Text = "";
             this.filter_text = "";
             Updatefilter();
+        }
+
+        private void LoadSaveStateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            /*
+            string base_dir = Directory.GetParent(Path.GetDirectoryName(Application.ExecutablePath)).FullName;
+            string retroarch_savedir = base_dir + "\\Emulators\\RetroArch\\saves";
+            string retroarch_savestatedir = base_dir + "\\Emulators\\RetroArch\\states";
+            string[] liste_savestate = Directory.GetFiles(retroarch_savedir);
+            */
+
+            if(fastObjectListView1.SelectedIndex >= 0)
+            {
+                Rom myrom = (Rom)this.fastObjectListView1.SelectedObject;
+                myrom.loadSave();
+            }
+            
+
+
         }
         /*
 
@@ -437,508 +464,7 @@ private void toolStripTextBox1_Click(object sender, EventArgs e)
     }
 
 
-    public class Rom
-    {
-        public Rom()
-        {
-        }
-
-        public Rom(string title, long sizeInBytes, string iconImg = "")
-        {
-            this.Title = title;
-            this.SizeInBytes = sizeInBytes;
-            this.IconImg = iconImg;
-            SetTags();
-            SetFiltersVars();
-        }
-
-        public string Title;
-        public long SizeInBytes;
-        public string IconImg;
-        public string Tag1 = "";
-        public string Tag2 = "";
-        public string Tag3 = "";
-        public string Tag4 = "";
-        public string Tag5 = "";
-        public string Tag6 = "";
-        public string Tag7 = "";
-        public string Tag8 = "";
-        public string Tag9 = "";
-        public bool is_french = false;
-        public bool is_english = false;
-        public bool is_romhackernet = false;
-
-
-        /*
-        public void SetTagsBak()
-        {
-            string pattern = @"\[([^[]*)\]";
-            RegexOptions options = RegexOptions.Multiline;
-            MatchCollection matches = Regex.Matches(this.Title, pattern, options);
-
-
-            int i = 0;
-            int index_interesting_tag = -1;
-            foreach (Match m in matches)
-            {
-                i++;
-                string valtag = m.Value.Trim().ToUpper();
-                if (valtag == "[GOODSET]" || valtag == "[N64V]" || valtag == "[RHCOM]" || valtag == "[HTGDB]" || valtag == "[MEGAPACK]")
-                {
-                    index_interesting_tag = i;
-                    break;
-                }
-            }
-            i = 0;
-
-            int target_tag = 1;
-            bool hackset = false;
-            foreach (Match m in matches)
-            {
-                string valtag = m.Value.Trim();
-                i++;
-                if (target_tag == 2)
-                {
-                    if (valtag.Length <= 4 || (valtag.ToLower().StartsWith("[rev ") && valtag.Length == 6) || valtag.ToLower() == "[virtual console]") target_tag = 1;
-                    if (i < index_interesting_tag) target_tag = 1;
-                }
-                if (target_tag <= 3 && (valtag.StartsWith("[H.") || valtag.StartsWith("[T.") || valtag.StartsWith("[T+") || valtag.StartsWith("[T-")))
-                {
-                    target_tag = 3;
-                    hackset = true;
-                }
-                if (target_tag == 4 && hackset)
-                {
-                    target_tag = 3;
-                    hackset = false;
-                }
-                else if (target_tag == 3 && valtag.StartsWith("[H.") == false && valtag.StartsWith("[T.") == false && valtag.StartsWith("[T+") == false && valtag.StartsWith("[T-") == false) target_tag = 4;
-                if (target_tag > 4 && valtag.Length <= 4) target_tag--;
-
-                switch (target_tag)
-                {
-                    case 1:
-                        this.Tag1 += valtag;
-                        break;
-                    case 2:
-                        this.Tag2 += valtag;
-                        break;
-                    case 3:
-                        this.Tag3 += valtag;
-                        break;
-                    case 4:
-                        this.Tag4 += valtag;
-                        break;
-                    case 5:
-                        this.Tag5 += valtag;
-                        break;
-                    case 6:
-                        this.Tag6 += valtag;
-                        break;
-                    case 7:
-                        this.Tag7 += valtag;
-                        break;
-                }
-                target_tag++;
-            }
-        }
-        */
-
-        public void SetFiltersVars()
-        {
-            string valstr = this.Title.Trim();
-            if (valstr.Contains("[T.Fre") || valstr.Contains("[T-Fre") || valstr.Contains("[T+Fre") || valstr.ToUpper().Contains("[FRANCE]") || valstr.ToUpper().Contains("[FR]")){
-                this.is_french = true;
-                Rom.have_french = true;
-            }
-            if (valstr.Contains("[T.Eng") || valstr.Contains("[T-Eng") || valstr.Contains("[T+Eng")){
-                this.is_english = true;
-                Rom.have_english = true;
-            }
-            if (Regex.Match(valstr, @"\[H\.([^\]]*)-([0-9]+)\]").Success)
-            {
-                this.is_romhackernet = true;
-                Rom.have_romhackernet = true;
-            }
-        }
-
-        public void SetTags()
-        {
-            string pattern = @"\[([^[]*)\]";
-            RegexOptions options = RegexOptions.Multiline;
-            MatchCollection matches = Regex.Matches(this.Title, pattern, options);
-            int i = 0;
-            int category = -1;
-            int is_goodset = -1;
-            int target_tag = 6;
-            foreach (Match m in matches)
-            {
-                i++;
-                string valtag = m.Value.Trim().ToUpper();
-                if (valtag == "[USA]" || valtag == "[EUROPE]" || valtag == "[FRANCE]" || valtag == "[JAPAN]" || valtag == "[AUSTRALIA]" || valtag == "[GERMANY]" || valtag == "[ITALY]")
-                {
-                    this.Tag1 += m.Value.Trim();
-                    validTagColumns[1] = true;
-                    continue;
-                }
-
-                if (valtag == "[MEGAPACK]" || valtag == "[GRH-MEGAPACK-21]" || valtag == "[SMWH]")
-                {
-                    category = i + 1;
-                    this.Tag2 += m.Value.Trim();
-                    validTagColumns[2] = true;
-                    continue;
-                }
-                if (valtag == "[GOODSET]" || valtag == "[N64V]" || valtag == "[RHCOM]" || valtag == "[HTGDB]")
-                {
-                    if (valtag == "[GOODSET]") is_goodset = i;
-                    this.Tag2 += m.Value.Trim();
-                    validTagColumns[2] = true;
-                    continue;
-                }
-                if (m.Value.Trim().StartsWith("[H.") || m.Value.Trim().StartsWith("[T.") || m.Value.Trim().StartsWith("[T+") || m.Value.Trim().StartsWith("[T-"))
-                {
-                    this.Tag3 += m.Value.Trim();
-                    validTagColumns[3] = true;
-                    continue;
-                }
-                if (is_goodset > 0 && i > is_goodset && valtag.Contains("HACK"))
-                {
-                    this.Tag3 += m.Value.Trim();
-                    validTagColumns[3] = true;
-                    continue;
-                }
-                if (i == category)
-                {
-                    this.Tag4 += m.Value.Trim();
-                    validTagColumns[4] = true;
-                    continue;
-                }
-                if (valtag.Length<=5)
-                {
-                    validTagColumns[5] = true;
-                    this.Tag5 += m.Value.Trim();
-                    continue;
-                }
-                if(target_tag == 6)
-                {
-                    validTagColumns[6] = true;
-                    this.Tag6 += m.Value.Trim();
-                    target_tag++;
-                    continue;
-                }
-                if (target_tag == 7)
-                {
-                    validTagColumns[7] = true;
-                    this.Tag7 += m.Value.Trim();
-                    target_tag++;
-                    continue;
-                }
-                if (target_tag == 8)
-                {
-                    validTagColumns[8] = true;
-                    this.Tag8 += m.Value.Trim();
-                    target_tag++;
-                    continue;
-                }
-                if (target_tag == 9)
-                {
-                    validTagColumns[9] = true;
-                    this.Tag9 += m.Value.Trim();
-                    continue;
-                }
-
-
-            }
-        }
 
 
 
-
-        public double GetSizeInMb()
-        {
-            return ((double)this.SizeInBytes) / (1024.0 * 1024.0);
-        }
-
-        public bool Match(string input) {
-            return Wildcard.Match(this.Title.ToLower(), input.ToLower().Trim());
-        }
-
-        static internal void ClearRom()
-        {
-            AllRoms.Clear();
-            validTagColumns.Clear();
-            for (int z = 1; z <= 9; z++)
-            {
-                validTagColumns[z] = false;
-            }
-        }
-        static internal void AddRom(string title, long sizeInBytes, string iconImg = "")
-        {
-            AllRoms.Add(new Rom(title, sizeInBytes, iconImg));
-        }
-        static internal List<Rom> GetRoms()
-        {
-            return Rom.AllRoms;
-        }
-        static internal Dictionary<int, bool> GetValidTagColumns()
-        {
-            return Rom.validTagColumns;
-        }
-        static public List<Rom> AllRoms = new List<Rom>();
-        static public Dictionary<int, bool> validTagColumns = new Dictionary<int, bool>();
-        static public bool have_french = false;
-        static public bool have_english = false;
-        static public bool have_romhackernet = false;
-
-
-    }
-
-    public class Wildcard
-    {
-        private readonly string _pattern;
-
-        public Wildcard(string pattern)
-        {
-            _pattern = pattern;
-        }
-
-        public static bool Match(string value, string pattern)
-        {
-            int start = -1;
-            int end = -1;
-            return Match(value, pattern, ref start, ref end);
-        }
-
-        public static bool Match(string value, string pattern, char[] toLowerTable)
-        {
-            int start = -1;
-            int end = -1;
-            return Match(value, pattern, ref start, ref end, toLowerTable);
-        }
-
-        public static bool Match(string value, string pattern, ref int start, ref int end)
-        {
-            return new Wildcard(pattern).IsMatch(value, ref start, ref end);
-        }
-
-        public static bool Match(string value, string pattern, ref int start, ref int end, char[] toLowerTable)
-        {
-            return new Wildcard(pattern).IsMatch(value, ref start, ref end, toLowerTable);
-        }
-
-        public bool IsMatch(string str)
-        {
-            int start = -1;
-            int end = -1;
-            return IsMatch(str, ref start, ref end);
-        }
-
-        public bool IsMatch(string str, char[] toLowerTable)
-        {
-            int start = -1;
-            int end = -1;
-            return IsMatch(str, ref start, ref end, toLowerTable);
-        }
-
-        public bool IsMatch(string str, ref int start, ref int end)
-        {
-            if (_pattern.Length == 0) return false;
-            int pindex = 0;
-            int sindex = 0;
-            int pattern_len = _pattern.Length;
-            int str_len = str.Length;
-            start = -1;
-            while (true)
-            {
-                bool star = false;
-                if (_pattern[pindex] == '*')
-                {
-                    star = true;
-                    do
-                    {
-                        pindex++;
-                    }
-                    while (pindex < pattern_len && _pattern[pindex] == '*');
-                }
-                end = sindex;
-                int i;
-                while (true)
-                {
-                    int si = 0;
-                    bool breakLoops = false;
-                    for (i = 0; pindex + i < pattern_len && _pattern[pindex + i] != '*'; i++)
-                    {
-                        si = sindex + i;
-                        if (si == str_len)
-                        {
-                            return false;
-                        }
-                        if (str[si] == _pattern[pindex + i])
-                        {
-                            continue;
-                        }
-                        if (si == str_len)
-                        {
-                            return false;
-                        }
-                        if (_pattern[pindex + i] == '?' && str[si] != '.')
-                        {
-                            continue;
-                        }
-                        breakLoops = true;
-                        break;
-                    }
-                    if (breakLoops)
-                    {
-                        if (!star)
-                        {
-                            return false;
-                        }
-                        sindex++;
-                        if (si == str_len)
-                        {
-                            return false;
-                        }
-                    }
-                    else
-                    {
-                        if (start == -1)
-                        {
-                            start = sindex;
-                        }
-                        if (pindex + i < pattern_len && _pattern[pindex + i] == '*')
-                        {
-                            break;
-                        }
-                        if (sindex + i == str_len)
-                        {
-                            if (end <= start)
-                            {
-                                end = str_len;
-                            }
-                            return true;
-                        }
-                        if (i != 0 && _pattern[pindex + i - 1] == '*')
-                        {
-                            return true;
-                        }
-                        if (!star)
-                        {
-                            return false;
-                        }
-                        sindex++;
-                    }
-                }
-                sindex += i;
-                pindex += i;
-                if (start == -1)
-                {
-                    start = sindex;
-                }
-            }
-        }
-
-        public bool IsMatch(string str, ref int start, ref int end, char[] toLowerTable)
-        {
-            if (_pattern.Length == 0) return false;
-
-            int pindex = 0;
-            int sindex = 0;
-            int pattern_len = _pattern.Length;
-            int str_len = str.Length;
-            start = -1;
-            while (true)
-            {
-                bool star = false;
-                if (_pattern[pindex] == '*')
-                {
-                    star = true;
-                    do
-                    {
-                        pindex++;
-                    }
-                    while (pindex < pattern_len && _pattern[pindex] == '*');
-                }
-                end = sindex;
-                int i;
-                while (true)
-                {
-                    int si = 0;
-                    bool breakLoops = false;
-
-                    for (i = 0; pindex + i < pattern_len && _pattern[pindex + i] != '*'; i++)
-                    {
-                        si = sindex + i;
-                        if (si == str_len)
-                        {
-                            return false;
-                        }
-                        char c = toLowerTable[str[si]];
-                        if (c == _pattern[pindex + i])
-                        {
-                            continue;
-                        }
-                        if (si == str_len)
-                        {
-                            return false;
-                        }
-                        if (_pattern[pindex + i] == '?' && c != '.')
-                        {
-                            continue;
-                        }
-                        breakLoops = true;
-                        break;
-                    }
-                    if (breakLoops)
-                    {
-                        if (!star)
-                        {
-                            return false;
-                        }
-                        sindex++;
-                        if (si == str_len)
-                        {
-                            return false;
-                        }
-                    }
-                    else
-                    {
-                        if (start == -1)
-                        {
-                            start = sindex;
-                        }
-                        if (pindex + i < pattern_len && _pattern[pindex + i] == '*')
-                        {
-                            break;
-                        }
-                        if (sindex + i == str_len)
-                        {
-                            if (end <= start)
-                            {
-                                end = str_len;
-                            }
-                            return true;
-                        }
-                        if (i != 0 && _pattern[pindex + i - 1] == '*')
-                        {
-                            return true;
-                        }
-                        if (!star)
-                        {
-                            return false;
-                        }
-                        sindex++;
-                        continue;
-                    }
-                }
-                sindex += i;
-                pindex += i;
-                if (start == -1)
-                {
-                    start = sindex;
-                }
-            }
-        }
-    }
 }
