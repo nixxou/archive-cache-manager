@@ -19,19 +19,28 @@ namespace ArchiveCacheManager
     {
         public string SelectedFile;
         public int EmulatorIndex;
-        public bool TagsActive = false;
+        public bool TagsActive = false; //Show extra tags columns
+
+        //Additionals filters
         public string filter_text = "";
         public bool filter_french = false;
         public bool filter_english = false;
         public bool filter_romhacker = false;
+
+        //For the copy/Paste savestate of retroarch
         public string base_launchbox_dir = "";
         public string buffer_savestatefile = "";
         public string ArchiveDir = "";
         public string ArchiveName = "";
 
 
+        //Some parameters where added :
+        //archiveDir : The directory of the 7z file
+        //sizeList : The size of each file, with the same index as fileList
+        //plateform : I need that for determining the "prefered" rom to show a little yellow star
         public ArchiveListWindow(string archiveName, string archiveDir, string[] fileList, long[] sizeList, string plateform, string emulator, string[] emulatorList, string selection = "")
         {
+            //We fill the directory variables for the save/load savestate
             this.base_launchbox_dir = Directory.GetParent(Path.GetDirectoryName(Application.ExecutablePath)).FullName;
             string retroarch_savedir = this.base_launchbox_dir + "\\Emulators\\RetroArch\\saves";
             string retroarch_savestatedir = this.base_launchbox_dir + "\\Emulators\\RetroArch\\states";
@@ -61,8 +70,8 @@ namespace ArchiveCacheManager
                 emulatorComboBox.Enabled = false;
             }
 
+            //We search the priority file if any :
             Dictionary<string, string> FnP = Config.FilenamePriority;
-
             string priority_file = "";
             List<string> prioritySections = new List<string>();
             prioritySections.Add(string.Format(@"{0} \ {1}", emulator, plateform));
@@ -93,40 +102,39 @@ namespace ArchiveCacheManager
                 if (priority_file != "") break;
             }
 
-
-            //List<Rom> roms = new List<Rom>();
+            //Clear and fill the Rom List (a static list within the Rom class) with Roms.
             Rom.ClearRom();
             int i = 0;
             int selected_index = -1;
-
             foreach (string fl in fileList)
             {
                 string icon_img = "";
                 if (fl == priority_file) icon_img = "star_yellow";
                 if (fl == selection) icon_img = "star_blue";
-                //roms.Add(new Rom(fl.ToString(), sizeList[i], icon_img));
                 Rom.AddRom(fl.ToString(), sizeList[i], icon_img);
                 if (selection != string.Empty && fl.ToString() == selection) selected_index = i;
                 i++;
-                    
-
             }
+
+            //And set the fastObjectListView1 to use that list
             this.fastObjectListView1.SetObjects(Rom.GetRoms());
             if (selection != string.Empty && selected_index != -1)
             {
                 fastObjectListView1.SelectedIndex = selected_index;
             }
             SelectedFile = string.Empty;
+
+            //By default, we hide extra tags
             HideTags();
-            //if (Rom.have_french) 
-                MenuItem_filterFrench.Visible = true;
-            //if (Rom.have_english) 
-                MenuItem_filterEnglish.Visible = true;
-            //if (Rom.have_romhackernet) 
-               MenuItem_filterRH.Visible = true;
+
+            //Some option of additional fiters on context menu appears only if there is at least one match
+            if (Rom.have_french) MenuItem_filterFrench.Visible = true;
+            if (Rom.have_english) MenuItem_filterEnglish.Visible = true;
+            if (Rom.have_romhackernet) MenuItem_filterRH.Visible = true;
 
         }
 
+        //Show the extra tags columns, only show it if there is at least one match
         private void ShowTags()
         {
             this.tag1ColumnF.IsVisible = false;
@@ -185,6 +193,7 @@ namespace ArchiveCacheManager
                 this.tag9ColumnF.IsVisible = true;
             }
 
+            //We redraw to set columns size to fit the contents
             if (redraw)
             {
                 this.fastObjectListView1.RebuildColumns();
@@ -214,11 +223,13 @@ namespace ArchiveCacheManager
 
         private void InitializeListView()
         {
+            //Delegate to show the star image before the Title text
             this.titleColumnF.ImageGetter = delegate (object rowObject) {
                 Rom s = (Rom)rowObject;
                 return s.IconImg;
             };
 
+            //Delegate to show the size in human readable form, but still keep it internaly as bytes (usefull for sorting)
             this.sizeColumnF.AspectToStringConverter = delegate (object x) {
                 long size = (long)x;
                 int[] limits = new int[] { 1024 * 1024 * 1024, 1024 * 1024, 1024 };
@@ -232,8 +243,11 @@ namespace ArchiveCacheManager
 
                 return String.Format("{0} bytes", size); ;
             };
+            //To register the double click or enter in the list
             fastObjectListView1.ItemActivate += new System.EventHandler(this.fastObjectListView1_ItemActivate);
+            //To execute this function before loading the context menu, usefull to hide some option if no rom is selected
             contextMenuStrip1.Opened += new System.EventHandler(this.contextMenuStrip1_Opened);
+            //For the search textbox filter, to validate a new filter text, since there is no "ok" button
             MenuItem_textBoxFilter.LostFocus += new System.EventHandler(this.MenuItem_textBoxFilter_Leave);
             MenuItem_textBoxFilter.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MenuItem_textBoxFilter_CheckEnterKeyPress);
 
@@ -260,22 +274,20 @@ namespace ArchiveCacheManager
         private void fastObjectListView1_ItemActivate(object sender, EventArgs e)
         {
             okButton.PerformClick();
-            //MessageBox.Show("Activate !");
         }
 
         private void fastObjectListView1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
+
+        //Executed before the context menu open
         Control _sourceControl = null;
         private void contextMenuStrip1_Opened(object sender, EventArgs e)
         {
             _sourceControl = contextMenuStrip1.SourceControl;
-            //MessageBox.Show(_sourceControl.Name.ToString());
-            /*
-            if (olvSongs.SelectedIndex > 0) dddToolStripMenuItem.Visible = true;
-            else dddToolStripMenuItem.Visible = false;
-            */
+
+            //If tags columns are active, only show the option to hide them, and the other way around if not
             if (this.TagsActive)
             {
                 MenuItem_showTags.Visible = false;
@@ -287,10 +299,12 @@ namespace ArchiveCacheManager
                 MenuItem_hideTags.Visible = false;
             } 
 
+            //If a file is selected, some additional features : Copy/paste savestate and extractTo
             if(fastObjectListView1.SelectedIndex >= 0)
             {
                 MenuItem_saveCopy.Visible = true;
                 Rom myrom = (Rom)this.fastObjectListView1.SelectedObject;
+                //We load the save state, i do that here instead of doing globaly on form load to avoid useless and costly file lookup
                 var liste_savestate = myrom.loadSave();
                 if(liste_savestate.Count > 0)
                 {
@@ -443,6 +457,7 @@ namespace ArchiveCacheManager
 
         }
 
+        //The 10 MenuItem_loadSaveState point to the same function, we use the last character to determine the slot
         private void MenuItem_loadSaveState_Click(object sender, EventArgs e)
         {
             var MenuItem = (System.Windows.Forms.ToolStripMenuItem)sender;
@@ -470,30 +485,7 @@ namespace ArchiveCacheManager
             selected_rom.loadSave(true);
         }
 
-        /*
-        private bool Updatefilter(string input)
-        {
-            if(input != this.textfilter)
-            {
-                this.textfilter = input;
-                if (this.textfilter.Contains("*"))
-                {
-                    ModelFilter filter2 = new ModelFilter(delegate (object x) {
-                        return ((Rom)x).Match(input);
-                    });
-                    this.fastObjectListView1.AdditionalFilter = filter2;
-                }
-                else
-                {
-                    TextMatchFilter filter1 = TextMatchFilter.Contains(this.fastObjectListView1, this.textfilter);
-                    this.fastObjectListView1.AdditionalFilter = filter1;
-                }
-
-                return true;
-            }
-            return false;
-        }
-        */
+        //Function to update filters, we use addionals filters to be able to use it alongside the filter option from right click on a menu header.
         private void Updatefilter()
         {
             List<IModelFilter> filter_list = new List<IModelFilter>();
@@ -622,44 +614,16 @@ namespace ArchiveCacheManager
             Updatefilter();
         }
 
-        private void LoadSaveStateToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            /*
-            string base_dir = Directory.GetParent(Path.GetDirectoryName(Application.ExecutablePath)).FullName;
-            string retroarch_savedir = base_dir + "\\Emulators\\RetroArch\\saves";
-            string retroarch_savestatedir = base_dir + "\\Emulators\\RetroArch\\states";
-            string[] liste_savestate = Directory.GetFiles(retroarch_savedir);
-            */
-
-            if(fastObjectListView1.SelectedIndex >= 0)
-            {
-                Rom myrom = (Rom)this.fastObjectListView1.SelectedObject;
-                myrom.loadSave();
-            }
-            
-
-
-        }
 
         private void MenuItem_extractTo_Click(object sender, EventArgs e)
         {
             if (fastObjectListView1.SelectedIndex >= 0)
             {
-
                 Rom myrom = (Rom)this.fastObjectListView1.SelectedObject;
-
                 saveFileDialog_extractTo.Filter = "Rom|*"+Path.GetExtension(myrom.Title);
                 saveFileDialog_extractTo.Title = "Save Rom";
                 saveFileDialog_extractTo.FileName = myrom.Title;
-                saveFileDialog_extractTo.ShowDialog();
-                /*
-                myrom.loadSave();
-                string[] includelist = new string[1];
-                includelist[0] = myrom.Title;
-
-                ArchiveCacheManager.Zip.Extract(this.ArchiveDir + "\\" + this.ArchiveName, "C:\\coffre\\", includelist, null);
-                */
-
+                saveFileDialog_extractTo.ShowDialog()
             }
         }
 
@@ -715,22 +679,8 @@ namespace ArchiveCacheManager
                     }
 
                 }
-
-
                 MessageBox.Show("Done !");
-
             }
         }
-        /*
-
-private void toolStripTextBox1_Click(object sender, EventArgs e)
-{
-
-}  */
     }
-
-
-
-
-
 }

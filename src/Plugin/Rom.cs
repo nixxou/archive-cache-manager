@@ -43,6 +43,17 @@ namespace ArchiveCacheManager
         public bool is_french = false;
         public bool is_english = false;
         public bool is_romhackernet = false;
+        public Dictionary<int, string> Savestate = new Dictionary<int, string>();
+        public string TitleWithoutExt = "";
+
+        public static string retroarch_savedir = "";
+        public static string retroarch_savestatedir = "";
+        static public List<Rom> AllRoms = new List<Rom>();
+        static public Dictionary<int, bool> validTagColumns = new Dictionary<int, bool>();
+        static public bool have_french = false;
+        static public bool have_english = false;
+        static public bool have_romhackernet = false;
+
         public void SetFiltersVars()
         {
             string valstr = this.Title.Trim();
@@ -153,32 +164,24 @@ namespace ArchiveCacheManager
             }
         }
 
-        public Dictionary<int, string> Savestate = new Dictionary<int, string>();
-        public string TitleWithoutExt = "";
-        public static string retroarch_savedir = "";
-        public static string retroarch_savestatedir = "";
         public Dictionary<int, string> loadSave(bool force_refresh=false)
         {
             
             if (this.TitleWithoutExt != "" && force_refresh == false) return this.Savestate;
             this.TitleWithoutExt = Path.GetFileNameWithoutExtension(this.Title);
             this.Savestate.Clear();
-            //MessageBox.Show(this.TitleWithoutExt);
-            //MessageBox.Show(string.Format("{0}.*", this.TitleWithoutExt));
             string[] liste_savestate = Directory.GetFiles(Rom.retroarch_savestatedir, string.Format("{0}.*", this.TitleWithoutExt));
             foreach (string save_file in liste_savestate)
             {
                 if(this.TitleWithoutExt == Path.GetFileNameWithoutExtension(save_file))
                 {
                     string ext = Path.GetExtension(save_file);
-                    //MessageBox.Show(ext);
                     int slot = 0;
                     Match m = Regex.Match(ext, @"\.state([0-9]*)$");
                     if (m.Success)
                     {
                         string res = m.Value.ToString().Replace(".state", "");
                         if (res != "") slot = Int32.Parse(res);
-                        //if (m.Value != "") slot = Int32.Parse(m.Value);
                         this.Savestate[slot] = save_file;
                     }
                     
@@ -186,8 +189,6 @@ namespace ArchiveCacheManager
             }
             return this.Savestate;
         }
-
-
 
         public double GetSizeInMb()
         {
@@ -198,7 +199,6 @@ namespace ArchiveCacheManager
         {
             return Wildcard.Match(this.Title.ToLower(), input.ToLower().Trim());
         }
-
 
         static internal void ClearRom()
         {
@@ -221,12 +221,6 @@ namespace ArchiveCacheManager
         {
             return Rom.validTagColumns;
         }
-        static public List<Rom> AllRoms = new List<Rom>();
-        static public Dictionary<int, bool> validTagColumns = new Dictionary<int, bool>();
-        static public bool have_french = false;
-        static public bool have_english = false;
-        static public bool have_romhackernet = false;
-
 
     }
 }

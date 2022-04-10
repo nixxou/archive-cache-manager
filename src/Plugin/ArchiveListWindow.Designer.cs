@@ -369,7 +369,6 @@ namespace ArchiveCacheManager
             this.MenuItem_saveCopy.Name = "MenuItem_saveCopy";
             this.MenuItem_saveCopy.Size = new System.Drawing.Size(183, 22);
             this.MenuItem_saveCopy.Text = "Copy SaveState";
-            this.MenuItem_saveCopy.Click += new System.EventHandler(this.LoadSaveStateToolStripMenuItem_Click);
             // 
             // MenuItem_loadSaveState0
             // 
