@@ -202,6 +202,12 @@ namespace ArchiveCacheManager
 
         static internal void ClearRom()
         {
+            Rom.retroarch_savedir = "";
+            Rom.retroarch_savestatedir = "";
+            Rom.have_french = false;
+            Rom.have_english = false;
+            Rom.have_romhackernet = false;
+
             AllRoms.Clear();
             validTagColumns.Clear();
             for (int z = 1; z <= 9; z++)

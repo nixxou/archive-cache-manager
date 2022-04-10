@@ -40,6 +40,10 @@ namespace ArchiveCacheManager
         //plateform : I need that for determining the "prefered" rom to show a little yellow star
         public ArchiveListWindow(string archiveName, string archiveDir, string[] fileList, long[] sizeList, string plateform, string emulator, string[] emulatorList, string selection = "")
         {
+            //We clear the rom class static variable, it must be done first !
+            Rom.ClearRom();
+
+
             //We fill the directory variables for the save/load savestate
             this.base_launchbox_dir = Directory.GetParent(Path.GetDirectoryName(Application.ExecutablePath)).FullName;
             string retroarch_savedir = this.base_launchbox_dir + "\\Emulators\\RetroArch\\saves";
@@ -102,8 +106,8 @@ namespace ArchiveCacheManager
                 if (priority_file != "") break;
             }
 
-            //Clear and fill the Rom List (a static list within the Rom class) with Roms.
-            Rom.ClearRom();
+            //fill the Rom List (a static list within the Rom class) with Roms.
+            
             int i = 0;
             int selected_index = -1;
             foreach (string fl in fileList)
@@ -129,8 +133,13 @@ namespace ArchiveCacheManager
 
             //Some option of additional fiters on context menu appears only if there is at least one match
             if (Rom.have_french) MenuItem_filterFrench.Visible = true;
+            else MenuItem_filterFrench.Visible = false;
+
             if (Rom.have_english) MenuItem_filterEnglish.Visible = true;
+            else MenuItem_filterEnglish.Visible = false;
+
             if (Rom.have_romhackernet) MenuItem_filterRH.Visible = true;
+            else MenuItem_filterRH.Visible = false;
 
         }
 
@@ -623,7 +632,7 @@ namespace ArchiveCacheManager
                 saveFileDialog_extractTo.Filter = "Rom|*"+Path.GetExtension(myrom.Title);
                 saveFileDialog_extractTo.Title = "Save Rom";
                 saveFileDialog_extractTo.FileName = myrom.Title;
-                saveFileDialog_extractTo.ShowDialog()
+                saveFileDialog_extractTo.ShowDialog();
             }
         }
 
