@@ -26,15 +26,19 @@ namespace ArchiveCacheManager
         public bool filter_romhacker = false;
         public string base_launchbox_dir = "";
         public string buffer_savestatefile = "";
+        public string ArchiveDir = "";
+        public string ArchiveName = "";
 
 
-        public ArchiveListWindow(string archiveName, string[] fileList, long[] sizeList, string plateform, string emulator, string[] emulatorList, string selection = "")
+        public ArchiveListWindow(string archiveName, string archiveDir, string[] fileList, long[] sizeList, string plateform, string emulator, string[] emulatorList, string selection = "")
         {
             this.base_launchbox_dir = Directory.GetParent(Path.GetDirectoryName(Application.ExecutablePath)).FullName;
             string retroarch_savedir = this.base_launchbox_dir + "\\Emulators\\RetroArch\\saves";
             string retroarch_savestatedir = this.base_launchbox_dir + "\\Emulators\\RetroArch\\states";
             if (Directory.Exists(retroarch_savedir)) Rom.retroarch_savedir = retroarch_savedir;
             if (Directory.Exists(retroarch_savestatedir)) Rom.retroarch_savestatedir = retroarch_savestatedir;
+            this.ArchiveDir = archiveDir;
+            this.ArchiveName = archiveName;
 
 
 
@@ -423,11 +427,17 @@ namespace ArchiveCacheManager
                     MenuItem_pasteCopy.Enabled = false;
                 }
 
+                if (Zip.SupportedType(myrom.Title))
+                {
+                    MenuItem_extractTo.Visible = true;
+                }
+
             }
             else
             {
                 MenuItem_saveCopy.Visible = false;
                 MenuItem_pasteCopy.Visible = false;
+                MenuItem_extractTo.Visible = false;
             }
 
 
@@ -629,6 +639,87 @@ namespace ArchiveCacheManager
             
 
 
+        }
+
+        private void MenuItem_extractTo_Click(object sender, EventArgs e)
+        {
+            if (fastObjectListView1.SelectedIndex >= 0)
+            {
+
+                Rom myrom = (Rom)this.fastObjectListView1.SelectedObject;
+
+                saveFileDialog_extractTo.Filter = "Rom|*"+Path.GetExtension(myrom.Title);
+                saveFileDialog_extractTo.Title = "Save Rom";
+                saveFileDialog_extractTo.FileName = myrom.Title;
+                saveFileDialog_extractTo.ShowDialog();
+                /*
+                myrom.loadSave();
+                string[] includelist = new string[1];
+                includelist[0] = myrom.Title;
+
+                ArchiveCacheManager.Zip.Extract(this.ArchiveDir + "\\" + this.ArchiveName, "C:\\coffre\\", includelist, null);
+                */
+
+            }
+        }
+
+        private void saveFileDialog_extractTo_FileOk(object sender, CancelEventArgs e)
+        {
+            if (fastObjectListView1.SelectedIndex >= 0)
+            {
+                Rom myrom = (Rom)this.fastObjectListView1.SelectedObject;
+                string[] includelist = new string[1];
+                includelist[0] = myrom.Title;
+
+                string dir_out = Path.GetDirectoryName(saveFileDialog_extractTo.FileName);
+                string file_out = Path.GetFileName(saveFileDialog_extractTo.FileName);
+                string temp_out = dir_out + "\\" + myrom.Title;
+
+                if (file_out == myrom.Title)
+                {
+                    if (File.Exists(saveFileDialog_extractTo.FileName))
+                    {
+                        File.Delete(saveFileDialog_extractTo.FileName);
+                    }
+                    ArchiveCacheManager.Zip.Extract(this.ArchiveDir + "\\" + this.ArchiveName, dir_out, includelist, null);
+                }
+                else
+                {
+                    //Ok, so to extract and rename a file with a single command line, maybe something like this would be better :   7z e my-compressed-file.7z -so readme.txt > new-filename.txt
+                    //But i don't want to bother and just use the Zip class, so i will use Rename & Move
+                    if (File.Exists(saveFileDialog_extractTo.FileName))
+                    {
+                        File.Delete(saveFileDialog_extractTo.FileName);
+                    }
+
+                    //If the temp file already exist, we rename it, and we will restore it after
+                    string restore_file = "";
+                    if (File.Exists(temp_out))
+                    {
+                        int i = 0;
+                        restore_file = temp_out + ".bak" + i.ToString();
+                        while (File.Exists(restore_file))
+                        {
+                            i++;
+                            restore_file = temp_out + ".bak" + i.ToString();
+                        }
+                        File.Move(temp_out, restore_file);
+                    }
+
+                    ArchiveCacheManager.Zip.Extract(this.ArchiveDir + "\\" + this.ArchiveName, dir_out, includelist, null);
+                    File.Move(temp_out, saveFileDialog_extractTo.FileName);
+
+                    if(restore_file != "")
+                    {
+                        File.Move(restore_file, temp_out);
+                    }
+
+                }
+
+
+                MessageBox.Show("Done !");
+
+            }
         }
         /*
 

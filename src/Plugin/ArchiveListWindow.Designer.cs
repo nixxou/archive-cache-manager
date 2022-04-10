@@ -82,6 +82,8 @@ namespace ArchiveCacheManager
             this.MenuItem_pasteSaveState7 = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItem_pasteSaveState8 = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItem_pasteSaveState9 = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_extractTo = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveFileDialog_extractTo = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -275,7 +277,8 @@ namespace ArchiveCacheManager
             this.MenuItem_clearFilters,
             this.toolStripSeparator2,
             this.MenuItem_saveCopy,
-            this.MenuItem_pasteCopy});
+            this.MenuItem_pasteCopy,
+            this.MenuItem_extractTo});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(184, 261);
             // 
@@ -525,6 +528,17 @@ namespace ArchiveCacheManager
             this.MenuItem_pasteSaveState9.Text = "Slot 9";
             this.MenuItem_pasteSaveState9.Click += new System.EventHandler(this.MenuItem_pasteSaveState_Click);
             // 
+            // MenuItem_extractTo
+            // 
+            this.MenuItem_extractTo.Name = "MenuItem_extractTo";
+            this.MenuItem_extractTo.Size = new System.Drawing.Size(183, 22);
+            this.MenuItem_extractTo.Text = "Extract To...";
+            this.MenuItem_extractTo.Click += new System.EventHandler(this.MenuItem_extractTo_Click);
+            // 
+            // saveFileDialog_extractTo
+            // 
+            this.saveFileDialog_extractTo.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog_extractTo_FileOk);
+            // 
             // ArchiveListWindow
             // 
             this.AcceptButton = this.okButton;
@@ -606,5 +620,7 @@ namespace ArchiveCacheManager
         private System.Windows.Forms.ToolStripMenuItem MenuItem_pasteSaveState7;
         private System.Windows.Forms.ToolStripMenuItem MenuItem_pasteSaveState8;
         private System.Windows.Forms.ToolStripMenuItem MenuItem_pasteSaveState9;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_extractTo;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog_extractTo;
     }
 }
