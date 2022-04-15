@@ -124,6 +124,84 @@ namespace ArchiveCacheManager
             return fileList;
         }
 
+        public override (string[], long[]) ListWithSize(string archivePath, string[] includeList = null, string[] excludeList = null, bool prefixWildcard = false)
+        {
+            // Run List command
+            // Parse stdout for all "Path = " entries
+            // Return -1 on error
+            string[] fileList = Array.Empty<string>();
+            long[] sizeList = Array.Empty<long>();
+
+            var (stdout, _, exitCode) = ListArchiveDetails(archivePath, includeList, excludeList, prefixWildcard);
+
+            /*
+            stdout will be in the format below:
+            --------
+            c:\LaunchBox\ThirdParty\7-Zip>7z l "c:\Emulation\ROMs\Doom (USA).zip"
+
+            7-Zip 19.00 (x64) : Copyright (c) 1999-2018 Igor Pavlov : 2019-02-21
+
+            Scanning the drive for archives:
+            1 file, 260733247 bytes (249 MiB)
+
+            Listing archive: c:\Emulation\ROMs\Doom (USA).zip
+
+            --
+            Path = c:\Emulation\ROMs\Doom (USA).zip
+            Type = zip
+            Physical Size = 260733247
+            Comment = TORRENTZIPPED-9F8E0391
+
+               Date      Time    Attr         Size   Compressed  Name
+            ------------------- ----- ------------ ------------  ------------------------
+            1996-12-24 23:32:00 .....     84175728     69019477  Doom (USA) (Track 1).bin
+            1996-12-24 23:32:00 .....     33737088     31332352  Doom (USA) (Track 2).bin
+            1996-12-24 23:32:00 .....     20801088     19163186  Doom (USA) (Track 3).bin
+            1996-12-24 23:32:00 .....     41992608     38498123  Doom (USA) (Track 4).bin
+            1996-12-24 23:32:00 .....     36717072     34627868  Doom (USA) (Track 5).bin
+            1996-12-24 23:32:00 .....     22936704     21946175  Doom (USA) (Track 6).bin
+            1996-12-24 23:32:00 .....      9847824      8577248  Doom (USA) (Track 7).bin
+            1996-12-24 23:32:00 .....     40560240     37567531  Doom (USA) (Track 8).bin
+            1996-12-24 23:32:00 .....          814          147  Doom (USA).cue
+            ------------------- ----- ------------ ------------  ------------------------
+            1996-12-24 23:32:00          290769166    260732107  9 files
+
+            c:\LaunchBox\ThirdParty\7-Zip>
+            --------
+            */
+
+            if (exitCode == 0)
+            {
+                // Split on the "----" dividers (see above). There will then be three sections, the header info, the files, and the summary.
+                string[] stdoutArray = stdout.Split(new string[] { "------------------- ----- ------------ ------------  ------------------------" }, StringSplitOptions.RemoveEmptyEntries);
+
+                if (stdoutArray.Length > 2)
+                {
+                    // Split the files on "\r\n", so we have an array with one element per filename + info
+                    fileList = stdoutArray[1].Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                    sizeList = new long[fileList.Length];
+                    for (int i = 0; i < fileList.Length; i++)
+                    {
+                        // Split the string at the 53rd char, after the date/time/attr/size/compressed info.
+                        //
+                        string sizestr = fileList[i].Substring(25).Trim().Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)[0].Trim();
+                        long sizelong = 0;
+                        bool is_numeric = long.TryParse(sizestr, out sizelong);
+                        if (is_numeric) sizeList[i] = sizelong;
+                        else sizeList[i] = 0;
+                        fileList[i] = fileList[i].Substring(53).Trim();
+                    }
+                }
+            }
+            else
+            {
+                Logger.Log(string.Format("Error listing archive {0}.", archivePath));
+            }
+
+            return (fileList, sizeList);
+
+        }
+
         public static string Get7zVersion()
         {
             var (stdout, _, _) = Run7z("");

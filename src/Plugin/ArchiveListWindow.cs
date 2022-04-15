@@ -15,7 +15,7 @@ namespace ArchiveCacheManager
         public string SelectedFile;
         public int EmulatorIndex;
 
-        public ArchiveListWindow(string archiveName, string[] fileList, string[] emulatorList, string selection = "")
+        public ArchiveListWindow(string archiveName, string archiveDir, string[] fileList, long[] sizeList, string plateform, string emulator, string[] emulatorList, string selection = "")
         {
             InitializeComponent();
 
