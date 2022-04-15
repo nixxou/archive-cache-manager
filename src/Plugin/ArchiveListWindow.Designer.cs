@@ -31,7 +31,6 @@ namespace ArchiveCacheManager
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ArchiveListWindow));
-            this.fileListBox = new System.Windows.Forms.ListBox();
             this.cancelButton = new System.Windows.Forms.Button();
             this.okButton = new System.Windows.Forms.Button();
             this.archiveNameLabel = new System.Windows.Forms.Label();
@@ -49,7 +48,6 @@ namespace ArchiveCacheManager
             this.tag7ColumnF = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.tag8ColumnF = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.tag9ColumnF = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.MenuItem_showTags = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItem_hideTags = new System.Windows.Forms.ToolStripMenuItem();
@@ -84,20 +82,11 @@ namespace ArchiveCacheManager
             this.MenuItem_pasteSaveState8 = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItem_pasteSaveState9 = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItem_extractTo = new System.Windows.Forms.ToolStripMenuItem();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.saveFileDialog_extractTo = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // fileListBox
-            // 
-            this.fileListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.fileListBox.FormattingEnabled = true;
-            this.fileListBox.ItemHeight = 16;
-            this.fileListBox.Location = new System.Drawing.Point(12, 31);
-            this.fileListBox.Name = "fileListBox";
-            this.fileListBox.Size = new System.Drawing.Size(519, 372);
-            this.fileListBox.TabIndex = 0;
             // 
             // cancelButton
             // 
@@ -190,7 +179,7 @@ namespace ArchiveCacheManager
             this.fastObjectListView1.Cursor = System.Windows.Forms.Cursors.Default;
             this.fastObjectListView1.FullRowSelect = true;
             this.fastObjectListView1.HideSelection = false;
-            this.fastObjectListView1.Location = new System.Drawing.Point(559, 31);
+            this.fastObjectListView1.Location = new System.Drawing.Point(12, 33);
             this.fastObjectListView1.Name = "fastObjectListView1";
             this.fastObjectListView1.ShowGroups = false;
             this.fastObjectListView1.Size = new System.Drawing.Size(667, 372);
@@ -267,13 +256,6 @@ namespace ArchiveCacheManager
             this.tag9ColumnF.AspectName = "Tag9";
             this.tag9ColumnF.Text = "Other tag 4";
             // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "star_blue");
-            this.imageList1.Images.SetKeyName(1, "star_yellow");
-            // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -322,7 +304,6 @@ namespace ArchiveCacheManager
             // MenuItem_textBoxFilter
             // 
             this.MenuItem_textBoxFilter.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.MenuItem_textBoxFilter.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.MenuItem_textBoxFilter.Name = "MenuItem_textBoxFilter";
             this.MenuItem_textBoxFilter.Size = new System.Drawing.Size(100, 23);
             this.MenuItem_textBoxFilter.Click += new System.EventHandler(this.MenuItem_textBoxFilter_Click);
@@ -545,6 +526,13 @@ namespace ArchiveCacheManager
             this.MenuItem_extractTo.Text = "Extract To...";
             this.MenuItem_extractTo.Click += new System.EventHandler(this.MenuItem_extractTo_Click);
             // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "star_blue");
+            this.imageList1.Images.SetKeyName(1, "star_yellow");
+            // 
             // saveFileDialog_extractTo
             // 
             this.saveFileDialog_extractTo.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialog_extractTo_FileOk);
@@ -555,14 +543,13 @@ namespace ArchiveCacheManager
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(1436, 453);
+            this.ClientSize = new System.Drawing.Size(691, 453);
             this.Controls.Add(this.fastObjectListView1);
             this.Controls.Add(this.emulatorComboBoxLabel);
             this.Controls.Add(this.emulatorComboBox);
             this.Controls.Add(this.archiveNameLabel);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.okButton);
-            this.Controls.Add(this.fileListBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -580,8 +567,6 @@ namespace ArchiveCacheManager
         }
 
         #endregion
-
-        private System.Windows.Forms.ListBox fileListBox;
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.Label archiveNameLabel;

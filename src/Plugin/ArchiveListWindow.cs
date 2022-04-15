@@ -60,6 +60,8 @@ namespace ArchiveCacheManager
             InitializeComponent();
             InitializeListView();
 
+            UserInterface.ApplyTheme(this);
+
             archiveNameLabel.Text = archiveName;
 
 
@@ -141,6 +143,8 @@ namespace ArchiveCacheManager
 
             if (Rom.have_romhackernet) MenuItem_filterRH.Visible = true;
             else MenuItem_filterRH.Visible = false;
+
+
 
         }
 

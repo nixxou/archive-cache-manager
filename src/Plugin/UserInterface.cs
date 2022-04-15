@@ -262,6 +262,24 @@ namespace ArchiveCacheManager
                         }
                     });
                 }
+                else if (control is BrightIdeasSoftware.FastObjectListView)
+                {
+                    BrightIdeasSoftware.FastObjectListView listBox = control as BrightIdeasSoftware.FastObjectListView;
+                    listBox.ForeColor = foreColor;
+                    listBox.BackColor = GetBackgroundColor(listBox);
+                    if (listBox.BorderStyle == BorderStyle.Fixed3D)
+                    {
+                        listBox.BorderStyle = BorderStyle.FixedSingle;
+                    }
+                    listBox.SelectedBackColor = LaunchBoxSettings.DialogAccentColor;
+
+                    var headerstyle = new BrightIdeasSoftware.HeaderFormatStyle();
+                    headerstyle.SetBackColor(backColorContrast2);
+                    headerstyle.SetForeColor(foreColor);
+                    listBox.HeaderFormatStyle = headerstyle;
+                    //listBox.HeaderFormatStyle.SetBackColor(backColorContrast2);
+                    //listBox.HeaderFormatStyle.SetForeColor(foreColor);
+                }
                 else if (control is DataGridView)
                 {
                     DataGridView dataGridView = control as DataGridView;
