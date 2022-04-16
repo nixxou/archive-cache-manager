@@ -64,7 +64,7 @@ namespace ArchiveCacheManager
             this.extractionSettingsTipLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.deletePriorityButton = new System.Windows.Forms.Button();
-            this.extensionPriorityDataGridView = new System.Windows.Forms.DataGridView();
+            this.emulatorPlatformConfigDataGridView = new System.Windows.Forms.DataGridView();
             this.Emulator = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Platform = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Priority = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -75,7 +75,6 @@ namespace ArchiveCacheManager
             this.SmartExtract = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Chdman = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.DolphinTool = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.editPriorityButton = new System.Windows.Forms.Button();
             this.addPriorityButton = new System.Windows.Forms.Button();
             this.tab3SmartExtractSettings = new System.Windows.Forms.TabPage();
             this.label6 = new System.Windows.Forms.Label();
@@ -91,7 +90,7 @@ namespace ArchiveCacheManager
             this.tab1CacheSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cacheDataGridView)).BeginInit();
             this.tab2ExtractionSettings.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.extensionPriorityDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emulatorPlatformConfigDataGridView)).BeginInit();
             this.tab3SmartExtractSettings.SuspendLayout();
             this.tab4PluginSettings.SuspendLayout();
             this.SuspendLayout();
@@ -254,7 +253,7 @@ namespace ArchiveCacheManager
             this.treeView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.treeView1.FullRowSelect = true;
             this.treeView1.HideSelection = false;
-            this.treeView1.ItemHeight = 28;
+            this.treeView1.ItemHeight = 32;
             this.treeView1.Location = new System.Drawing.Point(12, 12);
             this.treeView1.Name = "treeView1";
             treeNode1.Name = "CacheSettings";
@@ -412,8 +411,7 @@ namespace ArchiveCacheManager
             this.tab2ExtractionSettings.Controls.Add(this.extractionSettingsTipLabel);
             this.tab2ExtractionSettings.Controls.Add(this.label2);
             this.tab2ExtractionSettings.Controls.Add(this.deletePriorityButton);
-            this.tab2ExtractionSettings.Controls.Add(this.extensionPriorityDataGridView);
-            this.tab2ExtractionSettings.Controls.Add(this.editPriorityButton);
+            this.tab2ExtractionSettings.Controls.Add(this.emulatorPlatformConfigDataGridView);
             this.tab2ExtractionSettings.Controls.Add(this.addPriorityButton);
             this.tab2ExtractionSettings.Location = new System.Drawing.Point(4, 22);
             this.tab2ExtractionSettings.Name = "tab2ExtractionSettings";
@@ -454,9 +452,9 @@ namespace ArchiveCacheManager
             this.deletePriorityButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.deletePriorityButton.BackColor = System.Drawing.SystemColors.ControlLight;
             this.deletePriorityButton.Image = global::ArchiveCacheManager.Resources.cross_script;
-            this.deletePriorityButton.Location = new System.Drawing.Point(652, 488);
+            this.deletePriorityButton.Location = new System.Drawing.Point(616, 488);
             this.deletePriorityButton.Name = "deletePriorityButton";
-            this.deletePriorityButton.Size = new System.Drawing.Size(80, 28);
+            this.deletePriorityButton.Size = new System.Drawing.Size(116, 28);
             this.deletePriorityButton.TabIndex = 0;
             this.deletePriorityButton.Text = "Delete";
             this.deletePriorityButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -464,19 +462,19 @@ namespace ArchiveCacheManager
             this.deletePriorityButton.UseVisualStyleBackColor = true;
             this.deletePriorityButton.Click += new System.EventHandler(this.deletePriorityButton_Click);
             // 
-            // extensionPriorityDataGridView
+            // emulatorPlatformConfigDataGridView
             // 
-            this.extensionPriorityDataGridView.AllowUserToAddRows = false;
-            this.extensionPriorityDataGridView.AllowUserToDeleteRows = false;
-            this.extensionPriorityDataGridView.AllowUserToResizeRows = false;
-            this.extensionPriorityDataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.emulatorPlatformConfigDataGridView.AllowUserToAddRows = false;
+            this.emulatorPlatformConfigDataGridView.AllowUserToDeleteRows = false;
+            this.emulatorPlatformConfigDataGridView.AllowUserToResizeRows = false;
+            this.emulatorPlatformConfigDataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.extensionPriorityDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
-            this.extensionPriorityDataGridView.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
-            this.extensionPriorityDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.extensionPriorityDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.extensionPriorityDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.emulatorPlatformConfigDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.emulatorPlatformConfigDataGridView.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
+            this.emulatorPlatformConfigDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.emulatorPlatformConfigDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.emulatorPlatformConfigDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Emulator,
             this.Platform,
             this.Priority,
@@ -487,18 +485,18 @@ namespace ArchiveCacheManager
             this.SmartExtract,
             this.Chdman,
             this.DolphinTool});
-            this.extensionPriorityDataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.extensionPriorityDataGridView.Location = new System.Drawing.Point(6, 62);
-            this.extensionPriorityDataGridView.MultiSelect = false;
-            this.extensionPriorityDataGridView.Name = "extensionPriorityDataGridView";
-            this.extensionPriorityDataGridView.RowHeadersVisible = false;
-            this.extensionPriorityDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.extensionPriorityDataGridView.Size = new System.Drawing.Size(726, 420);
-            this.extensionPriorityDataGridView.StandardTab = true;
-            this.extensionPriorityDataGridView.TabIndex = 13;
-            this.extensionPriorityDataGridView.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.extensionPriorityDataGridView_CellMouseEnter);
-            this.extensionPriorityDataGridView.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.extensionPriorityDataGridView_CellMouseLeave);
-            this.extensionPriorityDataGridView.SelectionChanged += new System.EventHandler(this.extensionPriorityDataGridView_SelectionChanged);
+            this.emulatorPlatformConfigDataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            this.emulatorPlatformConfigDataGridView.Location = new System.Drawing.Point(6, 62);
+            this.emulatorPlatformConfigDataGridView.MultiSelect = false;
+            this.emulatorPlatformConfigDataGridView.Name = "emulatorPlatformConfigDataGridView";
+            this.emulatorPlatformConfigDataGridView.RowHeadersVisible = false;
+            this.emulatorPlatformConfigDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.emulatorPlatformConfigDataGridView.Size = new System.Drawing.Size(726, 420);
+            this.emulatorPlatformConfigDataGridView.StandardTab = true;
+            this.emulatorPlatformConfigDataGridView.TabIndex = 13;
+            this.emulatorPlatformConfigDataGridView.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.emulatorPlatformConfigDataGridView_CellMouseEnter);
+            this.emulatorPlatformConfigDataGridView.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.emulatorPlatformConfigDataGridView_CellMouseLeave);
+            this.emulatorPlatformConfigDataGridView.SelectionChanged += new System.EventHandler(this.extensionPriorityDataGridView_SelectionChanged);
             // 
             // Emulator
             // 
@@ -600,27 +598,13 @@ namespace ArchiveCacheManager
     "e ArchiveCacheManager\\Extractors folder.";
             this.DolphinTool.Width = 70;
             // 
-            // editPriorityButton
-            // 
-            this.editPriorityButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.editPriorityButton.Image = global::ArchiveCacheManager.Resources.pencil;
-            this.editPriorityButton.Location = new System.Drawing.Point(566, 488);
-            this.editPriorityButton.Name = "editPriorityButton";
-            this.editPriorityButton.Size = new System.Drawing.Size(80, 28);
-            this.editPriorityButton.TabIndex = 0;
-            this.editPriorityButton.Text = "Edit...";
-            this.editPriorityButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.editPriorityButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.editPriorityButton.UseVisualStyleBackColor = true;
-            this.editPriorityButton.Click += new System.EventHandler(this.editPriorityButton_Click);
-            // 
             // addPriorityButton
             // 
             this.addPriorityButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.addPriorityButton.Image = global::ArchiveCacheManager.Resources.plus;
-            this.addPriorityButton.Location = new System.Drawing.Point(480, 488);
+            this.addPriorityButton.Location = new System.Drawing.Point(494, 488);
             this.addPriorityButton.Name = "addPriorityButton";
-            this.addPriorityButton.Size = new System.Drawing.Size(80, 28);
+            this.addPriorityButton.Size = new System.Drawing.Size(116, 28);
             this.addPriorityButton.TabIndex = 0;
             this.addPriorityButton.Text = "Add...";
             this.addPriorityButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -678,9 +662,9 @@ namespace ArchiveCacheManager
             this.cachePathLabel.AutoSize = true;
             this.cachePathLabel.Location = new System.Drawing.Point(7, 60);
             this.cachePathLabel.Name = "cachePathLabel";
-            this.cachePathLabel.Size = new System.Drawing.Size(154, 13);
+            this.cachePathLabel.Size = new System.Drawing.Size(149, 13);
             this.cachePathLabel.TabIndex = 26;
-            this.cachePathLabel.Text = "Stand-alone ROMs Extensions:";
+            this.cachePathLabel.Text = "Stand-alone ROM Extensions:";
             // 
             // standaloneExtensions
             // 
@@ -775,7 +759,7 @@ namespace ArchiveCacheManager
             ((System.ComponentModel.ISupportInitialize)(this.cacheDataGridView)).EndInit();
             this.tab2ExtractionSettings.ResumeLayout(false);
             this.tab2ExtractionSettings.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.extensionPriorityDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emulatorPlatformConfigDataGridView)).EndInit();
             this.tab3SmartExtractSettings.ResumeLayout(false);
             this.tab3SmartExtractSettings.PerformLayout();
             this.tab4PluginSettings.ResumeLayout(false);
@@ -790,13 +774,12 @@ namespace ArchiveCacheManager
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.Label versionLabel;
-        private System.Windows.Forms.Button editPriorityButton;
         private System.Windows.Forms.Button deletePriorityButton;
         private System.Windows.Forms.Button addPriorityButton;
         private System.Windows.Forms.LinkLabel forumLink;
         private System.Windows.Forms.LinkLabel sourceLink;
         private System.Windows.Forms.LinkLabel pluginLink;
-        private System.Windows.Forms.DataGridView extensionPriorityDataGridView;
+        private System.Windows.Forms.DataGridView emulatorPlatformConfigDataGridView;
         private System.Windows.Forms.DataGridView cacheDataGridView;
         private System.Windows.Forms.Button configureCacheButton;
         private System.Windows.Forms.Button deleteSelectedButton;
