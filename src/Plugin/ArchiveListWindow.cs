@@ -34,6 +34,10 @@ namespace ArchiveCacheManager
         public string buffer_savestatefile = "";
         public string ArchiveDir = "";
         public string ArchiveName = "";
+        public string Plateform = "";
+        public string Emulator_selected = "";
+
+        public bool path_texture_set = false;
 
 
         //Some parameters where added :
@@ -42,8 +46,11 @@ namespace ArchiveCacheManager
         //plateform : I need that for determining the "prefered" rom to show a little yellow star
         public ArchiveListWindow(string archiveName, string archiveDir, string[] fileList, long[] sizeList, string plateform, string emulator, string[] emulatorList, string selection = "")
         {
+            Plateform = plateform;
             //We clear the rom class static variable, it must be done first !
             Rom.ClearRom();
+            Texture.ClearTexture();
+            path_texture_set = false;
 
 
             //We fill the directory variables for the save/load savestate
@@ -77,6 +84,24 @@ namespace ArchiveCacheManager
             {
                 emulatorComboBox.Enabled = false;
             }
+
+            //We search for installed texture pack
+            //LoadCOnfig
+            Emulator_selected = emulatorComboBox.SelectedItem.ToString();
+            if (Emulator_selected.StartsWith("RetroArch (")) Emulator_selected = "RetroArch";
+            string key = Config.EmulatorPlatformKey(Emulator_selected, Plateform);
+            var cfg = Config.GetEmulatorPlatformConfig(key);
+            TexturePath_txt.Text = cfg.TexturePath;
+            TexturePath_txt.ReadOnly = true;
+            TexturePath_txt.BackColor = Color.LightGray;
+            if (TexturePath_txt.Text != "" && Directory.Exists(TexturePath_txt.Text))
+            {
+                //InstallTexture_btn.Enabled = true;
+                path_texture_set = true;
+            }
+            else path_texture_set = false;
+
+
 
             //We search the priority file if any :
             string priority_file = "";
@@ -115,16 +140,45 @@ namespace ArchiveCacheManager
             int selected_index = -1;
             foreach (string fl in fileList)
             {
-                string icon_img = "";
-                if (fl == priority_file) icon_img = "star_yellow";
-                if (fl == selection) icon_img = "star_blue";
-                Rom.AddRom(fl.ToString(), sizeList[i], icon_img);
-                if (selection != string.Empty && fl.ToString() == selection) selected_index = i;
+
+                if(Path.GetExtension(fl).ToLower() == ".htc" || Path.GetExtension(fl).ToLower() == ".hts")
+                {
+                    string icon_img = "";
+                    if (path_texture_set)
+                    {
+                        string true_file = fl.Split(']')[1];
+                        string potential_out = TexturePath_txt.Text + @"\" + true_file;
+                        if (File.Exists(potential_out))
+                        {
+                            FileInfo fi = new FileInfo(potential_out);
+                            if(fi.Length == sizeList[i]) icon_img = "star_yellow";
+                        }
+
+                    }
+                    Texture.AddTexture(fl.ToString(), sizeList[i], icon_img);
+                }
+                else
+                {
+                    string icon_img = "";
+                    if (fl == priority_file) icon_img = "star_yellow";
+                    if (fl == selection) icon_img = "star_blue";
+                    Rom.AddRom(fl.ToString(), sizeList[i], icon_img);
+                    if (selection != string.Empty && fl.ToString() == selection) selected_index = i;
+                }
                 i++;
             }
 
+            this.FListView_Texture.SetObjects(Texture.GetTextures());
             //And set the fastObjectListView1 to use that list
             this.fastObjectListView1.SetObjects(Rom.GetRoms());
+            if (Texture.GetTextures().Count == 0)
+            {
+                groupBox1.Visible = false;
+                fastObjectListView1.Height = fastObjectListView1.Height + groupBox1.Height + 10;
+
+            }
+            else groupBox1.Visible = true;
+
             if (selection != string.Empty && selected_index != -1)
             {
                 fastObjectListView1.SelectedIndex = selected_index;
@@ -143,6 +197,11 @@ namespace ArchiveCacheManager
 
             if (Rom.have_romhackernet) MenuItem_filterRH.Visible = true;
             else MenuItem_filterRH.Visible = false;
+
+
+
+
+
 
 
 
@@ -246,6 +305,28 @@ namespace ArchiveCacheManager
 
             //Delegate to show the size in human readable form, but still keep it internaly as bytes (usefull for sorting)
             this.sizeColumnF.AspectToStringConverter = delegate (object x) {
+                long size = (long)x;
+                int[] limits = new int[] { 1024 * 1024 * 1024, 1024 * 1024, 1024 };
+                string[] units = new string[] { "GB", "MB", "KB" };
+
+                for (int i = 0; i < limits.Length; i++)
+                {
+                    if (size >= limits[i])
+                        return String.Format("{0:#,##0.##} " + units[i], ((double)size / limits[i]));
+                }
+
+                return String.Format("{0} bytes", size); ;
+            };
+
+
+            //Delegate to show the star image before the Title text
+            this.Texture_Col_File.ImageGetter = delegate (object rowObject) {
+                Texture s = (Texture)rowObject;
+                return s.IconImg;
+            };
+
+            //Delegate to show the size in human readable form, but still keep it internaly as bytes (usefull for sorting)
+            this.Texture_Col_Size.AspectToStringConverter = delegate (object x) {
                 long size = (long)x;
                 int[] limits = new int[] { 1024 * 1024 * 1024, 1024 * 1024, 1024 };
                 string[] units = new string[] { "GB", "MB", "KB" };
@@ -619,7 +700,25 @@ namespace ArchiveCacheManager
 
         private void emulatorComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            string new_emulator_selected = emulatorComboBox.SelectedItem.ToString();
+            if (new_emulator_selected.StartsWith("RetroArch (")) new_emulator_selected = "RetroArch";
+            if(new_emulator_selected != Emulator_selected)
+            {
+                Emulator_selected = new_emulator_selected;
+                string key = Config.EmulatorPlatformKey(Emulator_selected, Plateform);
+                string TexturePath = Config.GetTexturePath(key);
+                TexturePath_txt.Text = TexturePath;
+                if (TexturePath_txt.Text != "" && Directory.Exists(TexturePath_txt.Text))
+                {
+                    //InstallTexture_btn.Enabled = true;
+                    path_texture_set = true;
+                }
+                else
+                {
+                    //InstallTexture_btn.Enabled = false;
+                    path_texture_set = false;
+                }
+            }
         }
 
         private void MenuItem_clearFilters_Click(object sender, EventArgs e)
@@ -698,6 +797,99 @@ namespace ArchiveCacheManager
 
                 }
                 MessageBox.Show("Done !");
+            }
+        }
+
+        private void InstallTexture_btn_Click(object sender, EventArgs e)
+        {
+            Texture selected_texture = (Texture)FListView_Texture.SelectedObject;
+
+
+            string[] includelist = new string[1];
+            includelist[0] = selected_texture.Title;
+
+            string true_file = selected_texture.Title.Split(']')[1];
+            string true_out = TexturePath_txt.Text + @"\" + true_file;
+            string temp_out = TexturePath_txt.Text + @"\" + selected_texture.Title;
+
+            MessageBox.Show("true_file=" + true_file);
+            MessageBox.Show("true_out=" + true_out);
+            MessageBox.Show("temp_out=" + temp_out);
+
+            
+
+            //Ok, so to extract and rename a file with a single command line, maybe something like this would be better :   7z e my-compressed-file.7z -so readme.txt > new-filename.txt
+            //But i don't want to bother and just use the Zip class, so i will use Rename & Move
+            if (File.Exists(true_out))
+            {
+                File.Delete(true_out);
+            }
+
+            //If the temp file already exist, we rename it, and we will restore it after
+            string restore_file = "";
+            if (File.Exists(temp_out))
+            {
+                int i = 0;
+                restore_file = temp_out + ".bak" + i.ToString();
+                while (File.Exists(restore_file))
+                {
+                    i++;
+                    restore_file = temp_out + ".bak" + i.ToString();
+                }
+                File.Move(temp_out, restore_file);
+            }
+
+            new ArchiveCacheManager.Zip().Extract(this.ArchiveDir + "\\" + this.ArchiveName, TexturePath_txt.Text, includelist, null);
+            
+            File.Move(temp_out, true_out);
+
+            if (restore_file != "")
+            {
+                File.Move(restore_file, temp_out);
+            }
+
+            selected_texture.IconImg = "star_yellow";
+
+            MessageBox.Show("Done ! Texture Saved in " + temp_out);
+
+
+
+        }
+
+        private void TexturePath_btn_Click(object sender, EventArgs e)
+        {
+            using (var fbd = new FolderBrowserDialog())
+            {
+                string base_dir = Directory.GetParent(Path.GetDirectoryName(Application.ExecutablePath)).FullName;
+                base_dir = base_dir + @"\Emulators";
+                fbd.RootFolder = Environment.SpecialFolder.DesktopDirectory;
+                fbd.SelectedPath = base_dir;
+
+                DialogResult result = fbd.ShowDialog();
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath) && Directory.Exists(fbd.SelectedPath))
+                {
+                    TexturePath_txt.Text = fbd.SelectedPath;
+                    var config = Config.GetAllEmulatorPlatformConfigByRef();
+                    string key = Config.EmulatorPlatformKey(Emulator_selected, Plateform);
+                    var cfg = Config.GetEmulatorPlatformConfig(key);
+                    cfg.TexturePath = fbd.SelectedPath;
+                    config[key] = cfg;
+                    Config.Save();
+                    //InstallTexture_btn.Enabled = true;
+                    path_texture_set = true;
+                }
+            }
+        }
+
+        private void FListView_Texture_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            InstallTexture_btn.Enabled = false;
+            if (FListView_Texture.SelectedIndex >= 0)
+            {
+                if (path_texture_set)
+                {
+                    InstallTexture_btn.Enabled = true;
+                }
             }
         }
     }
