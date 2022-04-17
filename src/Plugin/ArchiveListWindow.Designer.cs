@@ -142,7 +142,7 @@ namespace ArchiveCacheManager
             this.emulatorComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.emulatorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.emulatorComboBox.FormattingEnabled = true;
-            this.emulatorComboBox.Location = new System.Drawing.Point(451, 620);
+            this.emulatorComboBox.Location = new System.Drawing.Point(449, 618);
             this.emulatorComboBox.Name = "emulatorComboBox";
             this.emulatorComboBox.Size = new System.Drawing.Size(228, 21);
             this.emulatorComboBox.TabIndex = 5;
@@ -151,7 +151,7 @@ namespace ArchiveCacheManager
             // emulatorComboBoxLabel
             // 
             this.emulatorComboBoxLabel.AutoSize = true;
-            this.emulatorComboBoxLabel.Location = new System.Drawing.Point(394, 623);
+            this.emulatorComboBoxLabel.Location = new System.Drawing.Point(398, 621);
             this.emulatorComboBoxLabel.Name = "emulatorComboBoxLabel";
             this.emulatorComboBoxLabel.Size = new System.Drawing.Size(51, 13);
             this.emulatorComboBoxLabel.TabIndex = 6;
@@ -585,6 +585,7 @@ namespace ArchiveCacheManager
             this.FListView_Texture.Name = "FListView_Texture";
             this.FListView_Texture.ShowGroups = false;
             this.FListView_Texture.Size = new System.Drawing.Size(641, 118);
+            this.FListView_Texture.SmallImageList = this.imageList1;
             this.FListView_Texture.TabIndex = 2;
             this.FListView_Texture.UseCompatibleStateImageBehavior = false;
             this.FListView_Texture.View = System.Windows.Forms.View.Details;

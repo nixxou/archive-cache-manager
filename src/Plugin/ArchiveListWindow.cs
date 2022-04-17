@@ -39,6 +39,9 @@ namespace ArchiveCacheManager
 
         public bool path_texture_set = false;
 
+        public string extracted_file_name = "";
+        public long extracted_file_expectedsize = 0;
+
 
         //Some parameters where added :
         //archiveDir : The directory of the 7z file
@@ -150,8 +153,10 @@ namespace ArchiveCacheManager
                         string potential_out = TexturePath_txt.Text + @"\" + true_file;
                         if (File.Exists(potential_out))
                         {
+                            MessageBox.Show("File exist" + potential_out);
                             FileInfo fi = new FileInfo(potential_out);
                             if(fi.Length == sizeList[i]) icon_img = "star_yellow";
+                            MessageBox.Show(fi.Length.ToString() + " vs " + sizeList[i]);
                         }
 
                     }
@@ -812,11 +817,6 @@ namespace ArchiveCacheManager
             string true_out = TexturePath_txt.Text + @"\" + true_file;
             string temp_out = TexturePath_txt.Text + @"\" + selected_texture.Title;
 
-            MessageBox.Show("true_file=" + true_file);
-            MessageBox.Show("true_out=" + true_out);
-            MessageBox.Show("temp_out=" + temp_out);
-
-            
 
             //Ok, so to extract and rename a file with a single command line, maybe something like this would be better :   7z e my-compressed-file.7z -so readme.txt > new-filename.txt
             //But i don't want to bother and just use the Zip class, so i will use Rename & Move
@@ -840,7 +840,7 @@ namespace ArchiveCacheManager
             }
 
             new ArchiveCacheManager.Zip().Extract(this.ArchiveDir + "\\" + this.ArchiveName, TexturePath_txt.Text, includelist, null);
-            
+
             File.Move(temp_out, true_out);
 
             if (restore_file != "")
@@ -850,8 +850,9 @@ namespace ArchiveCacheManager
 
             selected_texture.IconImg = "star_yellow";
 
-            MessageBox.Show("Done ! Texture Saved in " + temp_out);
+            MessageBox.Show("Done ! Texture Saved in " + true_out);
 
+           
 
 
         }
@@ -892,6 +893,10 @@ namespace ArchiveCacheManager
                 }
             }
         }
+
+
+
+
     }
 
 }

@@ -291,7 +291,7 @@ namespace ArchiveCacheManager
         /// </summary>
         /// <param name="args"></param>
         /// <returns>Tuple of (stdout, stderr, exitCode).</returns>
-        static (string, string, int) Run7z(string args, bool redirectOutput = false, bool redirectError = false)
+        public static (string, string, int) Run7z(string args, bool redirectOutput = false, bool redirectError = false)
         {
             (string stdout, string stderr, int exitCode) = ProcessUtils.RunProcess(PathUtils.GetLaunchBox7zPath(), args, redirectOutput, ExtractionProgress, redirectError);
 
