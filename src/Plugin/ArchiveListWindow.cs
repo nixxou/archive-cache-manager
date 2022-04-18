@@ -38,10 +38,7 @@ namespace ArchiveCacheManager
         public string Emulator_selected = "";
 
         public bool path_texture_set = false;
-
-        public string extracted_file_name = "";
-        public long extracted_file_expectedsize = 0;
-
+        public string path_texture_name = "";
 
         //Some parameters where added :
         //archiveDir : The directory of the 7z file
@@ -90,19 +87,7 @@ namespace ArchiveCacheManager
 
             //We search for installed texture pack
             //LoadCOnfig
-            Emulator_selected = emulatorComboBox.SelectedItem.ToString();
-            if (Emulator_selected.StartsWith("RetroArch (")) Emulator_selected = "RetroArch";
-            string key = Config.EmulatorPlatformKey(Emulator_selected, Plateform);
-            var cfg = Config.GetEmulatorPlatformConfig(key);
-            TexturePath_txt.Text = cfg.TexturePath;
-            TexturePath_txt.ReadOnly = true;
-            TexturePath_txt.BackColor = Color.LightGray;
-            if (TexturePath_txt.Text != "" && Directory.Exists(TexturePath_txt.Text))
-            {
-                //InstallTexture_btn.Enabled = true;
-                path_texture_set = true;
-            }
-            else path_texture_set = false;
+            EmulatorSelectedUpdate();
 
 
 
@@ -149,14 +134,22 @@ namespace ArchiveCacheManager
                     string icon_img = "";
                     if (path_texture_set)
                     {
+                        
                         string true_file = fl.Split(']')[1];
+                        path_texture_name = Path.GetFileNameWithoutExtension(true_file);
+                        //MessageBox.Show("path_texture_name = " + path_texture_name);
+
+                        
                         string potential_out = TexturePath_txt.Text + @"\" + true_file;
-                        if (File.Exists(potential_out))
+                        string true_out = "";
+                        if (File.Exists(potential_out + ".htc")) true_out = potential_out + ".htc";
+                        if (File.Exists(potential_out + ".hts")) true_out = potential_out + ".hts";
+                        if (File.Exists(true_out))
                         {
-                            MessageBox.Show("File exist" + potential_out);
-                            FileInfo fi = new FileInfo(potential_out);
+                            //MessageBox.Show("File exist" + potential_out);
+                            FileInfo fi = new FileInfo(true_out);
                             if(fi.Length == sizeList[i]) icon_img = "star_yellow";
-                            MessageBox.Show(fi.Length.ToString() + " vs " + sizeList[i]);
+                            //MessageBox.Show(fi.Length.ToString() + " vs " + sizeList[i]);
                         }
 
                     }
@@ -203,14 +196,11 @@ namespace ArchiveCacheManager
             if (Rom.have_romhackernet) MenuItem_filterRH.Visible = true;
             else MenuItem_filterRH.Visible = false;
 
-
-
-
-
-
-
+            EmulatorSelectedUpdate();
 
         }
+
+
 
 
         //Show the extra tags columns, only show it if there is at least one match
@@ -705,25 +695,91 @@ namespace ArchiveCacheManager
 
         private void emulatorComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            EmulatorSelectedUpdate();
+        }
+
+        private void EmulatorSelectedUpdate()
+        {
             string new_emulator_selected = emulatorComboBox.SelectedItem.ToString();
             if (new_emulator_selected.StartsWith("RetroArch (")) new_emulator_selected = "RetroArch";
-            if(new_emulator_selected != Emulator_selected)
+            if (new_emulator_selected != Emulator_selected)
             {
+
                 Emulator_selected = new_emulator_selected;
                 string key = Config.EmulatorPlatformKey(Emulator_selected, Plateform);
                 string TexturePath = Config.GetTexturePath(key);
                 TexturePath_txt.Text = TexturePath;
+                TexturePath_txt.ReadOnly = true;
+                TexturePath_txt.BackColor = Color.LightGray;
+                TexturePath_txt.ForeColor = Color.Black;
                 if (TexturePath_txt.Text != "" && Directory.Exists(TexturePath_txt.Text))
                 {
-                    //InstallTexture_btn.Enabled = true;
                     path_texture_set = true;
                 }
                 else
                 {
-                    //InstallTexture_btn.Enabled = false;
+                    TexturePath_txt.ForeColor = Color.Red;
+                    TexturePath_txt.Text = "Choose the hi res Texture folder !";
                     path_texture_set = false;
                 }
             }
+            if(path_texture_set && FListView_Texture.SelectedIndex >= 0)
+            {
+                InstallTexture_btn.Enabled = true;
+            }
+            else InstallTexture_btn.Enabled = false;
+
+
+            RemoveTexture_btn.Enabled = false;
+            bool found_texture_match = false;
+            if (path_texture_set)
+            {
+
+                string potential_out = TexturePath_txt.Text + @"\" + path_texture_name;
+                string true_out = "";
+                if (File.Exists(potential_out + ".htc")) true_out = potential_out + ".htc";
+                if (File.Exists(potential_out + ".hts")) true_out = potential_out + ".hts";
+
+                if (File.Exists(true_out))
+                {
+                    //MessageBox.Show("Exist : " + true_out);
+                    RemoveTexture_btn.Enabled = true;
+                    FileInfo fi = new FileInfo(true_out);
+                    foreach(Texture t in FListView_Texture.Objects)
+                    {
+                        //MessageBox.Show(fi.Length.ToString() + " vs " + t.SizeInBytes.ToString());
+                        if(t.SizeInBytes == fi.Length)
+                        {
+                            found_texture_match = true;
+                            lbl_installed_texture.Text = "Installed Texture : " + t.Title;
+                            t.IconImg = "star_yellow";
+                        }
+                        else t.IconImg = "";
+                    }
+                    if(found_texture_match == false)
+                    {
+                        lbl_installed_texture.Text = "Installed Texture : " + path_texture_name + " (Unknow)";
+                    }
+
+                }
+                else
+                {
+                    lbl_installed_texture.Text = "Installed Texture : None";
+                }
+            }
+            else lbl_installed_texture.Text = "";
+
+            if (found_texture_match == false)
+            {
+                foreach (Texture t in FListView_Texture.Objects)
+                {
+                    if(t.IconImg != "")
+                    {
+                        t.IconImg = "";
+                    }
+                }
+            }
+            FListView_Texture.Refresh();
         }
 
         private void MenuItem_clearFilters_Click(object sender, EventArgs e)
@@ -809,6 +865,16 @@ namespace ArchiveCacheManager
         {
             Texture selected_texture = (Texture)FListView_Texture.SelectedObject;
 
+            string potential_out = TexturePath_txt.Text + @"\" + path_texture_name;
+            if (File.Exists(potential_out + ".htc")) File.Delete(potential_out + ".htc");
+            if (File.Exists(potential_out + ".hts")) File.Delete(potential_out + ".hts");
+
+
+            InstallTexture_btn.Enabled = false;
+            RemoveTexture_btn.Enabled = false;
+            TexturePath_btn.Enabled = false;
+            FListView_Texture.Enabled = false;
+            MessageBox.Show("Install Texture : Please wait until the confirmation popup, it could take some time");
 
             string[] includelist = new string[1];
             includelist[0] = selected_texture.Title;
@@ -850,11 +916,11 @@ namespace ArchiveCacheManager
 
             selected_texture.IconImg = "star_yellow";
 
+            
+            EmulatorSelectedUpdate();
+            TexturePath_btn.Enabled = true;
+            FListView_Texture.Enabled = true;
             MessageBox.Show("Done ! Texture Saved in " + true_out);
-
-           
-
-
         }
 
         private void TexturePath_btn_Click(object sender, EventArgs e)
@@ -880,10 +946,13 @@ namespace ArchiveCacheManager
                     path_texture_set = true;
                 }
             }
+            EmulatorSelectedUpdate();
         }
 
         private void FListView_Texture_SelectedIndexChanged(object sender, EventArgs e)
         {
+            EmulatorSelectedUpdate();
+            /*
             InstallTexture_btn.Enabled = false;
             if (FListView_Texture.SelectedIndex >= 0)
             {
@@ -892,11 +961,16 @@ namespace ArchiveCacheManager
                     InstallTexture_btn.Enabled = true;
                 }
             }
+            */
         }
 
-
-
-
+        private void RemoveTexture_btn_Click(object sender, EventArgs e)
+        {
+            string potential_out = TexturePath_txt.Text + @"\" + path_texture_name;
+            if (File.Exists(potential_out + ".htc")) File.Delete(potential_out + ".htc");
+            if (File.Exists(potential_out + ".hts")) File.Delete(potential_out + ".hts");
+            EmulatorSelectedUpdate();
+        }
     }
 
 }

@@ -85,6 +85,8 @@ namespace ArchiveCacheManager
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.saveFileDialog_extractTo = new System.Windows.Forms.SaveFileDialog();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lbl_installed_texture = new System.Windows.Forms.Label();
+            this.RemoveTexture_btn = new System.Windows.Forms.Button();
             this.InstallTexture_btn = new System.Windows.Forms.Button();
             this.FListView_Texture = new BrightIdeasSoftware.FastObjectListView();
             this.Texture_Col_File = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
@@ -102,7 +104,7 @@ namespace ArchiveCacheManager
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cancelButton.Image = global::ArchiveCacheManager.Resources.cross_script;
-            this.cancelButton.Location = new System.Drawing.Point(93, 613);
+            this.cancelButton.Location = new System.Drawing.Point(93, 630);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 28);
             this.cancelButton.TabIndex = 2;
@@ -116,7 +118,7 @@ namespace ArchiveCacheManager
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.okButton.Image = global::ArchiveCacheManager.Resources.tick;
-            this.okButton.Location = new System.Drawing.Point(12, 613);
+            this.okButton.Location = new System.Drawing.Point(12, 630);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 28);
             this.okButton.TabIndex = 1;
@@ -142,7 +144,7 @@ namespace ArchiveCacheManager
             this.emulatorComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.emulatorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.emulatorComboBox.FormattingEnabled = true;
-            this.emulatorComboBox.Location = new System.Drawing.Point(449, 618);
+            this.emulatorComboBox.Location = new System.Drawing.Point(462, 643);
             this.emulatorComboBox.Name = "emulatorComboBox";
             this.emulatorComboBox.Size = new System.Drawing.Size(228, 21);
             this.emulatorComboBox.TabIndex = 5;
@@ -151,7 +153,7 @@ namespace ArchiveCacheManager
             // emulatorComboBoxLabel
             // 
             this.emulatorComboBoxLabel.AutoSize = true;
-            this.emulatorComboBoxLabel.Location = new System.Drawing.Point(398, 621);
+            this.emulatorComboBoxLabel.Location = new System.Drawing.Point(405, 646);
             this.emulatorComboBoxLabel.Name = "emulatorComboBoxLabel";
             this.emulatorComboBoxLabel.Size = new System.Drawing.Size(51, 13);
             this.emulatorComboBoxLabel.TabIndex = 6;
@@ -549,25 +551,52 @@ namespace ArchiveCacheManager
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.lbl_installed_texture);
+            this.groupBox1.Controls.Add(this.RemoveTexture_btn);
             this.groupBox1.Controls.Add(this.InstallTexture_btn);
             this.groupBox1.Controls.Add(this.FListView_Texture);
             this.groupBox1.Controls.Add(this.TexturePath_btn);
             this.groupBox1.Controls.Add(this.TexturePath_txt);
             this.groupBox1.Location = new System.Drawing.Point(12, 423);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(665, 174);
+            this.groupBox1.Size = new System.Drawing.Size(665, 201);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Hi Res Texture Selection";
             // 
+            // lbl_installed_texture
+            // 
+            this.lbl_installed_texture.AutoSize = true;
+            this.lbl_installed_texture.Location = new System.Drawing.Point(252, 177);
+            this.lbl_installed_texture.Name = "lbl_installed_texture";
+            this.lbl_installed_texture.Size = new System.Drawing.Size(91, 13);
+            this.lbl_installed_texture.TabIndex = 5;
+            this.lbl_installed_texture.Text = "Installed Texture :";
+            // 
+            // RemoveTexture_btn
+            // 
+            this.RemoveTexture_btn.Image = global::ArchiveCacheManager.Resources.cross_script;
+            this.RemoveTexture_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.RemoveTexture_btn.Location = new System.Drawing.Point(116, 156);
+            this.RemoveTexture_btn.Name = "RemoveTexture_btn";
+            this.RemoveTexture_btn.Size = new System.Drawing.Size(109, 29);
+            this.RemoveTexture_btn.TabIndex = 4;
+            this.RemoveTexture_btn.Text = "Remove Texture";
+            this.RemoveTexture_btn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.RemoveTexture_btn.UseVisualStyleBackColor = true;
+            this.RemoveTexture_btn.Click += new System.EventHandler(this.RemoveTexture_btn_Click);
+            // 
             // InstallTexture_btn
             // 
             this.InstallTexture_btn.Enabled = false;
-            this.InstallTexture_btn.Location = new System.Drawing.Point(547, 21);
+            this.InstallTexture_btn.Image = global::ArchiveCacheManager.Resources.plus;
+            this.InstallTexture_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.InstallTexture_btn.Location = new System.Drawing.Point(6, 155);
             this.InstallTexture_btn.Name = "InstallTexture_btn";
-            this.InstallTexture_btn.Size = new System.Drawing.Size(104, 20);
+            this.InstallTexture_btn.Size = new System.Drawing.Size(104, 30);
             this.InstallTexture_btn.TabIndex = 3;
             this.InstallTexture_btn.Text = "Install Texture";
+            this.InstallTexture_btn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.InstallTexture_btn.UseVisualStyleBackColor = true;
             this.InstallTexture_btn.Click += new System.EventHandler(this.InstallTexture_btn_Click);
             // 
@@ -581,10 +610,10 @@ namespace ArchiveCacheManager
             this.Texture_Col_Size});
             this.FListView_Texture.Cursor = System.Windows.Forms.Cursors.Default;
             this.FListView_Texture.HideSelection = false;
-            this.FListView_Texture.Location = new System.Drawing.Point(10, 47);
+            this.FListView_Texture.Location = new System.Drawing.Point(6, 19);
             this.FListView_Texture.Name = "FListView_Texture";
             this.FListView_Texture.ShowGroups = false;
-            this.FListView_Texture.Size = new System.Drawing.Size(641, 118);
+            this.FListView_Texture.Size = new System.Drawing.Size(641, 131);
             this.FListView_Texture.SmallImageList = this.imageList1;
             this.FListView_Texture.TabIndex = 2;
             this.FListView_Texture.UseCompatibleStateImageBehavior = false;
@@ -607,19 +636,22 @@ namespace ArchiveCacheManager
             // 
             // TexturePath_btn
             // 
-            this.TexturePath_btn.Location = new System.Drawing.Point(389, 21);
+            this.TexturePath_btn.Image = global::ArchiveCacheManager.Resources.folder_horizontal_open;
+            this.TexturePath_btn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.TexturePath_btn.Location = new System.Drawing.Point(555, 154);
             this.TexturePath_btn.Name = "TexturePath_btn";
-            this.TexturePath_btn.Size = new System.Drawing.Size(79, 20);
+            this.TexturePath_btn.Size = new System.Drawing.Size(92, 20);
             this.TexturePath_btn.TabIndex = 1;
             this.TexturePath_btn.Text = "Choose Dir";
+            this.TexturePath_btn.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.TexturePath_btn.UseVisualStyleBackColor = true;
             this.TexturePath_btn.Click += new System.EventHandler(this.TexturePath_btn_Click);
             // 
             // TexturePath_txt
             // 
-            this.TexturePath_txt.Location = new System.Drawing.Point(10, 21);
+            this.TexturePath_txt.Location = new System.Drawing.Point(255, 154);
             this.TexturePath_txt.Name = "TexturePath_txt";
-            this.TexturePath_txt.Size = new System.Drawing.Size(373, 20);
+            this.TexturePath_txt.Size = new System.Drawing.Size(294, 20);
             this.TexturePath_txt.TabIndex = 0;
             // 
             // ArchiveListWindow
@@ -628,7 +660,7 @@ namespace ArchiveCacheManager
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(691, 653);
+            this.ClientSize = new System.Drawing.Size(691, 670);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.fastObjectListView1);
             this.Controls.Add(this.emulatorComboBoxLabel);
@@ -716,5 +748,7 @@ namespace ArchiveCacheManager
         private System.Windows.Forms.TextBox TexturePath_txt;
         private BrightIdeasSoftware.OLVColumn Texture_Col_File;
         private BrightIdeasSoftware.OLVColumn Texture_Col_Size;
+        private System.Windows.Forms.Button RemoveTexture_btn;
+        private System.Windows.Forms.Label lbl_installed_texture;
     }
 }
