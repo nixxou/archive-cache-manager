@@ -166,27 +166,34 @@ namespace ArchiveCacheManager
 
         public Dictionary<int, string> loadSave(bool force_refresh=false)
         {
-            
+            //MessageBox.Show("this.TitleWithoutExt = " + this.TitleWithoutExt);
+            //MessageBox.Show("Rom.retroarch_savestatedir = " + Rom.retroarch_savestatedir);
             if (this.TitleWithoutExt != "" && force_refresh == false) return this.Savestate;
             this.TitleWithoutExt = Path.GetFileNameWithoutExtension(this.Title);
             this.Savestate.Clear();
-            string[] liste_savestate = Directory.GetFiles(Rom.retroarch_savestatedir, string.Format("{0}.*", this.TitleWithoutExt));
-            foreach (string save_file in liste_savestate)
+            if(Rom.retroarch_savestatedir != "" && Directory.Exists(Rom.retroarch_savestatedir))
             {
-                if(this.TitleWithoutExt == Path.GetFileNameWithoutExtension(save_file))
+                string[] liste_savestate = Directory.GetFiles(Rom.retroarch_savestatedir, string.Format("{0}.*", this.TitleWithoutExt));
+                foreach (string save_file in liste_savestate)
                 {
-                    string ext = Path.GetExtension(save_file);
-                    int slot = 0;
-                    Match m = Regex.Match(ext, @"\.state([0-9]*)$");
-                    if (m.Success)
+                    if (this.TitleWithoutExt == Path.GetFileNameWithoutExtension(save_file))
                     {
-                        string res = m.Value.ToString().Replace(".state", "");
-                        if (res != "") slot = Int32.Parse(res);
-                        this.Savestate[slot] = save_file;
+                        string ext = Path.GetExtension(save_file);
+                        int slot = 0;
+                        Match m = Regex.Match(ext, @"\.state([0-9]*)$");
+                        if (m.Success)
+                        {
+                            string res = m.Value.ToString().Replace(".state", "");
+                            if (res != "") slot = Int32.Parse(res);
+                            this.Savestate[slot] = save_file;
+                        }
+
                     }
-                    
                 }
+
+
             }
+
             return this.Savestate;
         }
 
@@ -198,6 +205,18 @@ namespace ArchiveCacheManager
         public bool Match(string input)
         {
             return Wildcard.Match(this.Title.ToLower(), input.ToLower().Trim());
+        }
+
+        static internal void ClearSaveState()
+        {
+            //MessageBox.Show("Clear");
+            Rom.retroarch_savestatedir = "";
+            foreach(var arom in AllRoms)
+            {
+                arom.TitleWithoutExt = "";
+                arom.Savestate.Clear();
+                
+            }
         }
 
         static internal void ClearRom()

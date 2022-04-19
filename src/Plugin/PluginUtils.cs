@@ -7,11 +7,17 @@ using System.Text;
 using System.Threading.Tasks;
 using Unbroken.LaunchBox.Plugins;
 using Unbroken.LaunchBox.Plugins.Data;
+using System.Runtime.InteropServices;
 
 namespace ArchiveCacheManager
 {
+
     static class PluginUtils
     {
+
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool GetDiskFreeSpaceEx(string lpDirectoryName,out ulong lpFreeBytesAvailable,out ulong lpTotalNumberOfBytes,out ulong lpTotalNumberOfFreeBytes);
         /// <summary>
         /// Opens a URL with the default web browser.
         /// </summary>

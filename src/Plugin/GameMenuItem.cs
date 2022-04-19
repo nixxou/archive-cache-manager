@@ -62,7 +62,7 @@ namespace ArchiveCacheManager
             }
             else
             {
-                window = new ArchiveListWindow(Path.GetFileName(selectedGame.ApplicationPath), Path.GetDirectoryName(selectedGame.ApplicationPath), fileList, sizeList, selectedGame.Platform, PluginHelper.DataManager.GetEmulatorById(selectedGame.EmulatorId).Title, emulatorsTuple.Select(emu => PluginUtils.GetEmulatorTitle(emu.Item1, emu.Item2)).ToArray(), GameIndex.GetSelectedFile(selectedGame.Id));
+                window = new ArchiveListWindow(Path.GetFileName(selectedGame.ApplicationPath), Path.GetDirectoryName(selectedGame.ApplicationPath), fileList, sizeList, selectedGame.Platform, selectedGame.EmulatorId, PluginHelper.DataManager.GetEmulatorById(selectedGame.EmulatorId).Title, emulatorsTuple.Select(emu => PluginUtils.GetEmulatorTitle(emu.Item1, emu.Item2)).ToArray(), GameIndex.GetSelectedFile(selectedGame.Id));
             }
             //NativeWindow parent = new NativeWindow();
 

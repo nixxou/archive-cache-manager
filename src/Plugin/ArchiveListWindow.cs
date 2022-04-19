@@ -10,8 +10,9 @@ using System.Windows.Forms;
 using System.IO;
 using System.Threading;
 using BrightIdeasSoftware;
-
-
+using Unbroken.LaunchBox.Plugins;
+using Unbroken.LaunchBox.Plugins.Data;
+using System.Text.RegularExpressions;
 
 namespace ArchiveCacheManager
 {
@@ -40,25 +41,92 @@ namespace ArchiveCacheManager
         public bool path_texture_set = false;
         public string path_texture_name = "";
 
+        public Dictionary<string, string> SaveStatePathList = new Dictionary<string, string>();
+        public bool current_emulator_is_retroarch = false;
+
+        public static string find_retroarch_savedir(string apppath)
+        {
+            string dir_emulator = Path.GetFullPath(Path.GetDirectoryName(apppath));
+            string config_file = dir_emulator + @"\retroarch.cfg";
+            //MessageBox.Show("Check " + config_file);
+            if (File.Exists(config_file))
+            {
+                //MessageBox.Show("Exist " + config_file);
+
+                foreach (string line in System.IO.File.ReadLines(config_file))
+                {
+                    if (line.StartsWith("savestate_directory ="))
+                    {
+                        //MessageBox.Show(line);
+                        foreach (Match m in Regex.Matches(line, @"\""(.*?)\"""))
+                        {
+                            //Console.WriteLine("'{0}' found at index {1}.", m.Value, m.Index);
+                            string valdir = m.Value;
+                            valdir = valdir.Trim('"');
+                            if (valdir.StartsWith(":"))
+                            {
+                                valdir = dir_emulator + valdir.Trim(':');
+                                valdir = Path.GetFullPath(valdir);
+                            }
+                            valdir = Path.GetFullPath(valdir);
+                            if (Directory.Exists(valdir))
+                            {
+                                return valdir;
+                            }
+
+                            break;
+                            //MessageBox.Show(valdir);
+                        }
+
+                        break;
+                    }
+                }
+
+            }
+            return "";
+
+        }
+
         //Some parameters where added :
         //archiveDir : The directory of the 7z file
         //sizeList : The size of each file, with the same index as fileList
         //plateform : I need that for determining the "prefered" rom to show a little yellow star
-        public ArchiveListWindow(string archiveName, string archiveDir, string[] fileList, long[] sizeList, string plateform, string emulator, string[] emulatorList, string selection = "")
+        public ArchiveListWindow(string archiveName, string archiveDir, string[] fileList, long[] sizeList, string plateform, string emulator_id, string emulator, string[] emulatorList, string selection = "")
         {
             Plateform = plateform;
             //We clear the rom class static variable, it must be done first !
+
+
+            //Clear variables
+            SelectedFile = "";
+            TagsActive = false; //Show extra tags columns
+            current_emulator_is_retroarch = false;
+            filter_text = "";
+            filter_french = false;
+            filter_english = false;
+            filter_romhacker = false;
+            base_launchbox_dir = "";
+            buffer_savestatefile = "";
+            ArchiveDir = "";
+            ArchiveName = "";
+            Emulator_selected = "";
+            path_texture_set = false;
+            path_texture_name = "";
+            current_emulator_is_retroarch = false;
+            SaveStatePathList.Clear();
             Rom.ClearRom();
             Texture.ClearTexture();
-            path_texture_set = false;
+
+            //Generate an List of emulator with retroarch save state dir
+            List<(IEmulator, IEmulatorPlatform)> list_emu = PluginUtils.GetPlatformEmulators(Plateform, emulator_id);
+            foreach (var pair in list_emu)
+            {
+                string savestate_dir = find_retroarch_savedir(pair.Item1.ApplicationPath);
+                SaveStatePathList[pair.Item1.Title.ToString()] = savestate_dir;
+            }
 
 
-            //We fill the directory variables for the save/load savestate
             this.base_launchbox_dir = Directory.GetParent(Path.GetDirectoryName(Application.ExecutablePath)).FullName;
-            string retroarch_savedir = this.base_launchbox_dir + "\\Emulators\\RetroArch\\saves";
-            string retroarch_savestatedir = this.base_launchbox_dir + "\\Emulators\\RetroArch\\states";
-            if (Directory.Exists(retroarch_savedir)) Rom.retroarch_savedir = retroarch_savedir;
-            if (Directory.Exists(retroarch_savestatedir)) Rom.retroarch_savestatedir = retroarch_savestatedir;
             this.ArchiveDir = archiveDir;
             this.ArchiveName = archiveName;
 
@@ -66,12 +134,10 @@ namespace ArchiveCacheManager
 
             InitializeComponent();
             InitializeListView();
-
             UserInterface.ApplyTheme(this);
-
             archiveNameLabel.Text = archiveName;
 
-
+            //Generate the emulator combo list
             emulatorComboBox.Items.Clear();
             if (emulatorList.Count() > 0)
             {
@@ -85,8 +151,7 @@ namespace ArchiveCacheManager
                 emulatorComboBox.Enabled = false;
             }
 
-            //We search for installed texture pack
-            //LoadCOnfig
+            //We search for installed texture pack and retroarch savestate dir
             EmulatorSelectedUpdate();
 
 
@@ -96,7 +161,6 @@ namespace ArchiveCacheManager
             List<string> prioritySections = new List<string>();
             prioritySections.Add(Config.EmulatorPlatformKey(emulator, plateform));
             prioritySections.Add(Config.EmulatorPlatformKey("All", "All"));
-
             foreach (var prioritySection in prioritySections)
             {
                 try
@@ -123,7 +187,6 @@ namespace ArchiveCacheManager
             }
 
             //fill the Rom List (a static list within the Rom class) with Roms.
-
             int i = 0;
             int selected_index = -1;
             foreach (string fl in fileList)
@@ -137,19 +200,14 @@ namespace ArchiveCacheManager
                         
                         string true_file = fl.Split(']')[1];
                         path_texture_name = Path.GetFileNameWithoutExtension(true_file);
-                        //MessageBox.Show("path_texture_name = " + path_texture_name);
-
-                        
                         string potential_out = TexturePath_txt.Text + @"\" + true_file;
                         string true_out = "";
                         if (File.Exists(potential_out + ".htc")) true_out = potential_out + ".htc";
                         if (File.Exists(potential_out + ".hts")) true_out = potential_out + ".hts";
                         if (File.Exists(true_out))
                         {
-                            //MessageBox.Show("File exist" + potential_out);
                             FileInfo fi = new FileInfo(true_out);
                             if(fi.Length == sizeList[i]) icon_img = "star_yellow";
-                            //MessageBox.Show(fi.Length.ToString() + " vs " + sizeList[i]);
                         }
 
                     }
@@ -700,10 +758,24 @@ namespace ArchiveCacheManager
 
         private void EmulatorSelectedUpdate()
         {
+            //We get the emulator name from the combo list, we remove the core part beetween parenthesis if retroarch
             string new_emulator_selected = emulatorComboBox.SelectedItem.ToString();
-            if (new_emulator_selected.StartsWith("RetroArch (")) new_emulator_selected = "RetroArch";
+            var match = Regex.Match(new_emulator_selected, @" \((.*?)\)$", RegexOptions.IgnoreCase);
+            if (match.Success)
+            {
+                new_emulator_selected = new_emulator_selected.Replace(match.Value.ToString(), "").Trim();
+            }
+
+
             if (new_emulator_selected != Emulator_selected)
             {
+                //If change of emulator, we clean save state data, but we keep the buffer_savestatefile so we can copy paste savestate beetween two retroarch emulator
+                Rom.ClearSaveState();
+                if (SaveStatePathList.ContainsKey(new_emulator_selected))
+                {
+                    Rom.retroarch_savestatedir = SaveStatePathList[new_emulator_selected];
+                }
+                else buffer_savestatefile = "";
 
                 Emulator_selected = new_emulator_selected;
                 string key = Config.EmulatorPlatformKey(Emulator_selected, Plateform);
@@ -734,7 +806,6 @@ namespace ArchiveCacheManager
             bool found_texture_match = false;
             if (path_texture_set)
             {
-
                 string potential_out = TexturePath_txt.Text + @"\" + path_texture_name;
                 string true_out = "";
                 if (File.Exists(potential_out + ".htc")) true_out = potential_out + ".htc";
@@ -742,12 +813,10 @@ namespace ArchiveCacheManager
 
                 if (File.Exists(true_out))
                 {
-                    //MessageBox.Show("Exist : " + true_out);
                     RemoveTexture_btn.Enabled = true;
                     FileInfo fi = new FileInfo(true_out);
                     foreach(Texture t in FListView_Texture.Objects)
                     {
-                        //MessageBox.Show(fi.Length.ToString() + " vs " + t.SizeInBytes.ToString());
                         if(t.SizeInBytes == fi.Length)
                         {
                             found_texture_match = true;
@@ -817,6 +886,18 @@ namespace ArchiveCacheManager
                 string file_out = Path.GetFileName(saveFileDialog_extractTo.FileName);
                 string temp_out = dir_out + "\\" + myrom.Title;
 
+                //Check free space
+                ulong FreeBytesAvailable;
+                ulong TotalNumberOfBytes;
+                ulong TotalNumberOfFreeBytes;
+                bool success = PluginUtils.GetDiskFreeSpaceEx(temp_out, out FreeBytesAvailable, out TotalNumberOfBytes, out TotalNumberOfFreeBytes);
+                if (!success) throw new System.ComponentModel.Win32Exception();
+                if (FreeBytesAvailable < (ulong)myrom.SizeInBytes)
+                {
+                    MessageBox.Show("Not enought free space");
+                    return;
+                }
+
                 if (file_out == myrom.Title)
                 {
                     if (File.Exists(saveFileDialog_extractTo.FileName))
@@ -863,7 +944,28 @@ namespace ArchiveCacheManager
 
         private void InstallTexture_btn_Click(object sender, EventArgs e)
         {
+
+            //I don't think that should trigger, this condition must be check before enabling the button, but in case of...
+            if (Directory.Exists(TexturePath_txt.Text) == false)
+            {
+                MessageBox.Show("Invalid Dir");
+                return;
+            }
+
             Texture selected_texture = (Texture)FListView_Texture.SelectedObject;
+
+            //Check free space
+            ulong FreeBytesAvailable;
+            ulong TotalNumberOfBytes;
+            ulong TotalNumberOfFreeBytes;
+            bool success = PluginUtils.GetDiskFreeSpaceEx(TexturePath_txt.Text, out FreeBytesAvailable,out TotalNumberOfBytes, out TotalNumberOfFreeBytes);
+            if (!success) throw new System.ComponentModel.Win32Exception();
+            if(FreeBytesAvailable < (ulong)selected_texture.SizeInBytes)
+            {
+                MessageBox.Show("Not enought free space to install texture");
+                return;
+            }
+
 
             string potential_out = TexturePath_txt.Text + @"\" + path_texture_name;
             if (File.Exists(potential_out + ".htc")) File.Delete(potential_out + ".htc");
@@ -952,16 +1054,6 @@ namespace ArchiveCacheManager
         private void FListView_Texture_SelectedIndexChanged(object sender, EventArgs e)
         {
             EmulatorSelectedUpdate();
-            /*
-            InstallTexture_btn.Enabled = false;
-            if (FListView_Texture.SelectedIndex >= 0)
-            {
-                if (path_texture_set)
-                {
-                    InstallTexture_btn.Enabled = true;
-                }
-            }
-            */
         }
 
         private void RemoveTexture_btn_Click(object sender, EventArgs e)
