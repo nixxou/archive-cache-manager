@@ -1,18 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
+//using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+//using System.Text;
+//using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using System.Threading;
+//using System.Threading;
 using BrightIdeasSoftware;
-using Unbroken.LaunchBox.Plugins;
+//using Unbroken.LaunchBox.Plugins;
 using Unbroken.LaunchBox.Plugins.Data;
 using System.Text.RegularExpressions;
+
+//using System.Windows.Navigation;
+//using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
+using CefSharp;
+
 
 namespace ArchiveCacheManager
 {
@@ -44,48 +51,174 @@ namespace ArchiveCacheManager
         public Dictionary<string, string> SaveStatePathList = new Dictionary<string, string>();
         public bool current_emulator_is_retroarch = false;
 
-        public static string find_retroarch_savedir(string apppath)
+        public bool useWebview = false;
+        public bool useJsonMeta = true;
+        public string HtmlTemplate = "";
+        public dynamic JsonData;
+        public string metadataFile = "";
+        public string colors_css = "";
+
+        private CefSharp.WinForms.ChromiumWebBrowser chromiumWebBrowser1;
+
+        private (bool foundmeta,string Metadata_file, string Metadata_template, int type_meta) find_metadata(string dirpath,string archiveName)
         {
-            string dir_emulator = Path.GetFullPath(Path.GetDirectoryName(apppath));
-            string config_file = dir_emulator + @"\retroarch.cfg";
-            //MessageBox.Show("Check " + config_file);
-            if (File.Exists(config_file))
+            string Metadata_file = "";
+            string Metadata_template = "";
+
+            DirectoryInfo dinfo = new DirectoryInfo(dirpath);
+            string Metadata_folder = dinfo.Parent.FullName + "\\metadata\\" + dinfo.Name;
+            if (Directory.Exists(Metadata_folder))
             {
-                //MessageBox.Show("Exist " + config_file);
-
-                foreach (string line in System.IO.File.ReadLines(config_file))
-                {
-                    if (line.StartsWith("savestate_directory ="))
-                    {
-                        //MessageBox.Show(line);
-                        foreach (Match m in Regex.Matches(line, @"\""(.*?)\"""))
-                        {
-                            //Console.WriteLine("'{0}' found at index {1}.", m.Value, m.Index);
-                            string valdir = m.Value;
-                            valdir = valdir.Trim('"');
-                            if (valdir.StartsWith(":"))
-                            {
-                                valdir = dir_emulator + valdir.Trim(':');
-                                valdir = Path.GetFullPath(valdir);
-                            }
-                            valdir = Path.GetFullPath(valdir);
-                            if (Directory.Exists(valdir))
-                            {
-                                return valdir;
-                            }
-
-                            break;
-                            //MessageBox.Show(valdir);
-                        }
-
-                        break;
-                    }
+                FileInfo finfo = new FileInfo(dinfo.FullName + "\\" + archiveName);
+                Metadata_file = Metadata_folder + "\\" + Path.GetFileNameWithoutExtension(archiveName) + ".json";
+                if (File.Exists(Metadata_file)){
+                    Metadata_template = Metadata_folder + "\\template.html";
+                    if(File.Exists(Metadata_template)) return (true, Metadata_file, Metadata_template, 1);
                 }
-
+                if(Directory.Exists(Metadata_folder + "\\" + archiveName))
+                {
+                    return (true, Metadata_folder + "\\" + archiveName, "", 2);
+                }
             }
-            return "";
+            Metadata_folder = this.base_launchbox_dir + "\\metadata\\" + dinfo.Name;
+            if (Directory.Exists(Metadata_folder))
+            {
+                FileInfo finfo = new FileInfo(dinfo.FullName + "\\" + archiveName);
+                Metadata_file = Metadata_folder + "\\" + Path.GetFileNameWithoutExtension(archiveName) + ".json";
+                if (File.Exists(Metadata_file))
+                {
+                    Metadata_template = Metadata_folder + "\\template.html";
+                    if (File.Exists(Metadata_template)) return (true, Metadata_file, Metadata_template, 1);
+                }
+                if (Directory.Exists(Metadata_folder + "\\" + archiveName))
+                {
+                    return (true, Metadata_folder + "\\" + archiveName, "", 2);
+                }
+            }
+
+
+            return (false, "", "", 0);
+        }
+
+        void InitializeWebView(string dirpath,string archiveName)
+        {
+
+            
+            (bool foundmeta, string Metadata_file, string Metadata_template, int type_meta) = find_metadata(dirpath, archiveName);
+            this.metadataFile = Metadata_file;
+            this.useWebview = foundmeta;
+
+            this.useJsonMeta = false;
+
+            if (foundmeta && type_meta == 1)
+            {
+                this.HtmlTemplate = File.ReadAllText(Metadata_template);
+                this.JsonData = JObject.Parse(File.ReadAllText(Metadata_file));
+                this.useJsonMeta = true;
+
+                this.colors_css = @"
+                :root {
+                    --DialogAccentColor: "+ ColorTranslator.ToHtml(LaunchBoxSettings.DialogAccentColor).ToString() + @";
+                    --DialogHighlightColor: " + ColorTranslator.ToHtml(LaunchBoxSettings.DialogHighlightColor).ToString() + @";
+                    --DialogBackgroundColor: " + ColorTranslator.ToHtml(LaunchBoxSettings.DialogBackgroundColor).ToString() + @";
+                    --DialogBorderColor: " + ColorTranslator.ToHtml(LaunchBoxSettings.DialogBorderColor).ToString() + @";
+                    --DialogForegroundColor:" + ColorTranslator.ToHtml(LaunchBoxSettings.DialogForegroundColor).ToString() + @";
+                    --backColorContrast1:" + ColorTranslator.ToHtml(UserInterface.backColorContrast1).ToString() + @";
+                    --backColorContrast2:" + ColorTranslator.ToHtml(UserInterface.backColorContrast2).ToString() + @";
+                }
+                ";
+
+                if (this.HtmlTemplate.Contains("mySoapMessage"))
+                {
+                    //Old version of template, dirty edit to add style
+                    string old_css_hack = @"
+                        <style>
+                        " + colors_css + @"
+                        .note{
+                            background-color:var(--DialogBackgroundColor);
+                        }
+                        div label{
+                            color:var(--DialogForegroundColor);
+                            background-color:var(--DialogBackgroundColor);;
+    
+                        }
+                        #myData{
+                            background-color: var(--DialogBackgroundColor);    
+                        }
+                        .tab{
+                            background-color: var(--DialogHighlightColor);
+                        }
+                        h3{
+                            color:var(--DialogForegroundColor);
+                        }
+                        a:link, a:visited {
+                          color: var(--DialogForegroundColor);
+                        }
+                        td{
+                            color:var(--DialogForegroundColor);
+                        }
+                        td.val {
+	                        color: var(--DialogForegroundColor);
+                        }
+                        td.title{
+                            color:var(--DialogForegroundColor);
+                        }
+                        body{
+                            background-color: var(--DialogBackgroundColor); 
+                        }
+                        </style>
+                    ";
+
+                    this.HtmlTemplate = this.HtmlTemplate.Replace(@"</head>", old_css_hack + @"</head>");
+                    this.HtmlTemplate = this.HtmlTemplate.Replace(@"background: #EEE;", "background: var(--backColorContrast1);");
+                    this.HtmlTemplate = this.HtmlTemplate.Replace(@"background: #FFF;", "background: var(--backColorContrast2);");
+
+                    //this.HtmlTemplate = this.HtmlTemplate.Replace("[[JSONDATA]]", @"[[JSONDATA]]</script>" + old_css_hack + "<script>");
+                }
+                else
+                {
+                    this.HtmlTemplate = this.HtmlTemplate.Replace("[[CSSCOLOR]]", colors_css);
+                }
+            }
+
+            if (this.useWebview)
+            {
+                this.chromiumWebBrowser1 = new CefSharp.WinForms.ChromiumWebBrowser();
+                this.chromiumWebBrowser1.ActivateBrowserOnCreation = false;
+                this.chromiumWebBrowser1.Visible = false;
+                this.chromiumWebBrowser1.Location = fakebrowser_txt.Location;
+                this.chromiumWebBrowser1.Name = "chromiumWebBrowser1";
+                this.chromiumWebBrowser1.Size = fakebrowser_txt.Size;
+
+                var sett = new CefSharp.BrowserSettings();
+                sett.BackgroundColor = ColorToUInt(LaunchBoxSettings.DialogBackgroundColor);
+                chromiumWebBrowser1.BrowserSettings = sett;
+
+                this.chromiumWebBrowser1.TabIndex = fakebrowser_txt.TabIndex;
+                this.Controls.Remove(this.fakebrowser_txt);
+                this.Controls.Add(this.chromiumWebBrowser1);
+
+
+
+                this.chromiumWebBrowser1.LoadHtml("<html><body bgcolor=\"" + ColorTranslator.ToHtml(UserInterface.backColor) + "\">No Info</body></html>");
+                //this.chromiumWebBrowser1.Visible = true;
+            }
+            else
+            {
+                this.Width = 850;
+                //chromiumWebBrowser1.Visible = false;
+            }
+
+
 
         }
+
+        public static uint ColorToUInt(Color color)
+        {
+            return (uint)((color.A << 24) | (color.R << 16) | (color.G << 8) | (color.B << 0));
+        }
+
+
 
         //Some parameters where added :
         //archiveDir : The directory of the 7z file
@@ -133,7 +266,9 @@ namespace ArchiveCacheManager
 
 
             InitializeComponent();
+            InitializeWebView(archiveDir, archiveName);
             InitializeListView();
+            
             UserInterface.ApplyTheme(this);
             archiveNameLabel.Text = archiveName;
 
@@ -255,6 +390,44 @@ namespace ArchiveCacheManager
             else MenuItem_filterRH.Visible = false;
 
             EmulatorSelectedUpdate();
+
+        }
+
+        public static string find_retroarch_savedir(string apppath)
+        {
+            string dir_emulator = Path.GetFullPath(Path.GetDirectoryName(apppath));
+            string config_file = dir_emulator + @"\retroarch.cfg";
+            if (File.Exists(config_file))
+            {
+                foreach (string line in System.IO.File.ReadLines(config_file))
+                {
+                    if (line.StartsWith("savestate_directory ="))
+                    {
+                        foreach (Match m in Regex.Matches(line, @"\""(.*?)\"""))
+                        {
+                            string valdir = m.Value;
+                            valdir = valdir.Trim('"');
+                            if (valdir.StartsWith(":"))
+                            {
+                                valdir = dir_emulator + valdir.Trim(':');
+                                valdir = Path.GetFullPath(valdir);
+                            }
+                            valdir = Path.GetFullPath(valdir);
+                            if (Directory.Exists(valdir))
+                            {
+                                return valdir;
+                            }
+
+                            break;
+                            //MessageBox.Show(valdir);
+                        }
+
+                        break;
+                    }
+                }
+
+            }
+            return "";
 
         }
 
@@ -428,6 +601,34 @@ namespace ArchiveCacheManager
         private void fastObjectListView1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+            if (this.useWebview && fastObjectListView1.SelectedIndex >= 0)
+            {
+                Rom myrom = (Rom)this.fastObjectListView1.SelectedObject;
+
+                if (File.Exists(metadataFile + "\\" + myrom.Title + ".html"))
+                {
+                    string html_data = File.ReadAllText(metadataFile + "\\" + myrom.Title + ".html");
+                    this.HtmlTemplate.Replace("[[CSSCOLOR]]", this.colors_css);
+                    this.chromiumWebBrowser1.LoadHtml(html_data);
+                    this.chromiumWebBrowser1.Visible = true;
+                    return;
+                }
+                //MessageBox.Show("check info");
+                //New System
+                if (this.useJsonMeta && this.JsonData.ContainsKey(myrom.Title))
+                {
+                    //MessageBox.Show("check info B");
+                    string sval = this.JsonData[myrom.Title].ToString();
+                    string html_data = this.HtmlTemplate.Replace("[[JSONDATA]]", sval);
+                    //MessageBox.Show(html_data);
+                    this.chromiumWebBrowser1.LoadHtml(html_data);
+                    //System.IO.File.WriteAllText("test2.html", html_data);
+                    this.chromiumWebBrowser1.Visible = true;
+
+                    return;
+                }
+                this.chromiumWebBrowser1.LoadHtml("<html><body bgcolor=\"" + ColorTranslator.ToHtml(UserInterface.backColor) + "\">No Info</body></html>");
+            }
         }
 
         //Executed before the context menu open
@@ -766,9 +967,10 @@ namespace ArchiveCacheManager
                 new_emulator_selected = new_emulator_selected.Replace(match.Value.ToString(), "").Trim();
             }
 
-
+            bool need_update = true;
             if (new_emulator_selected != Emulator_selected)
             {
+                need_update = true;
                 //If change of emulator, we clean save state data, but we keep the buffer_savestatefile so we can copy paste savestate beetween two retroarch emulator
                 Rom.ClearSaveState();
                 if (SaveStatePathList.ContainsKey(new_emulator_selected))
@@ -801,7 +1003,6 @@ namespace ArchiveCacheManager
             }
             else InstallTexture_btn.Enabled = false;
 
-
             RemoveTexture_btn.Enabled = false;
             bool found_texture_match = false;
             if (path_texture_set)
@@ -815,9 +1016,9 @@ namespace ArchiveCacheManager
                 {
                     RemoveTexture_btn.Enabled = true;
                     FileInfo fi = new FileInfo(true_out);
-                    foreach(Texture t in FListView_Texture.Objects)
+                    foreach (Texture t in FListView_Texture.Objects)
                     {
-                        if(t.SizeInBytes == fi.Length)
+                        if (t.SizeInBytes == fi.Length)
                         {
                             found_texture_match = true;
                             lbl_installed_texture.Text = "Installed Texture : " + t.Title;
@@ -825,7 +1026,7 @@ namespace ArchiveCacheManager
                         }
                         else t.IconImg = "";
                     }
-                    if(found_texture_match == false)
+                    if (found_texture_match == false)
                     {
                         lbl_installed_texture.Text = "Installed Texture : " + path_texture_name + " (Unknow)";
                     }
@@ -842,13 +1043,14 @@ namespace ArchiveCacheManager
             {
                 foreach (Texture t in FListView_Texture.Objects)
                 {
-                    if(t.IconImg != "")
+                    if (t.IconImg != "")
                     {
                         t.IconImg = "";
                     }
                 }
             }
             FListView_Texture.Refresh();
+            
         }
 
         private void MenuItem_clearFilters_Click(object sender, EventArgs e)
@@ -1054,6 +1256,33 @@ namespace ArchiveCacheManager
         private void FListView_Texture_SelectedIndexChanged(object sender, EventArgs e)
         {
             EmulatorSelectedUpdate();
+            if (this.useWebview && FListView_Texture.SelectedIndex >= 0)
+            {
+                Texture myrom = (Texture)this.FListView_Texture.SelectedObject;
+
+                if (File.Exists(metadataFile + "\\" + myrom.Title + ".html"))
+                {
+                    string html_data = File.ReadAllText(metadataFile + "\\" + myrom.Title + ".html");
+                    this.HtmlTemplate.Replace("[[CSSCOLOR]]", this.colors_css);
+                    this.chromiumWebBrowser1.LoadHtml(html_data);
+                    this.chromiumWebBrowser1.Visible = true;
+                    return;
+                }
+
+                //New System
+                if (this.useJsonMeta && this.JsonData.ContainsKey(myrom.Title))
+                {
+                    string sval = this.JsonData[myrom.Title].ToString();
+                    string html_data = this.HtmlTemplate.Replace("[[JSONDATA]]", sval);
+                    this.chromiumWebBrowser1.LoadHtml(html_data);
+                    System.IO.File.WriteAllText("testtexture.html", html_data);
+                    this.chromiumWebBrowser1.Visible = true;
+
+                    return;
+                }
+                this.chromiumWebBrowser1.LoadHtml("<html><body bgcolor=\"" + ColorTranslator.ToHtml(UserInterface.backColor) + "\">No Info</body></html>");
+            }
+            
         }
 
         private void RemoveTexture_btn_Click(object sender, EventArgs e)

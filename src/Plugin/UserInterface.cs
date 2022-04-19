@@ -10,11 +10,11 @@ namespace ArchiveCacheManager
 {
     public static class UserInterface
     {
-        static double contrast = LaunchBoxSettings.DialogContrastMultiplier;
-        static Color foreColor = LaunchBoxSettings.DialogForegroundColor;
-        static Color backColor = LaunchBoxSettings.DialogBackgroundColor;
-        static Color backColorContrast1 = CalcContrast(backColor, contrast);
-        static Color backColorContrast2 = CalcContrast(backColor, contrast / 2);
+        static public double contrast = LaunchBoxSettings.DialogContrastMultiplier;
+        static public Color foreColor = LaunchBoxSettings.DialogForegroundColor;
+        static public Color backColor = LaunchBoxSettings.DialogBackgroundColor;
+        static public Color backColorContrast1 = CalcContrast(backColor, contrast);
+        static public Color backColorContrast2 = CalcContrast(backColor, contrast / 2);
 
         // https://stackoverflow.com/a/2735242
         public static IEnumerable<T> Descendants<T>(this Control control) where T : class

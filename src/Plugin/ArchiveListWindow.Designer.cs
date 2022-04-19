@@ -93,6 +93,7 @@ namespace ArchiveCacheManager
             this.Texture_Col_Size = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.TexturePath_btn = new System.Windows.Forms.Button();
             this.TexturePath_txt = new System.Windows.Forms.TextBox();
+            this.fakebrowser_txt = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.fastObjectListView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -104,7 +105,7 @@ namespace ArchiveCacheManager
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cancelButton.Image = global::ArchiveCacheManager.Resources.cross_script;
-            this.cancelButton.Location = new System.Drawing.Point(93, 630);
+            this.cancelButton.Location = new System.Drawing.Point(93, 691);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 28);
             this.cancelButton.TabIndex = 2;
@@ -118,7 +119,7 @@ namespace ArchiveCacheManager
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.okButton.Image = global::ArchiveCacheManager.Resources.tick;
-            this.okButton.Location = new System.Drawing.Point(12, 630);
+            this.okButton.Location = new System.Drawing.Point(12, 691);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 28);
             this.okButton.TabIndex = 1;
@@ -144,7 +145,7 @@ namespace ArchiveCacheManager
             this.emulatorComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.emulatorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.emulatorComboBox.FormattingEnabled = true;
-            this.emulatorComboBox.Location = new System.Drawing.Point(462, 643);
+            this.emulatorComboBox.Location = new System.Drawing.Point(449, 696);
             this.emulatorComboBox.Name = "emulatorComboBox";
             this.emulatorComboBox.Size = new System.Drawing.Size(228, 21);
             this.emulatorComboBox.TabIndex = 5;
@@ -153,7 +154,7 @@ namespace ArchiveCacheManager
             // emulatorComboBoxLabel
             // 
             this.emulatorComboBoxLabel.AutoSize = true;
-            this.emulatorComboBoxLabel.Location = new System.Drawing.Point(405, 646);
+            this.emulatorComboBoxLabel.Location = new System.Drawing.Point(396, 699);
             this.emulatorComboBoxLabel.Name = "emulatorComboBoxLabel";
             this.emulatorComboBoxLabel.Size = new System.Drawing.Size(51, 13);
             this.emulatorComboBoxLabel.TabIndex = 6;
@@ -193,7 +194,7 @@ namespace ArchiveCacheManager
             this.fastObjectListView1.Location = new System.Drawing.Point(12, 33);
             this.fastObjectListView1.Name = "fastObjectListView1";
             this.fastObjectListView1.ShowGroups = false;
-            this.fastObjectListView1.Size = new System.Drawing.Size(667, 372);
+            this.fastObjectListView1.Size = new System.Drawing.Size(667, 448);
             this.fastObjectListView1.SmallImageList = this.imageList1;
             this.fastObjectListView1.TabIndex = 7;
             this.fastObjectListView1.UseCompatibleStateImageBehavior = false;
@@ -557,7 +558,7 @@ namespace ArchiveCacheManager
             this.groupBox1.Controls.Add(this.FListView_Texture);
             this.groupBox1.Controls.Add(this.TexturePath_btn);
             this.groupBox1.Controls.Add(this.TexturePath_txt);
-            this.groupBox1.Location = new System.Drawing.Point(12, 423);
+            this.groupBox1.Location = new System.Drawing.Point(12, 487);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(665, 201);
             this.groupBox1.TabIndex = 8;
@@ -654,13 +655,24 @@ namespace ArchiveCacheManager
             this.TexturePath_txt.Size = new System.Drawing.Size(294, 20);
             this.TexturePath_txt.TabIndex = 0;
             // 
+            // fakebrowser_txt
+            // 
+            this.fakebrowser_txt.Enabled = false;
+            this.fakebrowser_txt.Location = new System.Drawing.Point(695, 33);
+            this.fakebrowser_txt.Multiline = true;
+            this.fakebrowser_txt.Name = "fakebrowser_txt";
+            this.fakebrowser_txt.Size = new System.Drawing.Size(752, 686);
+            this.fakebrowser_txt.TabIndex = 9;
+            this.fakebrowser_txt.Visible = false;
+            // 
             // ArchiveListWindow
             // 
             this.AcceptButton = this.okButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(691, 670);
+            this.ClientSize = new System.Drawing.Size(1460, 731);
+            this.Controls.Add(this.fakebrowser_txt);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.fastObjectListView1);
             this.Controls.Add(this.emulatorComboBoxLabel);
@@ -750,5 +762,6 @@ namespace ArchiveCacheManager
         private BrightIdeasSoftware.OLVColumn Texture_Col_Size;
         private System.Windows.Forms.Button RemoveTexture_btn;
         private System.Windows.Forms.Label lbl_installed_texture;
+        private System.Windows.Forms.TextBox fakebrowser_txt;
     }
 }
