@@ -232,7 +232,38 @@ namespace ArchiveCacheManager
             return (uint)((color.A << 24) | (color.R << 16) | (color.G << 8) | (color.B << 0));
         }
 
+        public static string find_priority_file(string emulator, string plateform, string[] fileList)
+        {
+            List<string> prioritySections = new List<string>();
+            prioritySections.Add(Config.EmulatorPlatformKey(emulator, plateform));
+            prioritySections.Add(Config.EmulatorPlatformKey("All", "All"));
+            foreach (var prioritySection in prioritySections)
+            {
+                try
+                {
+                    string[] extensionPriority = Config.GetFilenamePriority(prioritySection).Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                    // Search the extensions in priority order
+                    foreach (string extension in extensionPriority)
+                    {
+                        //Logger.Log(string.Format("DEBUGPRIO : Check extension {0} in priority section {1}", extension, prioritySection));
+                        foreach (string fl in fileList)
+                        {
+                            //Logger.Log(string.Format("DEBUGPRIO : Check file {0} against {1}", fl.ToLower(), string.Format("*{0}", extension.ToLower().Trim())));
+                            if (Wildcard.Match(fl.ToLower(), string.Format("*{0}", extension.ToLower().Trim())))
+                            {
+                                //Logger.Log(string.Format("DEBUGPRIO : {0} is a priority file !", fl));
+                                return fl;
+                            }
+                        }
+                    }
+                }
+                catch (KeyNotFoundException)
+                {
 
+                }
+            }
+            return "";
+        }
 
         //Some parameters where added :
         //archiveDir : The directory of the 7z file
@@ -306,34 +337,7 @@ namespace ArchiveCacheManager
 
 
             //We search the priority file if any :
-            string priority_file = "";
-            List<string> prioritySections = new List<string>();
-            prioritySections.Add(Config.EmulatorPlatformKey(emulator, plateform));
-            prioritySections.Add(Config.EmulatorPlatformKey("All", "All"));
-            foreach (var prioritySection in prioritySections)
-            {
-                try
-                {
-                    string[] extensionPriority = Config.GetFilenamePriority(prioritySection).Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
-                    // Search the extensions in priority order
-                    foreach (string extension in extensionPriority)
-                    {
-                        foreach (string fl in fileList)
-                        {
-                            if (Wildcard.Match(fl.ToLower(), string.Format("*{0}", extension.ToLower().Trim())))
-                            {
-                                priority_file = fl;
-                                break;
-                            }
-                        }
-                    }
-                }
-                catch (KeyNotFoundException)
-                {
-
-                }
-                if (priority_file != "") break;
-            }
+            string priority_file = find_priority_file(emulator, plateform, fileList);
 
             //fill the Rom List (a static list within the Rom class) with Roms.
             int i = 0;
@@ -977,10 +981,8 @@ namespace ArchiveCacheManager
                 new_emulator_selected = new_emulator_selected.Replace(match.Value.ToString(), "").Trim();
             }
 
-            bool need_update = true;
             if (new_emulator_selected != Emulator_selected)
             {
-                need_update = true;
                 //If change of emulator, we clean save state data, but we keep the buffer_savestatefile so we can copy paste savestate beetween two retroarch emulator
                 Rom.ClearSaveState();
                 if (SaveStatePathList.ContainsKey(new_emulator_selected))
