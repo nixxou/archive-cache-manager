@@ -56,69 +56,85 @@ namespace ArchiveCacheManager
         public string HtmlTemplate = "";
         public dynamic JsonData;
         public string metadataFile = "";
+        public string metadataFolder = "";
         public string colors_css = "";
 
         private CefSharp.WinForms.ChromiumWebBrowser chromiumWebBrowser1;
 
-        private (bool foundmeta,string Metadata_file, string Metadata_template, int type_meta) find_metadata(string dirpath,string archiveName)
+        private (bool foundmeta,string Metadata_file, string Metadata_template, string Metadata_folder) find_metadata(string dirpath,string archiveName)
         {
+            string res_Metadata_file = "";
+            string res_Metadata_template = "";
+            string res_Metadata_htmlfolder = "";
+
             string Metadata_file = "";
             string Metadata_template = "";
+            bool valid_meta = false;
+            
 
             DirectoryInfo dinfo = new DirectoryInfo(dirpath);
             string Metadata_folder = dinfo.Parent.FullName + "\\metadata\\" + dinfo.Name;
             if (Directory.Exists(Metadata_folder))
             {
-                FileInfo finfo = new FileInfo(dinfo.FullName + "\\" + archiveName);
+                if (Directory.Exists(Metadata_folder + "\\" + archiveName))
+                {
+                    res_Metadata_htmlfolder = Metadata_folder + "\\" + archiveName;
+                    valid_meta = true;
+                }
                 Metadata_file = Metadata_folder + "\\" + Path.GetFileNameWithoutExtension(archiveName) + ".json";
                 if (File.Exists(Metadata_file)){
                     Metadata_template = Metadata_folder + "\\template.html";
-                    if(File.Exists(Metadata_template)) return (true, Metadata_file, Metadata_template, 1);
+                    if (File.Exists(Metadata_template))
+                    {
+                        res_Metadata_file = Metadata_file;
+                        res_Metadata_template = Metadata_template;
+                        valid_meta = true;
+                    }
                 }
-                if(Directory.Exists(Metadata_folder + "\\" + archiveName))
-                {
-                    return (true, Metadata_folder + "\\" + archiveName, "", 2);
-                }
+                if (valid_meta) return (true,res_Metadata_file, res_Metadata_template, res_Metadata_htmlfolder);
             }
             Metadata_folder = this.base_launchbox_dir + "\\metadata\\" + dinfo.Name;
             if (Directory.Exists(Metadata_folder))
             {
-                FileInfo finfo = new FileInfo(dinfo.FullName + "\\" + archiveName);
+                if (Directory.Exists(Metadata_folder + "\\" + archiveName))
+                {
+                    res_Metadata_htmlfolder = Metadata_folder + "\\" + archiveName;
+                    valid_meta = true;
+                }
+
                 Metadata_file = Metadata_folder + "\\" + Path.GetFileNameWithoutExtension(archiveName) + ".json";
                 if (File.Exists(Metadata_file))
                 {
                     Metadata_template = Metadata_folder + "\\template.html";
-                    if (File.Exists(Metadata_template)) return (true, Metadata_file, Metadata_template, 1);
+                    if (File.Exists(Metadata_template))
+                    {
+                        res_Metadata_file = Metadata_file;
+                        res_Metadata_template = Metadata_template;
+                        valid_meta = true;
+                    }
                 }
-                if (Directory.Exists(Metadata_folder + "\\" + archiveName))
-                {
-                    return (true, Metadata_folder + "\\" + archiveName, "", 2);
-                }
+                if (valid_meta) return (true, res_Metadata_file, res_Metadata_template, res_Metadata_htmlfolder);
             }
 
 
-            return (false, "", "", 0);
+            return (false, "", "", "");
         }
 
         void InitializeWebView(string dirpath,string archiveName)
         {
 
             
-            (bool foundmeta, string Metadata_file, string Metadata_template, int type_meta) = find_metadata(dirpath, archiveName);
+            (bool foundmeta, string Metadata_file, string Metadata_template, string Metadata_htmlfolder) = find_metadata(dirpath, archiveName);
             this.metadataFile = Metadata_file;
+            this.metadataFolder = Metadata_htmlfolder;
             this.useWebview = foundmeta;
-
             this.useJsonMeta = false;
 
-            if (foundmeta && type_meta == 1)
+            if (foundmeta)
             {
-                this.HtmlTemplate = File.ReadAllText(Metadata_template);
-                this.JsonData = JObject.Parse(File.ReadAllText(Metadata_file));
-                this.useJsonMeta = true;
-
                 this.colors_css = @"
                 :root {
-                    --DialogAccentColor: "+ ColorTranslator.ToHtml(LaunchBoxSettings.DialogAccentColor).ToString() + @";
+                    --DialogAccentColor: " + ColorTranslator.ToHtml(LaunchBoxSettings.DialogAccentColor).ToString() + @";
                     --DialogHighlightColor: " + ColorTranslator.ToHtml(LaunchBoxSettings.DialogHighlightColor).ToString() + @";
                     --DialogBackgroundColor: " + ColorTranslator.ToHtml(LaunchBoxSettings.DialogBackgroundColor).ToString() + @";
                     --DialogBorderColor: " + ColorTranslator.ToHtml(LaunchBoxSettings.DialogBorderColor).ToString() + @";
@@ -127,6 +143,13 @@ namespace ArchiveCacheManager
                     --backColorContrast2:" + ColorTranslator.ToHtml(UserInterface.backColorContrast2).ToString() + @";
                 }
                 ";
+            }
+
+            if (foundmeta && Metadata_file != "")
+            {
+                this.HtmlTemplate = File.ReadAllText(Metadata_template);
+                this.JsonData = JObject.Parse(File.ReadAllText(Metadata_file));
+                this.useJsonMeta = true;
 
                 if (this.HtmlTemplate.Contains("mySoapMessage"))
                 {
@@ -172,8 +195,6 @@ namespace ArchiveCacheManager
                     this.HtmlTemplate = this.HtmlTemplate.Replace(@"</head>", old_css_hack + @"</head>");
                     this.HtmlTemplate = this.HtmlTemplate.Replace(@"background: #EEE;", "background: var(--backColorContrast1);");
                     this.HtmlTemplate = this.HtmlTemplate.Replace(@"background: #FFF;", "background: var(--backColorContrast2);");
-
-                    //this.HtmlTemplate = this.HtmlTemplate.Replace("[[JSONDATA]]", @"[[JSONDATA]]</script>" + old_css_hack + "<script>");
                 }
                 else
                 {
@@ -198,19 +219,12 @@ namespace ArchiveCacheManager
                 this.Controls.Remove(this.fakebrowser_txt);
                 this.Controls.Add(this.chromiumWebBrowser1);
 
-
-
                 this.chromiumWebBrowser1.LoadHtml("<html><body bgcolor=\"" + ColorTranslator.ToHtml(UserInterface.backColor) + "\">No Info</body></html>");
-                //this.chromiumWebBrowser1.Visible = true;
             }
             else
             {
-                this.Width = 850;
-                //chromiumWebBrowser1.Visible = false;
+                this.Width = 830;
             }
-
-
-
         }
 
         public static uint ColorToUInt(Color color)
@@ -605,26 +619,22 @@ namespace ArchiveCacheManager
             {
                 Rom myrom = (Rom)this.fastObjectListView1.SelectedObject;
 
-                if (File.Exists(metadataFile + "\\" + myrom.Title + ".html"))
+                if (this.metadataFolder != "" && File.Exists(this.metadataFolder + "\\" + myrom.Title + ".html"))
                 {
-                    string html_data = File.ReadAllText(metadataFile + "\\" + myrom.Title + ".html");
+                    string html_data = File.ReadAllText(this.metadataFolder + "\\" + myrom.Title + ".html");
                     this.HtmlTemplate.Replace("[[CSSCOLOR]]", this.colors_css);
                     this.chromiumWebBrowser1.LoadHtml(html_data);
                     this.chromiumWebBrowser1.Visible = true;
                     return;
                 }
-                //MessageBox.Show("check info");
-                //New System
+
                 if (this.useJsonMeta && this.JsonData.ContainsKey(myrom.Title))
                 {
-                    //MessageBox.Show("check info B");
                     string sval = this.JsonData[myrom.Title].ToString();
                     string html_data = this.HtmlTemplate.Replace("[[JSONDATA]]", sval);
-                    //MessageBox.Show(html_data);
                     this.chromiumWebBrowser1.LoadHtml(html_data);
                     //System.IO.File.WriteAllText("test2.html", html_data);
                     this.chromiumWebBrowser1.Visible = true;
-
                     return;
                 }
                 this.chromiumWebBrowser1.LoadHtml("<html><body bgcolor=\"" + ColorTranslator.ToHtml(UserInterface.backColor) + "\">No Info</body></html>");
@@ -1260,24 +1270,22 @@ namespace ArchiveCacheManager
             {
                 Texture myrom = (Texture)this.FListView_Texture.SelectedObject;
 
-                if (File.Exists(metadataFile + "\\" + myrom.Title + ".html"))
+                if (this.metadataFolder != "" && File.Exists(this.metadataFolder + "\\" + myrom.Title + ".html"))
                 {
-                    string html_data = File.ReadAllText(metadataFile + "\\" + myrom.Title + ".html");
+                    string html_data = File.ReadAllText(this.metadataFolder + "\\" + myrom.Title + ".html");
                     this.HtmlTemplate.Replace("[[CSSCOLOR]]", this.colors_css);
                     this.chromiumWebBrowser1.LoadHtml(html_data);
                     this.chromiumWebBrowser1.Visible = true;
                     return;
                 }
 
-                //New System
                 if (this.useJsonMeta && this.JsonData.ContainsKey(myrom.Title))
                 {
                     string sval = this.JsonData[myrom.Title].ToString();
                     string html_data = this.HtmlTemplate.Replace("[[JSONDATA]]", sval);
                     this.chromiumWebBrowser1.LoadHtml(html_data);
-                    System.IO.File.WriteAllText("testtexture.html", html_data);
+                    //System.IO.File.WriteAllText("testtexture.html", html_data);
                     this.chromiumWebBrowser1.Visible = true;
-
                     return;
                 }
                 this.chromiumWebBrowser1.LoadHtml("<html><body bgcolor=\"" + ColorTranslator.ToHtml(UserInterface.backColor) + "\">No Info</body></html>");
