@@ -54,7 +54,9 @@ namespace ArchiveCacheManager
                                                                                 m3uNameItems[(int)config.Value.M3uName],
                                                                                 config.Value.SmartExtract,
                                                                                 config.Value.Chdman,
-                                                                                config.Value.DolphinTool });
+                                                                                config.Value.DolphinTool,
+                                                                                config.Value.TexturePath
+                    });
                 }
                 else
                 {
@@ -67,7 +69,9 @@ namespace ArchiveCacheManager
                                                                           m3uNameItems[(int)config.Value.M3uName],
                                                                           config.Value.SmartExtract,
                                                                           config.Value.Chdman,
-                                                                          config.Value.DolphinTool });
+                                                                          config.Value.DolphinTool,
+                                                                          config.Value.TexturePath
+                    });
                 }
             }
             emulatorPlatformConfigDataGridView.ClearSelection();
@@ -204,6 +208,7 @@ namespace ArchiveCacheManager
                 config[key].SmartExtract = Convert.ToBoolean(row.Cells[7].Value);
                 config[key].Chdman = Convert.ToBoolean(row.Cells[8].Value);
                 config[key].DolphinTool = Convert.ToBoolean(row.Cells[9].Value);
+                config[key].TexturePath = row.Cells[10].Value == null ? string.Empty : row.Cells[10].Value.ToString();
             }
 
             Config.UpdateCheck = updateCheckCheckBox.Checked;
@@ -435,6 +440,34 @@ namespace ArchiveCacheManager
             {
                 dataGridView.Cursor = Cursors.Default;
             }
+        }
+
+        private void emulatorPlatformConfigDataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            
+            //MessageBox.Show(e.RowIndex.ToString() + " " + e.ColumnIndex.ToString());
+
+            using (var fbd = new FolderBrowserDialog())
+            {
+                string base_dir = Directory.GetParent(Path.GetDirectoryName(Application.ExecutablePath)).FullName;
+                base_dir = base_dir + @"\Emulators";
+                fbd.RootFolder = Environment.SpecialFolder.DesktopDirectory;
+                fbd.SelectedPath = base_dir;
+
+                DialogResult result = fbd.ShowDialog();
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath) && Directory.Exists(fbd.SelectedPath))
+                {
+                    //TexturePath_txt.Text = fbd.SelectedPath;                    
+                    emulatorPlatformConfigDataGridView.Rows[e.RowIndex].Cells[10].Value = Path.GetFullPath(fbd.SelectedPath);
+                }
+                if (result == DialogResult.Cancel)
+                {
+                    //TexturePath_txt.Text = fbd.SelectedPath;                    
+                    emulatorPlatformConfigDataGridView.Rows[e.RowIndex].Cells[10].Value = "";
+                }
+
+            }
+
         }
     }
 }

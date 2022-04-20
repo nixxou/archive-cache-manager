@@ -90,6 +90,7 @@ namespace ArchiveCacheManager
             this.SmartExtract = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Chdman = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.DolphinTool = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.TexturePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tab1CacheSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cacheDataGridView)).BeginInit();
@@ -501,7 +502,8 @@ namespace ArchiveCacheManager
             this.M3uName,
             this.SmartExtract,
             this.Chdman,
-            this.DolphinTool});
+            this.DolphinTool,
+            this.TexturePath});
             this.emulatorPlatformConfigDataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.emulatorPlatformConfigDataGridView.Location = new System.Drawing.Point(6, 62);
             this.emulatorPlatformConfigDataGridView.MultiSelect = false;
@@ -511,6 +513,7 @@ namespace ArchiveCacheManager
             this.emulatorPlatformConfigDataGridView.Size = new System.Drawing.Size(726, 375);
             this.emulatorPlatformConfigDataGridView.StandardTab = true;
             this.emulatorPlatformConfigDataGridView.TabIndex = 13;
+            this.emulatorPlatformConfigDataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.emulatorPlatformConfigDataGridView_CellDoubleClick);
             this.emulatorPlatformConfigDataGridView.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.emulatorPlatformConfigDataGridView_CellMouseEnter);
             this.emulatorPlatformConfigDataGridView.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.emulatorPlatformConfigDataGridView_CellMouseLeave);
             this.emulatorPlatformConfigDataGridView.SelectionChanged += new System.EventHandler(this.extensionPriorityDataGridView_SelectionChanged);
@@ -775,6 +778,13 @@ namespace ArchiveCacheManager
             this.DolphinTool.ToolTipText = "Extract RVZ, WIA, and GCZ files to ISO files.";
             this.DolphinTool.Width = 70;
             // 
+            // TexturePath
+            // 
+            this.TexturePath.HeaderText = "HiRes Texture Path";
+            this.TexturePath.MinimumWidth = 100;
+            this.TexturePath.Name = "TexturePath";
+            this.TexturePath.ReadOnly = true;
+            // 
             // NewConfigWindow
             // 
             this.AcceptButton = this.okButton;
@@ -870,5 +880,6 @@ namespace ArchiveCacheManager
         private System.Windows.Forms.DataGridViewCheckBoxColumn SmartExtract;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Chdman;
         private System.Windows.Forms.DataGridViewCheckBoxColumn DolphinTool;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TexturePath;
     }
 }

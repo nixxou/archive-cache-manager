@@ -584,7 +584,7 @@ namespace ArchiveCacheManager
                 return String.Format("{0} bytes", size); ;
             };
             //To register the double click or enter in the list
-            fastObjectListView1.ItemActivate += new System.EventHandler(this.fastObjectListView1_ItemActivate);
+            //fastObjectListView1.ItemActivate += new System.EventHandler(this.fastObjectListView1_ItemActivate);
             //To execute this function before loading the context menu, usefull to hide some option if no rom is selected
             contextMenuStrip1.Opened += new System.EventHandler(this.contextMenuStrip1_Opened);
             //For the search textbox filter, to validate a new filter text, since there is no "ok" button
@@ -613,8 +613,17 @@ namespace ArchiveCacheManager
 
         private void fastObjectListView1_ItemActivate(object sender, EventArgs e)
         {
+            //MessageBox.Show("fastObjectListView1_ItemActivate");
+            //okButton.PerformClick();
+        }
+
+        private void fastObjectListView1_DClick(object sender, EventArgs e)
+        {
+            //MessageBox.Show("fastObjectListView1_DClick");
             okButton.PerformClick();
         }
+
+        
 
         private void fastObjectListView1_SelectedIndexChanged(object sender, EventArgs e)
         {

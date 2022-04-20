@@ -203,6 +203,7 @@ namespace ArchiveCacheManager
             this.fastObjectListView1.View = System.Windows.Forms.View.Details;
             this.fastObjectListView1.VirtualMode = true;
             this.fastObjectListView1.SelectedIndexChanged += new System.EventHandler(this.fastObjectListView1_SelectedIndexChanged);
+            this.fastObjectListView1.DoubleClick += new System.EventHandler(this.fastObjectListView1_DClick);
             // 
             // titleColumnF
             // 
@@ -610,6 +611,7 @@ namespace ArchiveCacheManager
             this.Texture_Col_File,
             this.Texture_Col_Size});
             this.FListView_Texture.Cursor = System.Windows.Forms.Cursors.Default;
+            this.FListView_Texture.FullRowSelect = true;
             this.FListView_Texture.HideSelection = false;
             this.FListView_Texture.Location = new System.Drawing.Point(6, 19);
             this.FListView_Texture.Name = "FListView_Texture";
