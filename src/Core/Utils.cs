@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ArchiveCacheManager
 {
-    static class Utils
+    static public class Utils
     {
         /// <summary>
         /// Convert the provided object into an array with the object as its single item.

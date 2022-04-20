@@ -344,6 +344,9 @@ namespace ArchiveCacheManager
                 }
             }
 
+            List<string> fileList_All = new List<string>();
+            fileList_All = Directory.GetFiles(archiveCachePath, "*", SearchOption.AllDirectories).ToList();
+
             List<string> prioritySections = new List<string>();
             prioritySections.Add(Config.EmulatorPlatformKey(LaunchInfo.Game.Emulator, LaunchInfo.Game.Platform));
             prioritySections.Add(Config.EmulatorPlatformKey("All", "All"));
@@ -357,8 +360,14 @@ namespace ArchiveCacheManager
                     // Search the extensions in priority order
                     foreach (string extension in extensionPriority)
                     {
-                        fileList = Directory.GetFiles(archiveCachePath, string.Format("*{0}", extension), SearchOption.AllDirectories).ToList();
-
+                        foreach (string file in fileList_All)
+                        {
+                            if (Wildcard.Match(file.ToLower(), string.Format("*{0}", extension.ToLower().Trim())))
+                            {
+                                fileList.Add(file);
+                            }
+                        }
+  
                         foreach (string ex in managerFiles)
                         {
                             fileList.Remove(ex);
@@ -366,7 +375,7 @@ namespace ArchiveCacheManager
 
                         if (fileList.Count > 0)
                         {
-                            Logger.Log(string.Format("Using filename priority \"{0}\".", extension));
+                            Logger.Log(string.Format("ListCacheArchive : Using filename priority \"{0}\".", extension));
                             return fileList;
                         }
                     }
@@ -377,7 +386,27 @@ namespace ArchiveCacheManager
                 }
             }
 
-            fileList = Directory.GetFiles(archiveCachePath, "*", SearchOption.AllDirectories).ToList();
+            //fileList = Directory.GetFiles(archiveCachePath, "*", SearchOption.AllDirectories).ToList();
+            //A little extra, not sure of my code, to add metadata file in the end of the fileList, so if no priority is set or match, avoid to try to launch a txt file
+            List<string> metadataList = Utils.SplitExtensions(Config.MetadataExtensions).ToList();
+            List<string> fileList_lowpriority = new List<string>();
+            foreach (string extension in metadataList)
+            {
+                foreach (string file in fileList_All)
+                {
+                    if (Wildcard.Match(file.ToLower(), string.Format("*{0}", extension.ToLower().Trim())))
+                    {
+                        fileList_lowpriority.Add(file);
+                    }
+                }
+            }
+            if (fileList_lowpriority.Count > 0)
+            {
+                fileList = fileList_All.Except(fileList_lowpriority).ToList();
+                fileList.AddRange(fileList_lowpriority);
+
+            }
+            else fileList = fileList_All;
 
             foreach (string ex in managerFiles)
             {
