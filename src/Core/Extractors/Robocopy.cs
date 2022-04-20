@@ -52,5 +52,10 @@ namespace ArchiveCacheManager
         {
             return "File Copy";
         }
+
+        public override string GetExtractorPath()
+        {
+            return null;
+        }
     }
 }

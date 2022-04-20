@@ -100,11 +100,13 @@ namespace ArchiveCacheManager
             ((System.ComponentModel.ISupportInitialize)(this.FListView_Texture)).BeginInit();
             this.SuspendLayout();
             // 
+
             // cancelButton
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cancelButton.Image = global::ArchiveCacheManager.Resources.cross_script;
+
             this.cancelButton.Location = new System.Drawing.Point(93, 691);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 28);
@@ -119,6 +121,7 @@ namespace ArchiveCacheManager
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.okButton.Image = global::ArchiveCacheManager.Resources.tick;
+
             this.okButton.Location = new System.Drawing.Point(12, 691);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 28);
@@ -145,6 +148,7 @@ namespace ArchiveCacheManager
             this.emulatorComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.emulatorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.emulatorComboBox.FormattingEnabled = true;
+
             this.emulatorComboBox.Location = new System.Drawing.Point(449, 696);
             this.emulatorComboBox.Name = "emulatorComboBox";
             this.emulatorComboBox.Size = new System.Drawing.Size(228, 21);
@@ -154,6 +158,7 @@ namespace ArchiveCacheManager
             // emulatorComboBoxLabel
             // 
             this.emulatorComboBoxLabel.AutoSize = true;
+
             this.emulatorComboBoxLabel.Location = new System.Drawing.Point(396, 699);
             this.emulatorComboBoxLabel.Name = "emulatorComboBoxLabel";
             this.emulatorComboBoxLabel.Size = new System.Drawing.Size(51, 13);
@@ -673,6 +678,7 @@ namespace ArchiveCacheManager
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
+
             this.ClientSize = new System.Drawing.Size(1460, 731);
             this.Controls.Add(this.fakebrowser_txt);
             this.Controls.Add(this.groupBox1);
@@ -682,9 +688,8 @@ namespace ArchiveCacheManager
             this.Controls.Add(this.archiveNameLabel);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.okButton);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
+
             this.MinimizeBox = false;
             this.Name = "ArchiveListWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -702,6 +707,7 @@ namespace ArchiveCacheManager
         }
 
         #endregion
+
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.Label archiveNameLabel;
