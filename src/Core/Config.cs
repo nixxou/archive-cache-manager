@@ -36,9 +36,10 @@ namespace ArchiveCacheManager
         private static readonly bool defaultMultiDisc = true;
         private static readonly bool defaultUseGameIdAsM3uFilename = true;
         private static readonly bool defaultSmartExtract = true;
-        private static readonly string defaultStandaloneExtensions = "gb, gbc, gba, agb, nes, fds, smc, sfc, n64, z64, v64, ndd, md, smd, gen, iso, chd, rvn, gg, gcm, 32x, bin";
+        private static readonly string defaultStandaloneExtensions = "gb, gbc, gba, agb, nes, fds, smc, sfc, n64, z64, v64, ndd, md, smd, gen, iso, chd, gg, gcm, 32x, bin";
         private static readonly string defaultMetadataExtensions = "nfo, txt, dat, xml, json";
         private static readonly bool? defaultUpdateCheck = null;
+        private static readonly bool defaultBypassPathCheck = false;
         private static readonly string defaultEmulatorPlatform = @"All \ All";
         // Priorities determined by launching zip game from LaunchBox, where zip contains common rom and disc file types.
         // As matches were found, those file types were removed from the zip and the process repeated.
@@ -88,6 +89,7 @@ namespace ArchiveCacheManager
         private static bool? mUpdateCheck = defaultUpdateCheck;
         private static string mStandaloneExtensions = defaultStandaloneExtensions;
         private static string mMetadataExtensions = defaultMetadataExtensions;
+        private static bool mBypassPathCheck = defaultBypassPathCheck;
 
         private static Dictionary<string, EmulatorPlatformConfig> mEmulatorPlatformConfig;
 
@@ -143,6 +145,12 @@ namespace ArchiveCacheManager
         {
             get => mMetadataExtensions;
             set => mMetadataExtensions = value;
+        }
+
+        public static bool BypassPathCheck
+        {
+            get => mBypassPathCheck;
+            set => mBypassPathCheck = value;
         }
 
         public static Dictionary<string, EmulatorPlatformConfig> GetAllEmulatorPlatformConfig()
@@ -398,6 +406,11 @@ namespace ArchiveCacheManager
                                 mMetadataExtensions = section.Keys[nameof(MetadataExtensions)];
                             }
 
+                            if (section.Keys.ContainsKey(nameof(BypassPathCheck)))
+                            {
+                                mBypassPathCheck = Convert.ToBoolean(section.Keys[nameof(BypassPathCheck)]);
+                            }
+
 
                             if (section.Keys.ContainsKey("MultiDiscSupport"))
                             {
@@ -549,6 +562,7 @@ namespace ArchiveCacheManager
             }
             iniData[configSection][nameof(StandaloneExtensions)] = mStandaloneExtensions;
             iniData[configSection][nameof(MetadataExtensions)] = mMetadataExtensions;
+            iniData[configSection][nameof(BypassPathCheck)] = mBypassPathCheck.ToString();
 
             foreach (KeyValuePair<string, EmulatorPlatformConfig> priority in mEmulatorPlatformConfig)
             {
@@ -584,6 +598,7 @@ namespace ArchiveCacheManager
             mMinArchiveSize = defaultMinArchiveSize;
             mStandaloneExtensions = defaultStandaloneExtensions;
             mMetadataExtensions = defaultMetadataExtensions;
+            mBypassPathCheck = defaultBypassPathCheck;
 
             mEmulatorPlatformConfig = new Dictionary<string, EmulatorPlatformConfig>();
             mEmulatorPlatformConfig.Add(defaultEmulatorPlatform, new EmulatorPlatformConfig());
