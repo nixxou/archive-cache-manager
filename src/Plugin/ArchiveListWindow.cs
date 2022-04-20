@@ -30,7 +30,7 @@ namespace ArchiveCacheManager
         public string SelectedFile;
         public int EmulatorIndex;
         public bool TagsActive = false; //Show extra tags columns
-
+        
         //Additionals filters
         public string filter_text = "";
         public bool filter_french = false;

@@ -269,6 +269,9 @@ namespace ArchiveCacheManager
             prioritySections.Add(Config.EmulatorPlatformKey(LaunchInfo.Game.Emulator, LaunchInfo.Game.Platform));
             prioritySections.Add(Config.EmulatorPlatformKey("All", "All"));
 
+            List<string> fileList_All = new List<string>();
+            fileList_All = LaunchInfo.Extractor.List(LaunchInfo.GetArchivePath()).ToList();
+
             foreach (var prioritySection in prioritySections)
             {
                 try
@@ -278,11 +281,17 @@ namespace ArchiveCacheManager
                     // Search the extensions in priority order
                     foreach (string extension in extensionPriority)
                     {
-                        fileList = LaunchInfo.Extractor.List(LaunchInfo.GetArchivePath(), string.Format("{0}", extension.Trim()).ToSingleArray(), null, true).ToList();
 
+                        foreach (string file in fileList_All)
+                        {
+                            if (Wildcard.Match(file.ToLower(), string.Format("*{0}", extension.ToLower().Trim())))
+                            {
+                                fileList.Add(file);
+                            }
+                        }
                         if (fileList.Count > 0)
                         {
-                            Logger.Log(string.Format("Using filename priority \"{0}\".", extension.Trim()));
+                            Logger.Log(string.Format("ListFileArchive : Using filename priority \"{0}\".", extension.Trim()));
                             return fileList;
                         }
                     }
@@ -293,9 +302,27 @@ namespace ArchiveCacheManager
                 }
             }
 
-            fileList = LaunchInfo.Extractor.List(LaunchInfo.GetArchivePath()).ToList();
+            //A little extra, not sure of my code, to add metadata file in the end of the fileList, so if no priority is set or match, avoid to try to launch a txt file
+            List<string> metadataList = Utils.SplitExtensions(Config.MetadataExtensions).ToList();
+            List<string> fileList_lowpriority = new List<string>();
+            foreach (string extension in metadataList)
+            {
+                foreach (string file in fileList_All)
+                {
+                    if (Wildcard.Match(file.ToLower(), string.Format("*{0}", extension.ToLower().Trim())))
+                    {
+                        fileList_lowpriority.Add(file);
+                    }
+                }
+            }
+            if (fileList_lowpriority.Count > 0)
+            {
+                fileList = fileList_All.Except(fileList_lowpriority).ToList();
+                fileList.AddRange(fileList_lowpriority);
+                return fileList;
+            }
 
-            return fileList;
+            return fileList_All;
         }
 
         /// <summary>
