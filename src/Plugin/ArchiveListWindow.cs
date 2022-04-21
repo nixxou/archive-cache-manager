@@ -636,7 +636,7 @@ namespace ArchiveCacheManager
                 {
                     string html_data = File.ReadAllText(this.metadataFolder + "\\" + myrom.Title + ".html");
                     this.HtmlTemplate.Replace("[[CSSCOLOR]]", this.colors_css);
-                    this.chromiumWebBrowser1.LoadHtml(html_data);
+                    this.chromiumWebBrowser1.LoadHtml(html_data,true);
                     this.chromiumWebBrowser1.Visible = true;
                     return;
                 }
@@ -645,7 +645,9 @@ namespace ArchiveCacheManager
                 {
                     string sval = this.JsonData[myrom.Title].ToString();
                     string html_data = this.HtmlTemplate.Replace("[[JSONDATA]]", sval);
-                    this.chromiumWebBrowser1.LoadHtml(html_data);
+                    
+                    //this.chromiumWebBrowser1.LoadHtml(html_data,true);
+                    this.chromiumWebBrowser1.LoadHtml(html_data, true);
                     //System.IO.File.WriteAllText("test2.html", html_data);
                     this.chromiumWebBrowser1.Visible = true;
                     return;
@@ -654,6 +656,11 @@ namespace ArchiveCacheManager
             }
         }
 
+        public static string Base64Encode(string plainText)
+        {
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+            return System.Convert.ToBase64String(plainTextBytes);
+        }
         //Executed before the context menu open
         Control _sourceControl = null;
         private void contextMenuStrip1_Opened(object sender, EventArgs e)
@@ -1285,7 +1292,7 @@ namespace ArchiveCacheManager
                 {
                     string html_data = File.ReadAllText(this.metadataFolder + "\\" + myrom.Title + ".html");
                     this.HtmlTemplate.Replace("[[CSSCOLOR]]", this.colors_css);
-                    this.chromiumWebBrowser1.LoadHtml(html_data);
+                    this.chromiumWebBrowser1.LoadHtml(html_data,true);
                     this.chromiumWebBrowser1.Visible = true;
                     return;
                 }
@@ -1294,7 +1301,7 @@ namespace ArchiveCacheManager
                 {
                     string sval = this.JsonData[myrom.Title].ToString();
                     string html_data = this.HtmlTemplate.Replace("[[JSONDATA]]", sval);
-                    this.chromiumWebBrowser1.LoadHtml(html_data);
+                    this.chromiumWebBrowser1.LoadHtml(html_data,true);
                     //System.IO.File.WriteAllText("testtexture.html", html_data);
                     this.chromiumWebBrowser1.Visible = true;
                     return;

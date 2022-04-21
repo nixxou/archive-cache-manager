@@ -348,7 +348,7 @@ namespace ArchiveCacheManager
                 {
                     string html_data = File.ReadAllText(this.metadataFolder + "\\" + selected_file + ".html");
                     this.HtmlTemplate.Replace("[[CSSCOLOR]]", this.colors_css);
-                    this.chromiumWebBrowser1.LoadHtml(html_data);
+                    this.chromiumWebBrowser1.LoadHtml(html_data,true);
                     this.chromiumWebBrowser1.Visible = true;
                     return;
                 }
@@ -357,7 +357,7 @@ namespace ArchiveCacheManager
                 {
                     string sval = this.JsonData[selected_file].ToString();
                     string html_data = this.HtmlTemplate.Replace("[[JSONDATA]]", sval);
-                    this.chromiumWebBrowser1.LoadHtml(html_data);
+                    this.chromiumWebBrowser1.LoadHtml(html_data,true);
                     //System.IO.File.WriteAllText("test2.html", html_data);
                     this.chromiumWebBrowser1.Visible = true;
                     return;
