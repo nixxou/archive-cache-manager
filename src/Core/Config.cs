@@ -53,6 +53,7 @@ namespace ArchiveCacheManager
         private static readonly M3uName defaultM3uName = M3uName.GameId;
         private static readonly bool defaultChdman = false;
         private static readonly bool defaultDolphinTool = false;
+        private static readonly string defaultTexturePath = "";
 
         public class EmulatorPlatformConfig
         {
@@ -64,6 +65,7 @@ namespace ArchiveCacheManager
             public bool SmartExtract;
             public bool Chdman;
             public bool DolphinTool;
+            public string TexturePath;
 
             public EmulatorPlatformConfig()
             {
@@ -75,6 +77,7 @@ namespace ArchiveCacheManager
                 SmartExtract = defaultSmartExtract;
                 Chdman = defaultChdman;
                 DolphinTool = defaultDolphinTool;
+                TexturePath = defaultTexturePath;
             }
         };
 
@@ -313,6 +316,23 @@ namespace ArchiveCacheManager
             return defaultDolphinTool;
         }
 
+        public static string GetTexturePath(string key)
+        {
+            try
+            {
+                return mEmulatorPlatformConfig[key].TexturePath;
+            }
+            catch (KeyNotFoundException) { }
+
+            try
+            {
+                return "";
+            }
+            catch (KeyNotFoundException) { }
+
+            return defaultTexturePath;
+        }
+
         public static string EmulatorPlatformKey(string emulator, string platform) => string.Format(@"{0} \ {1}", emulator, platform);
 
         /// <summary>
@@ -465,6 +485,10 @@ namespace ArchiveCacheManager
                             {
                                 mEmulatorPlatformConfig[section.SectionName].DolphinTool = Convert.ToBoolean(section.Keys[nameof(EmulatorPlatformConfig.DolphinTool)]);
                             }
+                            if (section.Keys.ContainsKey(nameof(EmulatorPlatformConfig.TexturePath)))
+                            {
+                                mEmulatorPlatformConfig[section.SectionName].TexturePath = section.Keys[nameof(EmulatorPlatformConfig.TexturePath)];
+                            }
                         }
                     }
 
@@ -550,6 +574,7 @@ namespace ArchiveCacheManager
                 iniData[priority.Key][nameof(EmulatorPlatformConfig.SmartExtract)] = priority.Value.SmartExtract.ToString();
                 iniData[priority.Key][nameof(EmulatorPlatformConfig.Chdman)] = priority.Value.Chdman.ToString();
                 iniData[priority.Key][nameof(EmulatorPlatformConfig.DolphinTool)] = priority.Value.DolphinTool.ToString();
+                iniData[priority.Key][nameof(EmulatorPlatformConfig.TexturePath)] = priority.Value.TexturePath.ToString();
             }
 
             try

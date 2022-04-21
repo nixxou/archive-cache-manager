@@ -10,11 +10,11 @@ namespace ArchiveCacheManager
 {
     public static class UserInterface
     {
-        static double contrast = LaunchBoxSettings.DialogContrastMultiplier;
-        static Color foreColor = LaunchBoxSettings.DialogForegroundColor;
-        static Color backColor = LaunchBoxSettings.DialogBackgroundColor;
-        static Color backColorContrast1 = CalcContrast(backColor, contrast);
-        static Color backColorContrast2 = CalcContrast(backColor, contrast / 2);
+        static public double contrast = LaunchBoxSettings.DialogContrastMultiplier;
+        static public Color foreColor = LaunchBoxSettings.DialogForegroundColor;
+        static public Color backColor = LaunchBoxSettings.DialogBackgroundColor;
+        static public Color backColorContrast1 = CalcContrast(backColor, contrast);
+        static public Color backColorContrast2 = CalcContrast(backColor, contrast / 2);
 
         // https://stackoverflow.com/a/2735242
         public static IEnumerable<T> Descendants<T>(this Control control) where T : class
@@ -202,6 +202,24 @@ namespace ArchiveCacheManager
                     }
                     listBox.DrawMode = DrawMode.OwnerDrawFixed;
                     listBox.DrawItem += ListBox_DrawItem;
+                }
+                else if (control is BrightIdeasSoftware.FastObjectListView)
+                {
+                    BrightIdeasSoftware.FastObjectListView listBox = control as BrightIdeasSoftware.FastObjectListView;
+                    listBox.ForeColor = foreColor;
+                    listBox.BackColor = GetBackgroundColor(listBox);
+                    if (listBox.BorderStyle == BorderStyle.Fixed3D)
+                    {
+                        listBox.BorderStyle = BorderStyle.FixedSingle;
+                    }
+                    listBox.SelectedBackColor = LaunchBoxSettings.DialogAccentColor;
+
+                    var headerstyle = new BrightIdeasSoftware.HeaderFormatStyle();
+                    headerstyle.SetBackColor(backColorContrast2);
+                    headerstyle.SetForeColor(foreColor);
+                    listBox.HeaderFormatStyle = headerstyle;
+                    //listBox.HeaderFormatStyle.SetBackColor(backColorContrast2);
+                    //listBox.HeaderFormatStyle.SetForeColor(foreColor);
                 }
                 else if (control is DataGridView)
                 {

@@ -32,7 +32,9 @@ namespace ArchiveCacheManager
             // and the first file listing removed. Restore 7z here, just in case it wasn't cleaned up properly previously.
             GameLaunching.Restore7z();
 
-            string[] fileList = new Zip().List(PathUtils.GetAbsolutePath(selectedGame.ApplicationPath));
+            (string[] fileList, long[] sizeList) = new Zip().ListWithSize(PathUtils.GetAbsolutePath(selectedGame.ApplicationPath));
+
+
 
             if (fileList.Count() == 0)
             {
@@ -56,11 +58,12 @@ namespace ArchiveCacheManager
             Form window;
             if (PluginHelper.StateManager.IsBigBox)
             {
-                window = new ArchiveListWindowBigBox(Path.GetFileName(selectedGame.ApplicationPath), fileList, GameIndex.GetSelectedFile(selectedGame.Id));
+                window = new ArchiveListWindowBigBox(Path.GetFileName(selectedGame.ApplicationPath), Path.GetDirectoryName(selectedGame.ApplicationPath), fileList, GameIndex.GetSelectedFile(selectedGame.Id));
             }
             else
             {
-                window = new ArchiveListWindow(Path.GetFileName(selectedGame.ApplicationPath), fileList, emulatorsTuple.Select(emu => PluginUtils.GetEmulatorTitle(emu.Item1, emu.Item2)).ToArray(), GameIndex.GetSelectedFile(selectedGame.Id));
+                //window = new ArchiveListWindowBigBox(Path.GetFileName(selectedGame.ApplicationPath), Path.GetDirectoryName(selectedGame.ApplicationPath), fileList, GameIndex.GetSelectedFile(selectedGame.Id));
+                window = new ArchiveListWindow(Path.GetFileName(selectedGame.ApplicationPath), Path.GetDirectoryName(selectedGame.ApplicationPath), fileList, sizeList, selectedGame.Platform, selectedGame.EmulatorId, PluginHelper.DataManager.GetEmulatorById(selectedGame.EmulatorId).Title, emulatorsTuple.Select(emu => PluginUtils.GetEmulatorTitle(emu.Item1, emu.Item2)).ToArray(), GameIndex.GetSelectedFile(selectedGame.Id));
             }
             //NativeWindow parent = new NativeWindow();
 

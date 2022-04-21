@@ -48,7 +48,15 @@ namespace ArchiveCacheManager
             return string.Format("{0}.iso", Path.GetFileNameWithoutExtension(archivePath)).ToSingleArray();
         }
 
-        public override string Name()
+        override public (string[], long[]) ListWithSize(string archivePath, string[] includeList = null, string[] excludeList = null, bool prefixWildcard = false)
+        {
+            string[] fileList = List(archivePath, includeList, excludeList, prefixWildcard);
+            long[] fileSize = new long[fileList.Count()];
+            for (int i = 0; i < fileList.Count(); i++) fileSize[i] = 0;
+            return (fileList, fileSize);
+        }
+
+        override public string Name()
         {
             return "DolphinTool";
         }

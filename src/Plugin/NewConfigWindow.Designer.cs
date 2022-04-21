@@ -90,6 +90,7 @@ namespace ArchiveCacheManager
             this.label7 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.updateCheckCheckBox = new System.Windows.Forms.CheckBox();
+            this.TexturePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tab1CacheSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cacheDataGridView)).BeginInit();
@@ -503,7 +504,8 @@ namespace ArchiveCacheManager
             this.M3uName,
             this.SmartExtract,
             this.Chdman,
-            this.DolphinTool});
+            this.DolphinTool,
+            this.TexturePath});
             this.emulatorPlatformConfigDataGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.emulatorPlatformConfigDataGridView.Location = new System.Drawing.Point(6, 62);
             this.emulatorPlatformConfigDataGridView.MultiSelect = false;
@@ -512,7 +514,8 @@ namespace ArchiveCacheManager
             this.emulatorPlatformConfigDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.emulatorPlatformConfigDataGridView.Size = new System.Drawing.Size(726, 375);
             this.emulatorPlatformConfigDataGridView.StandardTab = true;
-            this.emulatorPlatformConfigDataGridView.TabIndex = 11;
+            this.emulatorPlatformConfigDataGridView.TabIndex = 13;
+            this.emulatorPlatformConfigDataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.emulatorPlatformConfigDataGridView_CellDoubleClick);
             this.emulatorPlatformConfigDataGridView.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.emulatorPlatformConfigDataGridView_CellMouseEnter);
             this.emulatorPlatformConfigDataGridView.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.emulatorPlatformConfigDataGridView_CellMouseLeave);
             this.emulatorPlatformConfigDataGridView.SelectionChanged += new System.EventHandler(this.extensionPriorityDataGridView_SelectionChanged);
@@ -777,6 +780,13 @@ namespace ArchiveCacheManager
             this.updateCheckCheckBox.UseVisualStyleBackColor = true;
             this.updateCheckCheckBox.CheckedChanged += new System.EventHandler(this.multiDiscSupportCheckBox_CheckedChanged);
             // 
+            // TexturePath
+            // 
+            this.TexturePath.HeaderText = "HiRes Texture Path";
+            this.TexturePath.MinimumWidth = 100;
+            this.TexturePath.Name = "TexturePath";
+            this.TexturePath.ReadOnly = true;
+            // 
             // NewConfigWindow
             // 
             this.AcceptButton = this.okButton;
@@ -870,5 +880,6 @@ namespace ArchiveCacheManager
         private System.Windows.Forms.DataGridViewCheckBoxColumn SmartExtract;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Chdman;
         private System.Windows.Forms.DataGridViewCheckBoxColumn DolphinTool;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TexturePath;
     }
 }
