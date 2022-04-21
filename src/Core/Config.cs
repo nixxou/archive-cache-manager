@@ -37,7 +37,7 @@ namespace ArchiveCacheManager
         private static readonly bool defaultUseGameIdAsM3uFilename = true;
         private static readonly bool defaultSmartExtract = true;
         private static readonly string defaultStandaloneExtensions = "gb, gbc, gba, agb, nes, fds, smc, sfc, n64, z64, v64, ndd, md, smd, gen, iso, chd, gg, gcm, 32x, bin";
-        private static readonly string defaultMetadataExtensions = "nfo, txt, dat, xml, json";
+        private static readonly string defaultMetadataExtensions = "nfo, txt, dat, xml, json, htc, hts";
         private static readonly bool? defaultUpdateCheck = null;
         private static readonly bool defaultBypassPathCheck = false;
         private static readonly string defaultEmulatorPlatform = @"All \ All";

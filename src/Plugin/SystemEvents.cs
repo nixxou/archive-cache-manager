@@ -26,6 +26,7 @@ namespace ArchiveCacheManager
                 // Restore any overridden settings if LaunchBox closed before they could be restored on normal game launch
                 LaunchBoxDataBackup.RestoreAllSettingsDelay(1000);
 
+                /*
                 if (Config.UpdateCheck == true)
                 {
                     Updater.CheckForUpdate(2000);
@@ -35,6 +36,13 @@ namespace ArchiveCacheManager
                 {
                     Updater.EnableUpdateCheckPrompt(2000);
                 }
+                */
+                if (Config.UpdateCheck == null)
+                {
+                    Config.UpdateCheck = false;
+                    Config.Save();
+                }
+
             }
             else if (eventType == "LaunchBoxShutdownBeginning" || eventType == "BigBoxShutdownBeginning")
             {

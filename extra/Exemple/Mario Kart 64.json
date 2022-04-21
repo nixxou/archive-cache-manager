@@ -1,0 +1,924 @@
+{
+    "Mario Kadingche [China][v4][iQue][!!].z64": {
+        "file": "Mario Kart 64\/Mario Kadingche [China][v4][iQue][!!].z64",
+        "file_sha": "219660D0A321FC200AC4295DD79FD3417DA3EEA8",
+        "file_size": 12533760,
+        "nointro": {
+            "name": "Mario Kadingche (China) (v4) (iQue)",
+            "cloneof": "Mario Kart 64 (Europe) (Rev 1)",
+            "description": "Mario Kadingche (China) (v4) (iQue)",
+            "rom": {
+                "name": "Mario Kadingche (China) (v4) (iQue).z64",
+                "size": "12533760",
+                "crc": "ea0813c7",
+                "md5": "78771beb349d481e69baa9225b36d63a",
+                "sha1": "219660d0a321fc200ac4295dd79fd3417da3eea8"
+            }
+        },
+        "everdrive": {
+            "name": "Mario Kadingche (China) (v4) (iQue).z64",
+            "dir": "2 Other Regions - A-Z\/China",
+            "sha": "219660d0a321fc200ac4295dd79fd3417da3eea8",
+            "md5": "78771beb349d481e69baa9225b36d63a",
+            "crc": "ea0813c7"
+        },
+        "n64header": {
+            "platform": "Nintendo 64",
+            "format": "",
+            "title": "",
+            "version": "0000144C",
+            "crc1": "00000000",
+            "crc2": "00000000",
+            "publisher": "",
+            "publisher_code": "",
+            "code": "",
+            "region": "",
+            "region_code": "00"
+        }
+    },
+    "Mario Kadingche [China][v4][iQue][HTGDB][mario_kart_64_challenge_hack_mariolostworlds].z64": {
+        "file": "Mario Kart 64\/Mario Kadingche [China][v4][iQue][HTGDB][mario_kart_64_challenge_hack_mariolostworlds].z64",
+        "file_sha": "F8015CBF255441D54B236FB3213BCEEDB476319E",
+        "file_size": 25165824,
+        "goodset": {
+            "name": "Super Mario Challenge by MarioLostWorlds (SM64 Hack).z64",
+            "size": "25165824",
+            "crc": "a75aad6d",
+            "md5": "daf3a216b13e7d086b1760d1610233e9",
+            "sha": "f8015cbf255441d54b236fb3213bceedb476319e"
+        },
+        "everdrive": {
+            "name": "Mario Kart 64 - Challenge (hack) MarioLostWorlds.z64",
+            "dir": "4 Hacks\/Unpatched & Untested Hacks",
+            "sha": "f8015cbf255441d54b236fb3213bceedb476319e",
+            "md5": "daf3a216b13e7d086b1760d1610233e9",
+            "crc": "a75aad6d"
+        },
+        "n64header": {
+            "platform": "Nintendo 64",
+            "format": "",
+            "title": "SUPER MARIO 64",
+            "version": "00001444",
+            "crc1": "635A42C5",
+            "crc2": "BDC58EDC",
+            "publisher": "Nintendo",
+            "publisher_code": "N",
+            "code": "SM",
+            "region": "USA",
+            "region_code": "45"
+        }
+    },
+    "Mario Kadingche [China][v5][iQue][!!].z64": {
+        "file": "Mario Kart 64\/Mario Kadingche [China][v5][iQue][!!].z64",
+        "file_sha": "D6605879918B0DCA3EAFA1C75ECBC850A3B2535D",
+        "file_size": 12533760,
+        "nointro": {
+            "name": "Mario Kadingche (China) (v5) (iQue)",
+            "cloneof": "Mario Kart 64 (Europe) (Rev 1)",
+            "description": "Mario Kadingche (China) (v5) (iQue)",
+            "rom": {
+                "name": "Mario Kadingche (China) (v5) (iQue).z64",
+                "size": "12533760",
+                "crc": "47e69f28",
+                "md5": "5ea0ed74cf1ddaaa964d728a129e7cf9",
+                "sha1": "d6605879918b0dca3eafa1c75ecbc850a3b2535d"
+            }
+        },
+        "everdrive": {
+            "name": "Mario Kadingche (China) (v5) (iQue).z64",
+            "dir": "2 Other Regions - A-Z\/China",
+            "sha": "d6605879918b0dca3eafa1c75ecbc850a3b2535d",
+            "md5": "5ea0ed74cf1ddaaa964d728a129e7cf9",
+            "crc": "47e69f28"
+        },
+        "n64header": {
+            "platform": "Nintendo 64",
+            "format": "",
+            "title": "",
+            "version": "0000144C",
+            "crc1": "00000000",
+            "crc2": "00000000",
+            "publisher": "",
+            "publisher_code": "",
+            "code": "",
+            "region": "",
+            "region_code": "00"
+        }
+    },
+    "Mario Kart 64 [Europe][!!].z64": {
+        "file": "Mario Kart 64\/Mario Kart 64 [Europe][!!].z64",
+        "file_sha": "A729039453210B84F17019DDA3F248D5888F7690",
+        "file_size": 12582912,
+        "nointro": {
+            "name": "Mario Kart 64 (Europe)",
+            "cloneof": "Mario Kart 64 (Europe) (Rev 1)",
+            "description": "Mario Kart 64 (Europe)",
+            "rom": {
+                "name": "Mario Kart 64 (Europe).z64",
+                "size": "12582912",
+                "crc": "faa6b083",
+                "md5": "8fad1e4fa7baf1443b7f21ad1947b429",
+                "sha1": "a729039453210b84f17019dda3f248d5888f7690"
+            }
+        },
+        "goodset": {
+            "name": "Mario Kart 64 (E) (V1.0) [!].z64",
+            "size": "12582912",
+            "crc": "faa6b083",
+            "md5": "8fad1e4fa7baf1443b7f21ad1947b429",
+            "sha": "a729039453210b84f17019dda3f248d5888f7690"
+        },
+        "everdrive": {
+            "name": "Mario Kart 64 (Europe).z64",
+            "dir": "4 Betas, Prototypes, Revisions\/Revisions",
+            "sha": "a729039453210b84f17019dda3f248d5888f7690",
+            "md5": "8fad1e4fa7baf1443b7f21ad1947b429",
+            "crc": "faa6b083"
+        },
+        "n64header": {
+            "platform": "Nintendo 64",
+            "format": "",
+            "title": "MARIOKART64",
+            "version": "00001446",
+            "crc1": "C3B6DE9D",
+            "crc2": "65D2DE76",
+            "publisher": "Nintendo",
+            "publisher_code": "N",
+            "code": "KT",
+            "region": "Europe",
+            "region_code": "50"
+        }
+    },
+    "Mario Kart 64 [Europe][Rev 1][!].z64": {
+        "file": "Mario Kart 64\/Mario Kart 64 [Europe][Rev 1][!].z64",
+        "file_sha": "F6B5F519DD57EA59E9F013CC64816E9D273B2329",
+        "file_size": 12582912,
+        "nointro": {
+            "name": "Mario Kart 64 (Europe) (Rev 1)",
+            "description": "Mario Kart 64 (Europe) (Rev 1)",
+            "release": {
+                "name": "Mario Kart 64 (Europe) (Rev 1)",
+                "region": "EUR"
+            },
+            "rom": {
+                "name": "Mario Kart 64 (Europe) (Rev 1).z64",
+                "size": "12582912",
+                "crc": "0248f6c3",
+                "md5": "2bb149a583fdefea96805f628fe42fd9",
+                "sha1": "f6b5f519dd57ea59e9f013cc64816e9d273b2329",
+                "status": "verified"
+            }
+        },
+        "goodset": {
+            "name": "Mario Kart 64 (E) (V1.1) [!].z64",
+            "size": "12582912",
+            "crc": "0248f6c3",
+            "md5": "2bb149a583fdefea96805f628fe42fd9",
+            "sha": "f6b5f519dd57ea59e9f013cc64816e9d273b2329"
+        },
+        "everdrive": {
+            "name": "Mario Kart 64 (Europe) (Rev 1).z64",
+            "dir": "2 Europe - A-Z",
+            "sha": "f6b5f519dd57ea59e9f013cc64816e9d273b2329",
+            "md5": "2bb149a583fdefea96805f628fe42fd9",
+            "crc": "0248f6c3"
+        },
+        "n64header": {
+            "platform": "Nintendo 64",
+            "format": "",
+            "title": "MARIOKART64",
+            "version": "00001446",
+            "crc1": "2577C7D4",
+            "crc2": "D18FAAAE",
+            "publisher": "Nintendo",
+            "publisher_code": "N",
+            "code": "KT",
+            "region": "Europe",
+            "region_code": "50"
+        }
+    },
+    "Mario Kart 64 [Europe][T.Eng-Ful.Corrigo-5077].z64": {
+        "file": "Mario Kart 64\/Mario Kart 64 [Europe][T.Eng-Ful.Corrigo-5077].z64",
+        "file_sha": "202B5BA6E4F4B41C8A1BDE95DE2B58E254536A36",
+        "file_size": 12582912,
+        "goodset": {
+            "name": "Mario Kart 64 (E) (V1.0) [T+Fre_Corrigo].z64",
+            "size": "12582912",
+            "crc": "c0aa9931",
+            "md5": "50a9cd00d8eaa279e623d08aa2bfbffe",
+            "sha": "202b5ba6e4f4b41c8a1bde95de2b58e254536a36"
+        },
+        "romhacker_translation": {
+            "patch_name": "Mario Kart 64",
+            "game_match": [],
+            "type": "translations",
+            "url": "https:\/\/www.romhacking.net\/translations\/5077\/",
+            "released_by": "Corrigo",
+            "language": "French",
+            "status": "Fully Playable",
+            "patching_information": "Byte Swapped (N64)",
+            "published_by": "Nintendo",
+            "game_date": "14 December 1996",
+            "patch_version": "1.0",
+            "release_date": "23 May 2010",
+            "last_modified": "18 October 2019",
+            "readme": "readmefile.txt",
+            "desc": "Mario Kart 64 is a racing game for the Nintendo 64.",
+            "patchfile": "patch.zip",
+            "patch": [
+                "Mk64 (Fr) (1.0) [!].ips"
+            ],
+            "screenshot": [
+                "1.jpg",
+                "2.jpg",
+                "3.jpg"
+            ],
+            "id": "5077"
+        },
+        "n64header": {
+            "platform": "Nintendo 64",
+            "format": "",
+            "title": "MARIOKART64",
+            "version": "00001446",
+            "crc1": "18AAEA01",
+            "crc2": "5F970BA9",
+            "publisher": "Nintendo",
+            "publisher_code": "N",
+            "code": "KT",
+            "region": "Europe",
+            "region_code": "50"
+        }
+    },
+    "Mario Kart 64 [Japan][!!].z64": {
+        "file": "Mario Kart 64\/Mario Kart 64 [Japan][!!].z64",
+        "file_sha": "AFEEEC65B9A03F0CB8EC92F9BA7A9F0122E8BD0E",
+        "file_size": 12582912,
+        "nointro": {
+            "name": "Mario Kart 64 (Japan)",
+            "cloneof": "Mario Kart 64 (Europe) (Rev 1)",
+            "description": "Mario Kart 64 (Japan)",
+            "rom": {
+                "name": "Mario Kart 64 (Japan).z64",
+                "size": "12582912",
+                "crc": "5d9696df",
+                "md5": "bf964ceca78a13a82055ebda80b95cca",
+                "sha1": "afeeec65b9a03f0cb8ec92f9ba7a9f0122e8bd0e"
+            }
+        },
+        "goodset": {
+            "name": "Mario Kart 64 (J) (V1.0) [!].z64",
+            "size": "12582912",
+            "crc": "5d9696df",
+            "md5": "bf964ceca78a13a82055ebda80b95cca",
+            "sha": "afeeec65b9a03f0cb8ec92f9ba7a9f0122e8bd0e"
+        },
+        "everdrive": {
+            "name": "Mario Kart 64 (Japan).z64",
+            "dir": "4 Betas, Prototypes, Revisions\/Revisions",
+            "sha": "afeeec65b9a03f0cb8ec92f9ba7a9f0122e8bd0e",
+            "md5": "bf964ceca78a13a82055ebda80b95cca",
+            "crc": "5d9696df"
+        },
+        "n64header": {
+            "platform": "Nintendo 64",
+            "format": "",
+            "title": "MARIOKART64",
+            "version": "00001446",
+            "crc1": "6BFF4758",
+            "crc2": "E5FF5D5E",
+            "publisher": "Nintendo",
+            "publisher_code": "N",
+            "code": "KT",
+            "region": "Japan",
+            "region_code": "4A"
+        }
+    },
+    "Mario Kart 64 [Japan][H.NoAA].z64": {
+        "file": "Mario Kart 64\/Mario Kart 64 [Japan][H.NoAA].z64",
+        "file_sha": "54854B05F40F77DA0A11CA0200948EC088B9C55E",
+        "file_size": 12582912,
+        "n64header": {
+            "platform": "Nintendo 64",
+            "format": "",
+            "title": "MARIOKART64",
+            "version": "00001446",
+            "crc1": "D8FF208B",
+            "crc2": "8DA8B20B",
+            "publisher": "Nintendo",
+            "publisher_code": "N",
+            "code": "KT",
+            "region": "Japan",
+            "region_code": "4A"
+        }
+    },
+    "Mario Kart 64 [Japan][Rev 1][!!].z64": {
+        "file": "Mario Kart 64\/Mario Kart 64 [Japan][Rev 1][!!].z64",
+        "file_sha": "9F439457585146A4E1DA7E1DD9104F7F94381688",
+        "file_size": 12582912,
+        "nointro": {
+            "name": "Mario Kart 64 (Japan) (Rev 1)",
+            "cloneof": "Mario Kart 64 (Europe) (Rev 1)",
+            "description": "Mario Kart 64 (Japan) (Rev 1)",
+            "release": {
+                "name": "Mario Kart 64 (Japan) (Rev 1)",
+                "region": "JPN"
+            },
+            "rom": {
+                "name": "Mario Kart 64 (Japan) (Rev 1).z64",
+                "size": "12582912",
+                "crc": "6ced6472",
+                "md5": "60535265bae43ddfcbdb0d71594b1693",
+                "sha1": "9f439457585146a4e1da7e1dd9104f7f94381688",
+                "status": "verified"
+            }
+        },
+        "goodset": {
+            "name": "Mario Kart 64 (J) (V1.1) [!].z64",
+            "size": "12582912",
+            "crc": "6ced6472",
+            "md5": "60535265bae43ddfcbdb0d71594b1693",
+            "sha": "9f439457585146a4e1da7e1dd9104f7f94381688"
+        },
+        "everdrive": {
+            "name": "Mario Kart 64 (Japan) (Rev 1).z64",
+            "dir": "2 Japan - A-Z",
+            "sha": "9f439457585146a4e1da7e1dd9104f7f94381688",
+            "md5": "60535265bae43ddfcbdb0d71594b1693",
+            "crc": "6ced6472"
+        },
+        "n64header": {
+            "platform": "Nintendo 64",
+            "format": "",
+            "title": "MARIOKART64",
+            "version": "00001446",
+            "crc1": "C9C3A987",
+            "crc2": "5810344C",
+            "publisher": "Nintendo",
+            "publisher_code": "N",
+            "code": "KT",
+            "region": "Japan",
+            "region_code": "4A"
+        }
+    },
+    "Mario Kart 64 [USA][!!].z64": {
+        "file": "Mario Kart 64\/Mario Kart 64 [USA][!!].z64",
+        "file_sha": "579C48E211AE952530FFC8738709F078D5DD215E",
+        "file_size": 12582912,
+        "nointro": {
+            "name": "Mario Kart 64 (USA)",
+            "cloneof": "Mario Kart 64 (Europe) (Rev 1)",
+            "description": "Mario Kart 64 (USA)",
+            "release": {
+                "name": "Mario Kart 64 (USA)",
+                "region": "USA"
+            },
+            "rom": {
+                "name": "Mario Kart 64 (USA).z64",
+                "size": "12582912",
+                "crc": "434389c1",
+                "md5": "3a67d9986f54eb282924fca4cd5f6dff",
+                "sha1": "579c48e211ae952530ffc8738709f078d5dd215e",
+                "status": "verified"
+            }
+        },
+        "goodset": {
+            "name": "Mario Kart 64 (U) [!].z64",
+            "size": "12582912",
+            "crc": "434389c1",
+            "md5": "3a67d9986f54eb282924fca4cd5f6dff",
+            "sha": "579c48e211ae952530ffc8738709f078d5dd215e"
+        },
+        "everdrive": {
+            "name": "Mario Kart 64 (USA).z64",
+            "dir": "1 US - A-M",
+            "sha": "579c48e211ae952530ffc8738709f078d5dd215e",
+            "md5": "3a67d9986f54eb282924fca4cd5f6dff",
+            "crc": "434389c1",
+            "dir2": "4 Game Series Collections\/Best-Of Lists\/10 Best Sports Games - RantNow.com",
+            "dir3": "4 Game Series Collections\/Best-Of Lists\/Best Games That Still Matter Today - RacketBoy.com",
+            "dir4": "4 Game Series Collections\/Best-Of Lists\/Games That Defined the N64 - RacketBoy.com",
+            "dir5": "4 Game Series Collections\/Best-Of Lists\/Top 100 List - GameFAQs.com",
+            "dir6": "4 Game Series Collections\/Best-Of Lists\/Top 100 List - Retro-Sanctuary.com",
+            "dir7": "4 Game Series Collections\/Best-Of Lists\/V's Recommended Games - 4chan\/N64"
+        },
+        "n64header": {
+            "platform": "Nintendo 64",
+            "format": "",
+            "title": "MARIOKART64",
+            "version": "00001446",
+            "crc1": "3E5055B6",
+            "crc2": "2E92DA52",
+            "publisher": "Nintendo",
+            "publisher_code": "N",
+            "code": "KT",
+            "region": "USA",
+            "region_code": "45"
+        }
+    },
+    "Mario Kart 64 [USA][H.NoAA].z64": {
+        "file": "Mario Kart 64\/Mario Kart 64 [USA][H.NoAA].z64",
+        "file_sha": "FA61FE352395BC576F36F30FF0BF704D6D72D04B",
+        "file_size": 12582912,
+        "n64header": {
+            "platform": "Nintendo 64",
+            "format": "",
+            "title": "MARIOKART64",
+            "version": "00001446",
+            "crc1": "C1903365",
+            "crc2": "0CB35AF3",
+            "publisher": "Nintendo",
+            "publisher_code": "N",
+            "code": "KT",
+            "region": "USA",
+            "region_code": "45"
+        }
+    },
+    "Mario Kart 64 [USA][H.battle_kart_64-5618].z64": {
+        "file": "Mario Kart 64\/Mario Kart 64 [USA][H.battle_kart_64-5618].z64",
+        "file_sha": "11D6C33D0C43ACF4E191FD3AE2674B9E64A6CF4E",
+        "file_size": 14680064,
+        "romhacker_hack": {
+            "patch_name": "Battle Kart 64",
+            "game_match": {
+                "579C48E211AE952530FFC8738709F078D5DD215E": "Mario Kart 64 (USA)"
+            },
+            "type": "hacks",
+            "url": "https:\/\/www.romhacking.net\/hacks\/5618\/",
+            "released_by": "triclon",
+            "category": "Improvement",
+            "patching_information": "No Special Requirements",
+            "mods": "GP,Other",
+            "patch_version": "2.1",
+            "hack_release_date": "30 January 2022",
+            "last_modified": "30 January 2022",
+            "readme": "readmefile.txt",
+            "desc": "Battle Kart 64 is an exciting rom hack by Triclon for Mario Kart 64 that brings new features and options to the game’s Battle Mode.  It is console compatible (note: Expansion Pak required). Version 2.1 is a minor update that fixes various bugs that were found in version 2.0.  See the readme for details. Game Modes:  An expanded traditional battle mode. “Hot Potato” featuring a timer on whoever was hit last and counts down to zero.  Whoever is the “hot potato” when the timer reaches zero loses 1 HP. “Squish” where you need to hit, lightning shrink, and then run over the shrunken player to score. “Capture The Flag” where you must capture a flag and bring it back to your base to score. “Keep Away” where there is one flag to fight over and each player must try to hold onto it as long as possible.  Scoring Modes:  Stock scoring where you can now set set the number of hit points, instead of just having 3 balloons. Point scoring for Capture the Flag and Keep Away Timed matches where whoever has the least amount of hits or most points when the timer reaches zero wins.  Ties go to sudden death. Free for All (FFA) or Teams of 2 vs. 2 or 2 vs. 1 with both point and time scoring.  CPU bots in Battle Mode!   Now you can play battle mode by yourself.  A lot of work has gone into making bots that will actually track you down and aim their items at you. Best played in Block Fort or Double Deck or on wide open race courses. Now you can play 1 player in full screen if you are just playing against the bots  All the race courses now will load in Battle Mode!    All 16 race courses can now be played in Battle Mode. Great for Koopa Troopa Beach or Kalamari Desert.  Item toggling!  You can turn items on and off like in Super Smash Bros.   Hate stars?  Just turn them off.  And a whole slew of other options!  Flat courses! Ludicrous speed! And more!!  Battle Kart 64 will continue to be under active development so the future will bring even more game modes and features. See the readme for details on how everything works. You can check out the source code for Battle Kart 64 here (although seldom updated): https:\/\/github.com\/kfkaplan\/battlekart64",
+            "patchfile": "patch.zip",
+            "patch": [
+                "Battle_Kart_64_v2.1.bps"
+            ],
+            "screenshot": [
+                "1.png",
+                "2.png"
+            ],
+            "id": "5618"
+        },
+        "n64header": {
+            "platform": "Nintendo 64",
+            "format": "",
+            "title": "MARIOKART64",
+            "version": "00001446",
+            "crc1": "ECF088E7",
+            "crc2": "2F614FF5",
+            "publisher": "Nintendo",
+            "publisher_code": "N",
+            "code": "KT",
+            "region": "USA",
+            "region_code": "45"
+        }
+    },
+    "Mario Kart 64 [USA][H.freeing_marty_the_thwomp_in_mario_kart_64-6429].z64": {
+        "file": "Mario Kart 64\/Mario Kart 64 [USA][H.freeing_marty_the_thwomp_in_mario_kart_64-6429].z64",
+        "file_sha": "AB980BA1688A62AB97087A6E0823F6DB753AF1A7",
+        "file_size": 12583868,
+        "romhacker_hack": {
+            "patch_name": "Freeing Marty the Thwomp in Mario Kart 64",
+            "game_match": {
+                "579C48E211AE952530FFC8738709F078D5DD215E": "Mario Kart 64 (USA)"
+            },
+            "type": "hacks",
+            "url": "https:\/\/www.romhacking.net\/hacks\/6429\/",
+            "released_by": "triclon",
+            "category": "Improvement",
+            "patching_information": "No Special Requirements",
+            "mods": "Other",
+            "patch_version": "1.0",
+            "hack_release_date": "18 December 2021",
+            "last_modified": "19 December 2021",
+            "readme": "readmefile.txt",
+            "desc": "In Mario Kart 64 there is a green thwomp mysteriously locked behind bars in Bowser’s Castle.  He has been unofficially named Marty and has been the subject to longstanding rumors that he can actually be unlocked as a playable character.  Several hoax and April fools joke images and videos have popped up over the years supposedly showing the convoluted things you need to do on the track in Bowser’s Castle to unlock Marty as a playable character.  Well now you can finally race as him with this hack!  The current version works only in Bowser’s Castle for Player 1 but it works for all engine classes and in both Time Trial and VS. mode (so you can play your friends as Marty). Watch the video: https:\/\/youtu.be\/BLnP77-vTv0 Requires the expansion pak to run. See the readme for more details.",
+            "patchfile": "patch.zip",
+            "patch": [
+                "freeing_marty.bps"
+            ],
+            "screenshot": [
+                "1.png"
+            ],
+            "id": "6429"
+        },
+        "n64header": {
+            "platform": "Nintendo 64",
+            "format": "",
+            "title": "MARIOKART64",
+            "version": "00001446",
+            "crc1": "C423DB8B",
+            "crc2": "6ED92793",
+            "publisher": "Nintendo",
+            "publisher_code": "N",
+            "code": "KT",
+            "region": "USA",
+            "region_code": "45"
+        }
+    },
+    "Mario Kart 64 [USA][H.hooting_time-6148].z64": {
+        "file": "Mario Kart 64\/Mario Kart 64 [USA][H.hooting_time-6148].z64",
+        "file_sha": "5C3CE887731FA9595C3F5D1FA663FD3F7DFADE9E",
+        "file_size": 13785616,
+        "romhacker_hack": {
+            "patch_name": "Hooting Time",
+            "game_match": {
+                "579C48E211AE952530FFC8738709F078D5DD215E": "Mario Kart 64 (USA)"
+            },
+            "type": "hacks",
+            "url": "https:\/\/www.romhacking.net\/hacks\/6148\/",
+            "released_by": "HootHoot",
+            "category": "Improvement",
+            "patching_information": "No Special Requirements",
+            "mods": "G,S,T,GP,Other",
+            "patch_version": "0.2",
+            "hack_release_date": "14 November 2021",
+            "last_modified": "22 November 2021",
+            "desc": "Previously known as Hooting HUD. Renamed to Hooting Time. Features: v0.2  CPUs have all items, basic ‘AI’ and settings Feather item New pause screen menu Screen setup Skip ceremony Toggles for stuff  v0.1  New HUD design (speedometers for everyone etc.) Custom option menu Custom in-game menu for choosing up to 9 laps & 8 balloons Choose between classic Grand Prix points or for all 8 players 50 achievements 200cc mode Full speed reverse gear Rear view New red shell behavior when colliding with ghost - not colliding Fullscreen online mode (if every player uses his own included patch) Multiplayer music Emulator speed fix …  !ATTENTION!  Don’t forget to save your progress or it will be lost! Don’t use JABO plugin! Beta status, bugs expected! Please report them!  Videos:   https:\/\/youtu.be\/En_HXK_EVHw (Features) https:\/\/youtu.be\/DhxdmLTaMF8 (Online fullscreen)  Bug reports & discussion:  https:\/\/discord.gg\/ZUQjdMtQyG",
+            "patchfile": "patch.zip",
+            "patch": [
+                "MK64_HootingTime(U)_(v0.2)-Player1.bps",
+                "MK64_HootingTime(U)_(v0.2)-Player2(Online only).bps",
+                "MK64_HootingTime(U)_(v0.2)-Player3(Online only).bps",
+                "MK64_HootingTime(U)_(v0.2)-Player4(Online only).bps"
+            ],
+            "screenshot": [
+                "1.png",
+                "2.png",
+                "3.png",
+                "4.png"
+            ],
+            "id": "6148"
+        },
+        "n64header": {
+            "platform": "Nintendo 64",
+            "format": "",
+            "title": "MARIOKART64",
+            "version": "00001446",
+            "crc1": "5718A133",
+            "crc2": "FD12AB5B",
+            "publisher": "Nintendo",
+            "publisher_code": "N",
+            "code": "KT",
+            "region": "USA",
+            "region_code": "45"
+        }
+    },
+    "Mario Kart 64 [USA][H.mario_kart_64__stomper_mod-6087].z64": {
+        "file": "Mario Kart 64\/Mario Kart 64 [USA][H.mario_kart_64__stomper_mod-6087].z64",
+        "file_sha": "7975A8F28838D16578A2EEF6F79869657319BAE8",
+        "file_size": 12726272,
+        "romhacker_hack": {
+            "patch_name": "Mario Kart 64 - Stomper Mod",
+            "game_match": {
+                "579C48E211AE952530FFC8738709F078D5DD215E": "Mario Kart 64 (USA)"
+            },
+            "type": "hacks",
+            "url": "https:\/\/www.romhacking.net\/hacks\/6087\/",
+            "released_by": "Litronom",
+            "category": "Complete",
+            "patching_information": "No Special Requirements",
+            "mods": "G,S,GP",
+            "patch_version": "1.1",
+            "hack_release_date": "15 July 2021",
+            "last_modified": "26 July 2021",
+            "desc": "A Mario Kart 64 modification, which replaces GP mode with a custom game mode called “Stomper Mode”. You’re not racing laps, but are tasked to drive over each CPU-driver, in order to stomp and remove them from the “race”. When all enemies are removed, the game advances to the next course in the cup. In 2-Player mode, each player gets their own point counter, so try to get the most points! Each cc-class has a different difficulty, so enemies get smaller and therefore more difficult to stomp. They also have a higher max speed, the smaller they are. The item table is limited to Mushrooms, Green Shells, Bananas and Fake Itemboxes. Requirements: This game needs an Expansion Pak. Your emulator also needs to be set to support the memory extension. Set it to 8 MB memory. The way to do this varies for each emulator, so please look it up online, if you are unsure how to. How to play:  1. Choose either 1 or 2 player GP mode on the cc-class you want   2. Proceed to the race   3. Drive over enemy racers in order to finish the course  Known issues:  CPU drivers sometimes drive too far off the road when near them. They will snap back to the road, when they’re off-screen. If a CPU driver gets hit by certain course hazards (trees, nuts, penguins, thwomps) you can score a point by driving over them, when they’re already flattened.  Changelog 1.1  Fixed a console only crash on Rainbow Road  Credits:  DeadHamster for the MK64 modding code base and support on technical questions. CK Laboratories and MtZuul for playtesting on real hardware. The entire OverKart64 discord server for being cool people.",
+            "patchfile": "patch.rar",
+            "patch": [
+                "MK64-Stomper_Mod.v.1.1.bps"
+            ],
+            "screenshot": [
+                "1.jpg",
+                "2.jpg",
+                "3.jpg"
+            ],
+            "id": "6087"
+        },
+        "n64header": {
+            "platform": "Nintendo 64",
+            "format": "",
+            "title": "MK64 - STOMPER MOD",
+            "version": "00001446",
+            "crc1": "5C465C9C",
+            "crc2": "2121657E",
+            "publisher": "Nintendo",
+            "publisher_code": "N",
+            "code": "KT",
+            "region": "USA",
+            "region_code": "45"
+        }
+    },
+    "Mario Kart 64 [USA][H.mario_kart_64_cpus_use_human_items_including_shells-4802].z64": {
+        "file": "Mario Kart 64\/Mario Kart 64 [USA][H.mario_kart_64_cpus_use_human_items_including_shells-4802].z64",
+        "file_sha": "FDFB468DCE21AA6EB0A7C8E6F55BBA15AF81A1CB",
+        "file_size": 12582912,
+        "romhacker_hack": {
+            "patch_name": "Mario Kart 64 CPUs use human items including shells",
+            "game_match": {
+                "579C48E211AE952530FFC8738709F078D5DD215E": "Mario Kart 64 (USA)"
+            },
+            "type": "hacks",
+            "url": "https:\/\/www.romhacking.net\/hacks\/4802\/",
+            "released_by": "triclon",
+            "category": "Improvement",
+            "patching_information": "No Special Requirements",
+            "mods": "GP",
+            "patch_version": "2.7",
+            "hack_release_date": "28 December 2021",
+            "last_modified": "30 December 2021",
+            "readme": "readmefile.txt",
+            "desc": "This patch for Mario Kart 64 (USA\/NTSC) gives the CPUs in Grand Prix mode some of the same items a human can use.  CPUs can finally fire shells, use multibananas, and triple mushrooms.  Normally CPUs can only use single bananas, stars, ghosts, fake item boxes, single mushroom boosts, and lightning.  They spawn the items all at the same time up to three times per lap and draw from their own item probability tables.  With these new items the CPUs can use against you, GP mode is now more challenging!  CPUs never used shells, multi-bananas, triple mushrooms, or golden mushrooms.  Through an exhaustive look into the game’s code, micro500 and I were able to deduce how CPU players spawn items.  It turns out that a lot of this code never made it into the final game, and has remained hidden for over 20 years in the inside the game’s rom.  Some of it it was never fully debugged or finished.  This patch takes most of the unused CPU item spawning code that works and adds it back into the game with some custom assembly code.  See the readme.txt for more details. NOTE:  For another hack that has its own implementation of CPUs using human items, check out Hooting Time by HootHoot: https:\/\/www.romhacking.net\/hacks\/6148\/ Updated Dec. 28, 2021!  What’s new in version 2.7?  The biggest change is to ensure compatibility with other Mario Kart 64 hacks.   If you want to patch a specific hack and do not know how to do checksum corrections, let me know, and I can create a patch for a specific hack. Increased the CPU item usage frequency a bit, now the game is more challenging! There should be less audio glitches. Lightning probability tweaked to be more reasonable.",
+            "patchfile": "patch.zip",
+            "patch": [
+                "CPUs_use_human_items_v2.7.bps"
+            ],
+            "screenshot": [
+                "1.png",
+                "2.png"
+            ],
+            "id": "4802"
+        },
+        "n64header": {
+            "platform": "Nintendo 64",
+            "format": "",
+            "title": "MARIOKART64",
+            "version": "00001446",
+            "crc1": "AE3877DB",
+            "crc2": "047D2DBD",
+            "publisher": "Nintendo",
+            "publisher_code": "N",
+            "code": "KT",
+            "region": "USA",
+            "region_code": "45"
+        }
+    },
+    "Mario Kart 64 [USA][H.mario_kart_64_hot_potato_battle-5042].z64": {
+        "file": "Mario Kart 64\/Mario Kart 64 [USA][H.mario_kart_64_hot_potato_battle-5042].z64",
+        "file_sha": "D48D6D346923A4DCF7B696DE4D30646FAD0EA561",
+        "file_size": 12582912,
+        "romhacker_hack": {
+            "patch_name": "Mario Kart 64 Hot Potato Battle",
+            "game_match": {
+                "579C48E211AE952530FFC8738709F078D5DD215E": "Mario Kart 64 (USA)"
+            },
+            "type": "hacks",
+            "url": "https:\/\/www.romhacking.net\/hacks\/5042\/",
+            "released_by": "triclon",
+            "category": "Improvement",
+            "patching_information": "No Special Requirements",
+            "mods": "GP",
+            "patch_version": "1.1",
+            "hack_release_date": "14 April 2020",
+            "last_modified": "25 December 2020",
+            "readme": "readmefile.txt",
+            "desc": "Update December 24, 2020:  This Hot Potato Battle hack is now obsolete and has been superseded by Battle Kart 64 which includes everything from Hot Potato Battle, plus much much more.  Please go to https:\/\/www.romhacking.net\/hacks\/5618\/ to download the latest version of Battle Kart 64. Update April 14, 2020: New version 1.1!  New gameplay options include infinite green shells, flat courses, and  auto-items.  New quality of life options include the ability to enable widescreen, disable anti-aliasing, enable music in 3 and 4 player modes, and an option to allow players to select the same characters.  This rom hack fundamentally changes how battle mode works in Mario Kart 64 into a frantic game of hot potato.  Previously you had three balloons that you had to pop on each player and be the last player standing to win.  This hack replaces the balloons with hit points (HP) and a countdown timer.  When the battle starts, the first person hit becomes the “hot potato” and they start smoking and the timer starts counting down to zero.  If another player gets hit before the countdown timer reaches zero, that player becomes the “hot potato” instead and will start smoking.  This means if you are the hot potato, you need to hit someone else before the countdown timer reaches zero, leading to some fun frantic chases.  Whoever is the hot potato when the counter reaches zero will briefly flash and lose 1 HP.  When a player’s HP reaches zero, they die.  The timer then resets and waits for the next player to be hit and the whole process starts all over again.  Whoever is the last player standing wins. See the YouTube video here: https:\/\/youtu.be\/GiOR1a4GsVk Triclon’s Mario Kart 64 website: https:\/\/sites.google.com\/view\/triclons-mario-kart-64-page\/home",
+            "patchfile": "patch.zip",
+            "patch": [
+                "MK64_Hot_Potato_Battle_v1.1.bps"
+            ],
+            "screenshot": [
+                "1.png",
+                "2.png"
+            ],
+            "id": "5042"
+        },
+        "n64header": {
+            "platform": "Nintendo 64",
+            "format": "",
+            "title": "MARIOKART64",
+            "version": "00001446",
+            "crc1": "B5D0F182",
+            "crc2": "6727B29B",
+            "publisher": "Nintendo",
+            "publisher_code": "N",
+            "code": "KT",
+            "region": "USA",
+            "region_code": "45"
+        }
+    },
+    "Mario Kart 64 [USA][HTGDB][mario_kart_64_super_w00ting_hack].z64": {
+        "file": "Mario Kart 64\/Mario Kart 64 [USA][HTGDB][mario_kart_64_super_w00ting_hack].z64",
+        "file_sha": "E1D80A5C75DB8813F1D4BAFC6D4029151F815C71",
+        "file_size": 12582912,
+        "goodset": {
+            "name": "Mario Kart 64 - Super W00ting (V_NTSC) (Hack).z64",
+            "size": "12582912",
+            "crc": "87b17d90",
+            "md5": "b63346465fe70da3b1e7493ce5a15a31",
+            "sha": "e1d80a5c75db8813f1d4bafc6d4029151f815c71"
+        },
+        "everdrive": {
+            "name": "Mario Kart 64 - Super W00ting (Hack).z64",
+            "dir": "4 Hacks\/Unpatched & Untested Hacks",
+            "sha": "e1d80a5c75db8813f1d4bafc6d4029151f815c71",
+            "md5": "b63346465fe70da3b1e7493ce5a15a31",
+            "crc": "87b17d90"
+        },
+        "n64header": {
+            "platform": "Nintendo 64",
+            "format": "",
+            "title": "SUPEERW00TINGMKART64",
+            "version": "00001446",
+            "crc1": "4D9C55B6",
+            "crc2": "85E58D87",
+            "publisher": "Nintendo",
+            "publisher_code": "N",
+            "code": "HH",
+            "region": "USA",
+            "region_code": "45"
+        }
+    },
+    "Mario Kart 64 [USA][T.Ita-Ful-Rules-6478].z64": {
+        "file": "Mario Kart 64\/Mario Kart 64 [USA][T.Ita-Ful-Rules-6478].z64",
+        "file_sha": "91FD8518097FF1FAD6D0C620568991C5385A8B85",
+        "file_size": 12582912,
+        "romhacker_translation": {
+            "patch_name": "Mario Kart 64",
+            "game_match": {
+                "579C48E211AE952530FFC8738709F078D5DD215E": "Mario Kart 64 (USA)"
+            },
+            "type": "translations",
+            "url": "https:\/\/www.romhacking.net\/translations\/6478\/",
+            "released_by": "Rulesless",
+            "language": "Italian",
+            "status": "Fully Playable",
+            "patching_information": "Byte Swapped (N64)",
+            "published_by": "Nintendo",
+            "game_date": "14 December 1996",
+            "patch_version": "1.0",
+            "release_date": "20 October 2021",
+            "last_modified": "13 March 2022",
+            "readme": "readmefile.txt",
+            "desc": "Mario Kart 64 is a racing game for the Nintendo 64.",
+            "patchfile": "patch.zip",
+            "patch": [
+                "Mario Kart 64 (IT) [!] by Rulesless 1.0.bps"
+            ],
+            "screenshot": [
+                "1.jpg",
+                "2.jpg",
+                "3.jpg",
+                "4.jpg"
+            ],
+            "id": "6478"
+        },
+        "n64header": {
+            "platform": "Nintendo 64",
+            "format": "",
+            "title": "MARIOKART64 ITALIANO",
+            "version": "00001446",
+            "crc1": "4578A055",
+            "crc2": "3F31815D",
+            "publisher": "Nintendo",
+            "publisher_code": "N",
+            "code": "KT",
+            "region": "USA",
+            "region_code": "45"
+        }
+    },
+    "Mario Kart 64 [USA][T.Pol-Ful-Lunad-6173].z64": {
+        "file": "Mario Kart 64\/Mario Kart 64 [USA][T.Pol-Ful-Lunad-6173].z64",
+        "file_sha": "AD052923909086B7C904E23737F3AA958CEFBB48",
+        "file_size": 12582912,
+        "romhacker_translation": {
+            "patch_name": "Mario Kart 64",
+            "game_match": {
+                "579C48E211AE952530FFC8738709F078D5DD215E": "Mario Kart 64 (USA)"
+            },
+            "type": "translations",
+            "url": "https:\/\/www.romhacking.net\/translations\/6173\/",
+            "released_by": "LunaDook",
+            "language": "Polish",
+            "status": "Fully Playable",
+            "patching_information": "No Special Requirements",
+            "published_by": "Nintendo",
+            "game_date": "14 December 1996",
+            "patch_version": "1.0",
+            "release_date": "09 September 2021",
+            "last_modified": "10 September 2021",
+            "readme": "readmefile.txt",
+            "desc": "Mario Kart 64 is a racing game for the Nintendo 64.",
+            "patchfile": "patch.zip",
+            "patch": [
+                "Mario Kart 64 pl.bps"
+            ],
+            "screenshot": [
+                "1.png",
+                "2.png",
+                "3.png",
+                "4.png"
+            ],
+            "id": "6173"
+        },
+        "n64header": {
+            "platform": "Nintendo 64",
+            "format": "",
+            "title": "MARIOKART64",
+            "version": "00001446",
+            "crc1": "51BA7A0D",
+            "crc2": "6B9AC2B5",
+            "publisher": "Nintendo",
+            "publisher_code": "N",
+            "code": "KT",
+            "region": "USA",
+            "region_code": "45"
+        }
+    },
+    "Mario Kart 64 [USA][T.Spa-Ful-Blade-3417].z64": {
+        "file": "Mario Kart 64\/Mario Kart 64 [USA][T.Spa-Ful-Blade-3417].z64",
+        "file_sha": "93C63590767B5AC7C7CA6C5B1657A10C8332720B",
+        "file_size": 12582912,
+        "romhacker_translation": {
+            "patch_name": "Mario Kart 64",
+            "game_match": {
+                "579C48E211AE952530FFC8738709F078D5DD215E": "Mario Kart 64 (USA)"
+            },
+            "type": "translations",
+            "url": "https:\/\/www.romhacking.net\/translations\/3417\/",
+            "released_by": "Blade133bo",
+            "language": "Spanish",
+            "status": "Fully Playable",
+            "patching_information": "Byte Swapped (N64)",
+            "published_by": "Nintendo",
+            "game_date": "14 December 1996",
+            "patch_version": "1.1",
+            "release_date": "22 November 2020",
+            "last_modified": "22 November 2020",
+            "readme": "readmefile.txt",
+            "desc": "Mario Kart 64 is a racing game for the Nintendo 64.",
+            "patchfile": "patch.rar",
+            "patch": [
+                "Mario Kart 64 (ES).xdelta"
+            ],
+            "screenshot": [
+                "1.jpg",
+                "2.jpg",
+                "3.jpg",
+                "4.jpg"
+            ],
+            "id": "3417"
+        },
+        "n64header": {
+            "platform": "Nintendo 64",
+            "format": "",
+            "title": "MARIOKART64",
+            "version": "00001446",
+            "crc1": "40CA1EC9",
+            "crc2": "8CC292D4",
+            "publisher": "Nintendo",
+            "publisher_code": "N",
+            "code": "KT",
+            "region": "USA",
+            "region_code": "45"
+        }
+    },
+    "[Complete-BFrancois]MARIOKART64_HIRESTEXTURES.hts": {
+        "file": "Mario Kart 64\/[Complete-BFrancois]MARIOKART64_HIRESTEXTURES.hts",
+        "file_sha": "8B417DDE068FF089E9F453ACC3D1237B34E2F066",
+        "file_size": 1619533755,
+        "texture": {
+            "name": "[Complete-BFrancois]MARIOKART64_HIRESTEXTURES.hts",
+            "sha": "8B417DDE068FF089E9F453ACC3D1237B34E2F066",
+            "url": "https:\/\/emulationking.com\/bfrancois-mario-kart-64\/",
+            "tag": "Complete-BFrancois",
+            "type": "Complete",
+            "info_tag": "BFrancois",
+            "rom_specific": [],
+            "txt": "BFrancois Mario Kart 64 texture pack is a superb retexturing attempt, replacing the style and feel of the game with one more reminiscent of the original SNES Mario Kart game.\r\n\r\nThis project originally started off as just a replacement for the kart textures.\r\n\r\nHowever BFrancois felt that the pixelated course textures that are in Mario Kart 64 kind of took away from all his hard work so began work on retexturing every world texture.\r\n\r\nThe ultimate goal of the texture pack was to replace every Super Mario 64 texture with one that looks nicer and has a sort of cartoon effect to remind the user of the original Super Nintendo game."
+        }
+    },
+    "[Complete-Kerber2k]MARIOKART64_HIRESTEXTURES.hts": {
+        "file": "Mario Kart 64\/[Complete-Kerber2k]MARIOKART64_HIRESTEXTURES.hts",
+        "file_sha": "EE2886B1438F540F852D901854D90B1A539BE0E6",
+        "file_size": 48317707,
+        "texture": {
+            "name": "[Complete-Kerber2k]MARIOKART64_HIRESTEXTURES.hts",
+            "sha": "EE2886B1438F540F852D901854D90B1A539BE0E6",
+            "url": "https:\/\/emulationking.com\/kerber2ks-mario-kart-64-retexture\/",
+            "tag": "Complete-Kerber2k",
+            "type": "Complete",
+            "info_tag": "Kerber2k",
+            "rom_specific": [],
+            "txt": "Kerber2k’s Mario Kart 64 Texture pack is one of very few texture packs that cover Mario Kart 64 completely. Kerber2k’s textures seems to aim for a more realistic look.\r\n\r\nKerber2ks Mario Kart 64 texture pack fits the original game surprisingly well, fitting in with the look and feel of the original games which seemed to go for more rough textures then the clean cartoony look the more modern Mario Karts have gone for."
+        }
+    },
+    "[Complete-mk64-hd-2021]MARIOKART64_HIRESTEXTURES.hts": {
+        "file": "Mario Kart 64\/[Complete-mk64-hd-2021]MARIOKART64_HIRESTEXTURES.hts",
+        "file_sha": "64119FEED300CD16F1A82E3906C8E76B0FF3B2D9",
+        "file_size": 9427621356,
+        "texture": {
+            "name": "[Complete-mk64-hd-2021]MARIOKART64_HIRESTEXTURES.hts",
+            "sha": "64119FEED300CD16F1A82E3906C8E76B0FF3B2D9",
+            "url": "https:\/\/evilgames.eu\/texture-packs\/mario-kart-64-hd.htm",
+            "tag": "Complete-mk64-hd-2021",
+            "type": "Complete",
+            "info_tag": "mk64-hd-2021",
+            "rom_specific": [],
+            "txt": "Mario Kart 64 HD is an HD texture pack for GLideN64 and Dolphin. Make sure to use the latest development builds of Project64 and GLideN64 or Dolphin. Please follow the instructions below.\r\n\r\n  \r\n\r\nProject64:\r\n\r\nHTS file goes to: Project64\/Plugin\/GFX\/cache\r\nOpen Options\/Settings in the emulator and select GLideN64 as video plugin\r\nEnable Use texture pack\r\nUse file storage instead of memory cache under Use texture pack\r\nSet Fix black lines between 2D elements to For adjacent 2D elements\r\nUse 6x multiple of N64 resolution or lower\r\n \r\n\r\n \r\n\r\nmupen64plus:\r\n\r\nHTS file goes to:\r\nWindows: %appdata%\/mupen64plus\/cache\r\nLinux: ~\/.cache\/mupen64plus\/cache\r\nmacOS: ~\/Library\/Application Support\/Mupen64plus\/cache\r\nActivate txHiresEnable\r\nTurn on txHiresTextureFileStorage\r\nSet CorrectTexrectCoords to 1 (Auto)\r\nUse 6x multiple of N64 resolution or lower\r\n \r\n\r\n \r\n\r\nmupen64plus-nx:\r\n\r\nDownload RetroArch\r\nHTS file goes to: RetroArch\/system\/Mupen64plus\/cache\r\nSet Use High-Res textures to True\r\nSet Use High-Res Full Alpha Channel to True\r\nSet Use enhanced Hi-Res Storage to True\r\nSet Continuous texrect coords to Auto\r\nUse 6x multiple of N64 resolution or lower\r\n\r\n"
+        }
+    }
+}

@@ -66,6 +66,17 @@ namespace ArchiveCacheManager
             this.label2 = new System.Windows.Forms.Label();
             this.deletePriorityButton = new System.Windows.Forms.Button();
             this.emulatorPlatformConfigDataGridView = new System.Windows.Forms.DataGridView();
+            this.Emulator = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Platform = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Priority = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Action = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.LaunchPath = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.MultiDisc = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.M3uName = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.SmartExtract = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Chdman = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.DolphinTool = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.TexturePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.addPriorityButton = new System.Windows.Forms.Button();
             this.tab3SmartExtractSettings = new System.Windows.Forms.TabPage();
             this.label6 = new System.Windows.Forms.Label();
@@ -80,17 +91,6 @@ namespace ArchiveCacheManager
             this.label7 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.updateCheckCheckBox = new System.Windows.Forms.CheckBox();
-            this.Emulator = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Platform = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Priority = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Action = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.LaunchPath = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.MultiDisc = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.M3uName = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.SmartExtract = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Chdman = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.DolphinTool = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.TexturePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.tab1CacheSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cacheDataGridView)).BeginInit();
@@ -520,6 +520,112 @@ namespace ArchiveCacheManager
             this.emulatorPlatformConfigDataGridView.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.emulatorPlatformConfigDataGridView_CellMouseLeave);
             this.emulatorPlatformConfigDataGridView.SelectionChanged += new System.EventHandler(this.extensionPriorityDataGridView_SelectionChanged);
             // 
+            // Emulator
+            // 
+            this.Emulator.HeaderText = "Emulator";
+            this.Emulator.MinimumWidth = 150;
+            this.Emulator.Name = "Emulator";
+            this.Emulator.ReadOnly = true;
+            this.Emulator.Width = 150;
+            // 
+            // Platform
+            // 
+            this.Platform.HeaderText = "Platform";
+            this.Platform.MinimumWidth = 150;
+            this.Platform.Name = "Platform";
+            this.Platform.ReadOnly = true;
+            this.Platform.Width = 150;
+            // 
+            // Priority
+            // 
+            this.Priority.HeaderText = "Priority";
+            this.Priority.MinimumWidth = 150;
+            this.Priority.Name = "Priority";
+            this.Priority.ToolTipText = "Filename \\ extension priority within an archive.";
+            this.Priority.Width = 150;
+            // 
+            // Action
+            // 
+            this.Action.FillWeight = 50F;
+            this.Action.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Action.HeaderText = "Action";
+            this.Action.Items.AddRange(new object[] {
+            "Extract",
+            "Copy",
+            "Extract or Copy"});
+            this.Action.Name = "Action";
+            this.Action.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Action.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Action.ToolTipText = "Extract archive files to the cache, extract archives or copy non-archive files to" +
+    " the cache, or just copy files to the cache (even if they\'re archives).";
+            this.Action.Width = 62;
+            // 
+            // LaunchPath
+            // 
+            this.LaunchPath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.LaunchPath.HeaderText = "Launch Path";
+            this.LaunchPath.Items.AddRange(new object[] {
+            "Default",
+            "Title",
+            "Platform",
+            "Emulator"});
+            this.LaunchPath.Name = "LaunchPath";
+            this.LaunchPath.ToolTipText = "Launch games from a common path within the cache. Useful for RetroArch common set" +
+    "tings.";
+            this.LaunchPath.Width = 67;
+            // 
+            // MultiDisc
+            // 
+            this.MultiDisc.FillWeight = 50F;
+            this.MultiDisc.HeaderText = "Multi-Disc";
+            this.MultiDisc.Name = "MultiDisc";
+            this.MultiDisc.ToolTipText = "Cache all discs in a multi-disc game. Generates and launches an M3U file if suppo" +
+    "rted by the emulator.";
+            this.MultiDisc.Width = 59;
+            // 
+            // M3uName
+            // 
+            this.M3uName.FillWeight = 50F;
+            this.M3uName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.M3uName.HeaderText = "M3U Name";
+            this.M3uName.Items.AddRange(new object[] {
+            "Game ID",
+            "Title + Version"});
+            this.M3uName.MinimumWidth = 100;
+            this.M3uName.Name = "M3uName";
+            this.M3uName.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.M3uName.ToolTipText = "Name of the M3U file to save. Game ID is LaunchBox\'s default.";
+            // 
+            // SmartExtract
+            // 
+            this.SmartExtract.FillWeight = 50F;
+            this.SmartExtract.HeaderText = "Smart Extract";
+            this.SmartExtract.Name = "SmartExtract";
+            this.SmartExtract.ToolTipText = "Only extract a single ROM from an archive if certain conditions are met.";
+            this.SmartExtract.Width = 68;
+            // 
+            // Chdman
+            // 
+            this.Chdman.HeaderText = "chdman";
+            this.Chdman.Name = "Chdman";
+            this.Chdman.ToolTipText = "Extract CHD files to CUE+BIN files.";
+            this.Chdman.Width = 51;
+            // 
+            // DolphinTool
+            // 
+            this.DolphinTool.HeaderText = "DolphinTool";
+            this.DolphinTool.Name = "DolphinTool";
+            this.DolphinTool.ToolTipText = "Extract RVZ, WIA, and GCZ files to ISO files.";
+            this.DolphinTool.Width = 70;
+            // 
+            // TexturePath
+            // 
+            this.TexturePath.HeaderText = "HiRes Texture Path";
+            this.TexturePath.MinimumWidth = 100;
+            this.TexturePath.Name = "TexturePath";
+            this.TexturePath.ReadOnly = true;
+            this.TexturePath.ToolTipText = "DoubleClick to set Path, If cancel clear the path";
+            // 
             // addPriorityButton
             // 
             this.addPriorityButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -652,10 +758,9 @@ namespace ArchiveCacheManager
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(6, 193);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(489, 13);
+            this.label7.Size = new System.Drawing.Size(253, 13);
             this.label7.TabIndex = 99;
-            this.label7.Text = "Be notified of plugin updates when LaunchBox starts. Nothing is automatically dow" +
-    "nloaded or installed.";
+            this.label7.Text = "Sorry, but UPDATE CHECK is Disabled on this fork !";
             // 
             // label3
             // 
@@ -674,6 +779,7 @@ namespace ArchiveCacheManager
             // updateCheckCheckBox
             // 
             this.updateCheckCheckBox.AutoSize = true;
+            this.updateCheckCheckBox.Enabled = false;
             this.updateCheckCheckBox.Location = new System.Drawing.Point(7, 164);
             this.updateCheckCheckBox.Name = "updateCheckCheckBox";
             this.updateCheckCheckBox.Size = new System.Drawing.Size(172, 17);
@@ -681,112 +787,6 @@ namespace ArchiveCacheManager
             this.updateCheckCheckBox.Text = "Check For Updates On Startup";
             this.updateCheckCheckBox.UseVisualStyleBackColor = true;
             this.updateCheckCheckBox.CheckedChanged += new System.EventHandler(this.multiDiscSupportCheckBox_CheckedChanged);
-            // 
-            // Emulator
-            // 
-            this.Emulator.HeaderText = "Emulator";
-            this.Emulator.MinimumWidth = 150;
-            this.Emulator.Name = "Emulator";
-            this.Emulator.ReadOnly = true;
-            this.Emulator.Width = 150;
-            // 
-            // Platform
-            // 
-            this.Platform.HeaderText = "Platform";
-            this.Platform.MinimumWidth = 150;
-            this.Platform.Name = "Platform";
-            this.Platform.ReadOnly = true;
-            this.Platform.Width = 150;
-            // 
-            // Priority
-            // 
-            this.Priority.HeaderText = "Priority";
-            this.Priority.MinimumWidth = 150;
-            this.Priority.Name = "Priority";
-            this.Priority.ToolTipText = "Filename \\ extension priority within an archive.";
-            this.Priority.Width = 150;
-            // 
-            // Action
-            // 
-            this.Action.FillWeight = 50F;
-            this.Action.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Action.HeaderText = "Action";
-            this.Action.Items.AddRange(new object[] {
-            "Extract",
-            "Copy",
-            "Extract or Copy"});
-            this.Action.Name = "Action";
-            this.Action.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Action.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Action.ToolTipText = "Extract archive files to the cache, extract archives or copy non-archive files to" +
-    " the cache, or just copy files to the cache (even if they\'re archives).";
-            this.Action.Width = 62;
-            // 
-            // LaunchPath
-            // 
-            this.LaunchPath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.LaunchPath.HeaderText = "Launch Path";
-            this.LaunchPath.Items.AddRange(new object[] {
-            "Default",
-            "Title",
-            "Platform",
-            "Emulator"});
-            this.LaunchPath.Name = "LaunchPath";
-            this.LaunchPath.ToolTipText = "Launch games from a common path within the cache. Useful for RetroArch common set" +
-    "tings.";
-            this.LaunchPath.Width = 74;
-            // 
-            // MultiDisc
-            // 
-            this.MultiDisc.FillWeight = 50F;
-            this.MultiDisc.HeaderText = "Multi-Disc";
-            this.MultiDisc.Name = "MultiDisc";
-            this.MultiDisc.ToolTipText = "Cache all discs in a multi-disc game. Generates and launches an M3U file if suppo" +
-    "rted by the emulator.";
-            this.MultiDisc.Width = 59;
-            // 
-            // M3uName
-            // 
-            this.M3uName.FillWeight = 50F;
-            this.M3uName.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.M3uName.HeaderText = "M3U Name";
-            this.M3uName.Items.AddRange(new object[] {
-            "Game ID",
-            "Title + Version"});
-            this.M3uName.MinimumWidth = 100;
-            this.M3uName.Name = "M3uName";
-            this.M3uName.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.M3uName.ToolTipText = "Name of the M3U file to save. Game ID is LaunchBox\'s default.";
-            // 
-            // SmartExtract
-            // 
-            this.SmartExtract.FillWeight = 50F;
-            this.SmartExtract.HeaderText = "Smart Extract";
-            this.SmartExtract.Name = "SmartExtract";
-            this.SmartExtract.ToolTipText = "Only extract a single ROM from an archive if certain conditions are met.";
-            this.SmartExtract.Width = 76;
-            // 
-            // Chdman
-            // 
-            this.Chdman.HeaderText = "chdman";
-            this.Chdman.Name = "Chdman";
-            this.Chdman.ToolTipText = "Extract CHD files to CUE+BIN files.";
-            this.Chdman.Width = 51;
-            // 
-            // DolphinTool
-            // 
-            this.DolphinTool.HeaderText = "DolphinTool";
-            this.DolphinTool.Name = "DolphinTool";
-            this.DolphinTool.ToolTipText = "Extract RVZ, WIA, and GCZ files to ISO files.";
-            this.DolphinTool.Width = 70;
-            // 
-            // TexturePath
-            // 
-            this.TexturePath.HeaderText = "HiRes Texture Path";
-            this.TexturePath.MinimumWidth = 100;
-            this.TexturePath.Name = "TexturePath";
-            this.TexturePath.ReadOnly = true;
-            this.TexturePath.ToolTipText = "DoubleClick to set Path, If cancel clear the path";
             // 
             // NewConfigWindow
             // 
