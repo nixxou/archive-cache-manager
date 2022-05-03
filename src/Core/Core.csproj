@@ -83,7 +83,7 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="Unbroken.LaunchBox.Plugins">
-      <HintPath>..\..\..\..\..\..\LaunchBox\Core\Unbroken.LaunchBox.Plugins.dll</HintPath>
+      <HintPath>..\..\..\..\..\LaunchBox\Core\Unbroken.LaunchBox.Plugins.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

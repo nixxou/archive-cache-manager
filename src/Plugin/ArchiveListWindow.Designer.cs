@@ -158,7 +158,6 @@ namespace ArchiveCacheManager
             // emulatorComboBoxLabel
             // 
             this.emulatorComboBoxLabel.AutoSize = true;
-
             this.emulatorComboBoxLabel.Location = new System.Drawing.Point(396, 699);
             this.emulatorComboBoxLabel.Name = "emulatorComboBoxLabel";
             this.emulatorComboBoxLabel.Size = new System.Drawing.Size(51, 13);
@@ -675,9 +674,10 @@ namespace ArchiveCacheManager
             // ArchiveListWindow
             // 
             this.AcceptButton = this.okButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.cancelButton;
+            this.ClientSize = new System.Drawing.Size(544, 453);
 
             this.ClientSize = new System.Drawing.Size(1460, 731);
             this.Controls.Add(this.fakebrowser_txt);
@@ -685,11 +685,11 @@ namespace ArchiveCacheManager
             this.Controls.Add(this.fastObjectListView1);
             this.Controls.Add(this.emulatorComboBoxLabel);
             this.Controls.Add(this.emulatorComboBox);
+            this.Controls.Add(this.emulatorComboBoxLabel);
             this.Controls.Add(this.archiveNameLabel);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.okButton);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-
             this.MinimizeBox = false;
             this.Name = "ArchiveListWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -707,6 +707,7 @@ namespace ArchiveCacheManager
         }
 
         #endregion
+
 
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Button okButton;

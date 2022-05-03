@@ -38,11 +38,6 @@ namespace ArchiveCacheManager
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewConfigWindow));
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.openInExplorerButton = new System.Windows.Forms.Button();
-            this.configureCacheButton = new System.Windows.Forms.Button();
-            this.deleteAllButton = new System.Windows.Forms.Button();
-            this.refreshButton = new System.Windows.Forms.Button();
-            this.deleteSelectedButton = new System.Windows.Forms.Button();
             this.versionLabel = new System.Windows.Forms.Label();
             this.forumLink = new System.Windows.Forms.LinkLabel();
             this.sourceLink = new System.Windows.Forms.LinkLabel();
@@ -50,10 +45,16 @@ namespace ArchiveCacheManager
             this.okButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.treeView1 = new System.Windows.Forms.TreeView();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.tabControl1 = new ArchiveCacheManager.StackPanel();
             this.tab1CacheSettings = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
+            this.openInExplorerButton = new System.Windows.Forms.Button();
+            this.configureCacheButton = new System.Windows.Forms.Button();
+            this.deleteAllButton = new System.Windows.Forms.Button();
             this.cacheSummaryTextBox = new System.Windows.Forms.RichTextBox();
+            this.refreshButton = new System.Windows.Forms.Button();
+            this.deleteSelectedButton = new System.Windows.Forms.Button();
             this.cacheDataGridView = new System.Windows.Forms.DataGridView();
             this.ArchivePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Archive = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -91,6 +92,7 @@ namespace ArchiveCacheManager
             this.label7 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.updateCheckCheckBox = new System.Windows.Forms.CheckBox();
+            this.flowLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tab1CacheSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cacheDataGridView)).BeginInit();
@@ -99,83 +101,6 @@ namespace ArchiveCacheManager
             this.tab3SmartExtractSettings.SuspendLayout();
             this.tab4PluginSettings.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // openInExplorerButton
-            // 
-            this.openInExplorerButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.openInExplorerButton.Image = global::ArchiveCacheManager.Resources.folder_horizontal_open;
-            this.openInExplorerButton.Location = new System.Drawing.Point(576, 92);
-            this.openInExplorerButton.Name = "openInExplorerButton";
-            this.openInExplorerButton.Size = new System.Drawing.Size(156, 28);
-            this.openInExplorerButton.TabIndex = 6;
-            this.openInExplorerButton.Text = "Open In Explorer";
-            this.openInExplorerButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.openInExplorerButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.toolTip.SetToolTip(this.openInExplorerButton, "Opens the confgured cache path in Windows Explorer.");
-            this.openInExplorerButton.UseVisualStyleBackColor = true;
-            this.openInExplorerButton.Click += new System.EventHandler(this.openInExplorerButton_Click);
-            // 
-            // configureCacheButton
-            // 
-            this.configureCacheButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.configureCacheButton.Image = global::ArchiveCacheManager.Resources.gear;
-            this.configureCacheButton.Location = new System.Drawing.Point(576, 58);
-            this.configureCacheButton.Name = "configureCacheButton";
-            this.configureCacheButton.Size = new System.Drawing.Size(156, 28);
-            this.configureCacheButton.TabIndex = 5;
-            this.configureCacheButton.Text = "Configure Cache...";
-            this.configureCacheButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.configureCacheButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.toolTip.SetToolTip(this.configureCacheButton, "Edit the cache configuration.");
-            this.configureCacheButton.UseVisualStyleBackColor = true;
-            this.configureCacheButton.Click += new System.EventHandler(this.configureCacheButton_Click);
-            // 
-            // deleteAllButton
-            // 
-            this.deleteAllButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.deleteAllButton.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.deleteAllButton.Image = global::ArchiveCacheManager.Resources.broom;
-            this.deleteAllButton.Location = new System.Drawing.Point(616, 488);
-            this.deleteAllButton.Name = "deleteAllButton";
-            this.deleteAllButton.Size = new System.Drawing.Size(116, 28);
-            this.deleteAllButton.TabIndex = 10;
-            this.deleteAllButton.Text = "Delete All";
-            this.deleteAllButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.deleteAllButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.toolTip.SetToolTip(this.deleteAllButton, "Delete all items from the cache. The cache folder is not removed.");
-            this.deleteAllButton.UseVisualStyleBackColor = true;
-            this.deleteAllButton.Click += new System.EventHandler(this.deleteAllButton_Click);
-            // 
-            // refreshButton
-            // 
-            this.refreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.refreshButton.Image = global::ArchiveCacheManager.Resources.arrow_circle_double;
-            this.refreshButton.Location = new System.Drawing.Point(6, 488);
-            this.refreshButton.Name = "refreshButton";
-            this.refreshButton.Size = new System.Drawing.Size(80, 28);
-            this.refreshButton.TabIndex = 8;
-            this.refreshButton.Text = "Refresh";
-            this.refreshButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.refreshButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.toolTip.SetToolTip(this.refreshButton, "Refresh the cache details.");
-            this.refreshButton.UseVisualStyleBackColor = true;
-            this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
-            // 
-            // deleteSelectedButton
-            // 
-            this.deleteSelectedButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.deleteSelectedButton.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.deleteSelectedButton.Image = global::ArchiveCacheManager.Resources.cross_script;
-            this.deleteSelectedButton.Location = new System.Drawing.Point(494, 488);
-            this.deleteSelectedButton.Name = "deleteSelectedButton";
-            this.deleteSelectedButton.Size = new System.Drawing.Size(116, 28);
-            this.deleteSelectedButton.TabIndex = 9;
-            this.deleteSelectedButton.Text = "Delete";
-            this.deleteSelectedButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.deleteSelectedButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-            this.toolTip.SetToolTip(this.deleteSelectedButton, "Delete the selected items from the cache.");
-            this.deleteSelectedButton.UseVisualStyleBackColor = true;
-            this.deleteSelectedButton.Click += new System.EventHandler(this.deleteSelectedButton_Click);
             // 
             // versionLabel
             // 
@@ -191,7 +116,7 @@ namespace ArchiveCacheManager
             // 
             this.forumLink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.forumLink.AutoSize = true;
-            this.forumLink.Location = new System.Drawing.Point(651, 583);
+            this.forumLink.Location = new System.Drawing.Point(100, 0);
             this.forumLink.Name = "forumLink";
             this.forumLink.Size = new System.Drawing.Size(76, 13);
             this.forumLink.TabIndex = 31;
@@ -203,7 +128,7 @@ namespace ArchiveCacheManager
             // 
             this.sourceLink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.sourceLink.AutoSize = true;
-            this.sourceLink.Location = new System.Drawing.Point(733, 583);
+            this.sourceLink.Location = new System.Drawing.Point(182, 0);
             this.sourceLink.Name = "sourceLink";
             this.sourceLink.Size = new System.Drawing.Size(93, 13);
             this.sourceLink.TabIndex = 32;
@@ -215,7 +140,7 @@ namespace ArchiveCacheManager
             // 
             this.pluginLink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.pluginLink.AutoSize = true;
-            this.pluginLink.Location = new System.Drawing.Point(554, 583);
+            this.pluginLink.Location = new System.Drawing.Point(3, 0);
             this.pluginLink.Name = "pluginLink";
             this.pluginLink.Size = new System.Drawing.Size(91, 13);
             this.pluginLink.TabIndex = 30;
@@ -275,9 +200,21 @@ namespace ArchiveCacheManager
             treeNode3,
             treeNode4});
             this.treeView1.ShowLines = false;
-            this.treeView1.Size = new System.Drawing.Size(166, 551);
+            this.treeView1.Size = new System.Drawing.Size(166, 550);
             this.treeView1.TabIndex = 3;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.flowLayoutPanel1.Controls.Add(this.pluginLink);
+            this.flowLayoutPanel1.Controls.Add(this.forumLink);
+            this.flowLayoutPanel1.Controls.Add(this.sourceLink);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(522, 583);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(320, 26);
+            this.flowLayoutPanel1.TabIndex = 33;
+            this.flowLayoutPanel1.WrapContents = false;
             // 
             // tabControl1
             // 
@@ -328,6 +265,52 @@ namespace ArchiveCacheManager
             this.label1.Text = "Cache Settings";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // openInExplorerButton
+            // 
+            this.openInExplorerButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.openInExplorerButton.Image = global::ArchiveCacheManager.Resources.folder_horizontal_open;
+            this.openInExplorerButton.Location = new System.Drawing.Point(576, 92);
+            this.openInExplorerButton.Name = "openInExplorerButton";
+            this.openInExplorerButton.Size = new System.Drawing.Size(156, 28);
+            this.openInExplorerButton.TabIndex = 6;
+            this.openInExplorerButton.Text = "Open In Explorer";
+            this.openInExplorerButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.openInExplorerButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip.SetToolTip(this.openInExplorerButton, "Opens the confgured cache path in Windows Explorer.");
+            this.openInExplorerButton.UseVisualStyleBackColor = true;
+            this.openInExplorerButton.Click += new System.EventHandler(this.openInExplorerButton_Click);
+            // 
+            // configureCacheButton
+            // 
+            this.configureCacheButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.configureCacheButton.Image = global::ArchiveCacheManager.Resources.gear;
+            this.configureCacheButton.Location = new System.Drawing.Point(576, 58);
+            this.configureCacheButton.Name = "configureCacheButton";
+            this.configureCacheButton.Size = new System.Drawing.Size(156, 28);
+            this.configureCacheButton.TabIndex = 5;
+            this.configureCacheButton.Text = "Configure Cache...";
+            this.configureCacheButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.configureCacheButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip.SetToolTip(this.configureCacheButton, "Edit the cache configuration.");
+            this.configureCacheButton.UseVisualStyleBackColor = true;
+            this.configureCacheButton.Click += new System.EventHandler(this.configureCacheButton_Click);
+            // 
+            // deleteAllButton
+            // 
+            this.deleteAllButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteAllButton.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.deleteAllButton.Image = global::ArchiveCacheManager.Resources.broom;
+            this.deleteAllButton.Location = new System.Drawing.Point(616, 488);
+            this.deleteAllButton.Name = "deleteAllButton";
+            this.deleteAllButton.Size = new System.Drawing.Size(116, 28);
+            this.deleteAllButton.TabIndex = 10;
+            this.deleteAllButton.Text = "Delete All";
+            this.deleteAllButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.deleteAllButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip.SetToolTip(this.deleteAllButton, "Delete all items from the cache. The cache folder is not removed.");
+            this.deleteAllButton.UseVisualStyleBackColor = true;
+            this.deleteAllButton.Click += new System.EventHandler(this.deleteAllButton_Click);
+            // 
             // cacheSummaryTextBox
             // 
             this.cacheSummaryTextBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
@@ -341,6 +324,37 @@ namespace ArchiveCacheManager
             this.cacheSummaryTextBox.TabIndex = 99;
             this.cacheSummaryTextBox.TabStop = false;
             this.cacheSummaryTextBox.Text = "";
+            // 
+            // refreshButton
+            // 
+            this.refreshButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.refreshButton.Image = global::ArchiveCacheManager.Resources.arrow_circle_double;
+            this.refreshButton.Location = new System.Drawing.Point(6, 488);
+            this.refreshButton.Name = "refreshButton";
+            this.refreshButton.Size = new System.Drawing.Size(80, 28);
+            this.refreshButton.TabIndex = 8;
+            this.refreshButton.Text = "Refresh";
+            this.refreshButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.refreshButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip.SetToolTip(this.refreshButton, "Refresh the cache details.");
+            this.refreshButton.UseVisualStyleBackColor = true;
+            this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
+            // 
+            // deleteSelectedButton
+            // 
+            this.deleteSelectedButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.deleteSelectedButton.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.deleteSelectedButton.Image = global::ArchiveCacheManager.Resources.cross_script;
+            this.deleteSelectedButton.Location = new System.Drawing.Point(494, 488);
+            this.deleteSelectedButton.Name = "deleteSelectedButton";
+            this.deleteSelectedButton.Size = new System.Drawing.Size(116, 28);
+            this.deleteSelectedButton.TabIndex = 9;
+            this.deleteSelectedButton.Text = "Delete";
+            this.deleteSelectedButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.deleteSelectedButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.toolTip.SetToolTip(this.deleteSelectedButton, "Delete the selected items from the cache.");
+            this.deleteSelectedButton.UseVisualStyleBackColor = true;
+            this.deleteSelectedButton.Click += new System.EventHandler(this.deleteSelectedButton_Click);
             // 
             // cacheDataGridView
             // 
@@ -514,7 +528,7 @@ namespace ArchiveCacheManager
             this.emulatorPlatformConfigDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.emulatorPlatformConfigDataGridView.Size = new System.Drawing.Size(726, 375);
             this.emulatorPlatformConfigDataGridView.StandardTab = true;
-            this.emulatorPlatformConfigDataGridView.TabIndex = 13;
+            this.emulatorPlatformConfigDataGridView.TabIndex = 11;
             this.emulatorPlatformConfigDataGridView.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.emulatorPlatformConfigDataGridView_CellDoubleClick);
             this.emulatorPlatformConfigDataGridView.CellMouseEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.emulatorPlatformConfigDataGridView_CellMouseEnter);
             this.emulatorPlatformConfigDataGridView.CellMouseLeave += new System.Windows.Forms.DataGridViewCellEventHandler(this.emulatorPlatformConfigDataGridView_CellMouseLeave);
@@ -572,7 +586,7 @@ namespace ArchiveCacheManager
             this.LaunchPath.Name = "LaunchPath";
             this.LaunchPath.ToolTipText = "Launch games from a common path within the cache. Useful for RetroArch common set" +
     "tings.";
-            this.LaunchPath.Width = 67;
+            this.LaunchPath.Width = 74;
             // 
             // MultiDisc
             // 
@@ -602,7 +616,7 @@ namespace ArchiveCacheManager
             this.SmartExtract.HeaderText = "Smart Extract";
             this.SmartExtract.Name = "SmartExtract";
             this.SmartExtract.ToolTipText = "Only extract a single ROM from an archive if certain conditions are met.";
-            this.SmartExtract.Width = 68;
+            this.SmartExtract.Width = 76;
             // 
             // Chdman
             // 
@@ -758,7 +772,7 @@ namespace ArchiveCacheManager
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(6, 193);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(253, 13);
+            this.label7.Size = new System.Drawing.Size(489, 13);
             this.label7.TabIndex = 99;
             this.label7.Text = "Sorry, but UPDATE CHECK is Disabled on this fork !";
             // 
@@ -791,16 +805,14 @@ namespace ArchiveCacheManager
             // NewConfigWindow
             // 
             this.AcceptButton = this.okButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.CancelButton = this.cancelButton;
             this.ClientSize = new System.Drawing.Size(944, 613);
+            this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.sourceLink);
-            this.Controls.Add(this.pluginLink);
-            this.Controls.Add(this.forumLink);
             this.Controls.Add(this.versionLabel);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.okButton);
@@ -812,6 +824,8 @@ namespace ArchiveCacheManager
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Archive Cache Manager";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ConfigWindow_FormClosed);
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tab1CacheSettings.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.cacheDataGridView)).EndInit();
@@ -823,7 +837,6 @@ namespace ArchiveCacheManager
             this.tab4PluginSettings.ResumeLayout(false);
             this.tab4PluginSettings.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -881,6 +894,7 @@ namespace ArchiveCacheManager
         private System.Windows.Forms.DataGridViewCheckBoxColumn SmartExtract;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Chdman;
         private System.Windows.Forms.DataGridViewCheckBoxColumn DolphinTool;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.DataGridViewTextBoxColumn TexturePath;
     }
 }
