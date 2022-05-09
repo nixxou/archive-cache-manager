@@ -5,12 +5,13 @@ using System.IO;
 using System.Diagnostics;
 using System.Drawing;
 using Unbroken.LaunchBox.Plugins;
+using System.Threading.Tasks;
 
 namespace ArchiveCacheManager
 {
     public partial class NewConfigWindow : Form
     {
-        private bool refreshLaunchBox = false;
+        public bool RefreshLaunchBox = false;
 
         public NewConfigWindow()
         {
@@ -29,7 +30,7 @@ namespace ArchiveCacheManager
                 UserInterface.SetColumnMinimumWidth(column);
             }
 
-            refreshLaunchBox = false;
+            RefreshLaunchBox = false;
 
             Config.Load();
 
@@ -334,7 +335,7 @@ namespace ArchiveCacheManager
             updateCacheInfo();
             updateEnabledState();
 
-            refreshLaunchBox = true;
+            RefreshLaunchBox = true;
         }
 
         private void cacheDataGridView_CurrentCellDirtyStateChanged(object sender, EventArgs e)
@@ -355,7 +356,7 @@ namespace ArchiveCacheManager
             updateCacheInfo(true);
             updateEnabledState();
 
-            refreshLaunchBox = true;
+            RefreshLaunchBox = true;
         }
 
         private void cacheDataGridView_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
@@ -367,32 +368,7 @@ namespace ArchiveCacheManager
             {
                 e.Paint(e.CellBounds, DataGridViewPaintParts.All);
 
-                Bitmap mediaIcon = null;
-
-                string platform = cacheDataGridView.Rows[e.RowIndex].Cells["ArchivePlatform"].Value.ToString();
-                     if (platform.Contains("Microsoft Xbox 360")) mediaIcon = Resources.media_cd;
-                else if (platform.Contains("Microsoft Xbox")) mediaIcon = Resources.media_cd;
-                else if (platform.Contains("Nintendo 64")) mediaIcon = Resources.media_n64;
-                else if (platform.Contains("Nintendo GameCube")) mediaIcon = Resources.media_gc;
-                else if (platform.Contains("Nintendo Wii U")) mediaIcon = Resources.media_cd;
-                else if (platform.Contains("Nintendo Wii")) mediaIcon = Resources.media_cd;
-                else if (platform.Contains("Sega 32X")) mediaIcon = Resources.media_md;
-                else if (platform.Contains("Sega CD")) mediaIcon = Resources.media_cd;
-                else if (platform.Contains("Sega Mega-CD")) mediaIcon = Resources.media_cd;
-                else if (platform.Contains("Sega Dreamcast")) mediaIcon = Resources.media_cd;
-                else if (platform.Contains("Sega Genesis")) mediaIcon = Resources.media_md;
-                else if (platform.Contains("Sega Mega Drive")) mediaIcon = Resources.media_md;
-                else if (platform.Contains("Sega Saturn")) mediaIcon = Resources.media_cd;
-                else if (platform.Contains("Sony Playstation 2"))
-                {
-                    if (Convert.ToDouble(cacheDataGridView.Rows[e.RowIndex].Cells["ArchiveSize"].Value) > 700.0)
-                        mediaIcon = Resources.media_ps2;
-                    else
-                        mediaIcon = Resources.media_ps2_cd;
-                }
-                else if (platform.Contains("Sony Playstation")) mediaIcon = Resources.media_ps1;
-                else if (platform.Contains("Sony PSP")) mediaIcon = Resources.media_psp;
-                else mediaIcon = Resources.box_zipper;
+                Bitmap mediaIcon = UserInterface.GetMediaIcon(cacheDataGridView.Rows[e.RowIndex].Cells["ArchivePlatform"].Value.ToString());
 
                 if (mediaIcon != null)
                 {
@@ -404,14 +380,6 @@ namespace ArchiveCacheManager
                     e.Graphics.DrawImage(mediaIcon, new Rectangle(x, y, w, h));
                     e.Handled = true;
                 }
-            }
-        }
-
-        private void ConfigWindow_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            if (refreshLaunchBox  && !PluginHelper.StateManager.IsBigBox)
-            {
-                PluginHelper.LaunchBoxMainViewModel.RefreshData();
             }
         }
 

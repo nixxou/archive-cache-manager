@@ -249,6 +249,9 @@ namespace ArchiveCacheManager
             this.base_launchbox_dir = Directory.GetParent(Path.GetDirectoryName(Application.ExecutablePath)).FullName;
             InitializeComponent();
 
+            UserInterface.ScaleControlFont(fileListBox, 96.0f / fileListBox.DeviceDpi);
+            UserInterface.ScaleControlFont(archiveNameLabel, 96.0f / archiveNameLabel.DeviceDpi);
+
             if (File_hidden.Count > 0)
             {
                 string hidden_str = "";
