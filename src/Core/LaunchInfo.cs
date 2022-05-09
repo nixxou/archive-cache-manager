@@ -139,6 +139,16 @@ namespace ArchiveCacheManager
 
             if (mGameCacheData.Size == null)
             {
+                if(Extractor.Name()== "7-Zip")
+                {
+                    if (mGameCacheData.Config.SmartExtract && string.IsNullOrEmpty(mGame.SelectedFile))
+                    {
+                        string[] fileList = new Zip().List(mGameCacheData.ArchivePath);
+                        string priority_file = find_priority_file(LaunchInfo.Game.Emulator, LaunchInfo.Game.Platform, fileList);
+                        if (priority_file != "") mGame.SelectedFile = priority_file;
+                        Logger.Log(string.Format("Force SmartExtract To SelectedFile = {0}", priority_file));
+                    }
+                }
                 mGameCacheData.Size = Extractor.GetSize(mGameCacheData.ArchivePath, GetExtractSingleFile());
                 mGame.DecompressedSize = (long)mGameCacheData.Size;
                 Logger.Log(string.Format("Decompressed archive size is {0} bytes.", (long)mGameCacheData.Size));
@@ -157,7 +167,6 @@ namespace ArchiveCacheManager
             if (mGameCacheData.ExtractSingleFile == null)
             {
                 mGameCacheData.ExtractSingleFile = false;
-
                 if (mGameCacheData.Config.SmartExtract && !string.IsNullOrEmpty(mGame.SelectedFile))
                 {
                     List<string> standaloneList = Utils.SplitExtensions(Config.StandaloneExtensions).ToList();
@@ -183,6 +192,39 @@ namespace ArchiveCacheManager
             }
 
             return (bool)mGameCacheData.ExtractSingleFile ? mGame.SelectedFile : null;
+        }
+
+        public static string find_priority_file(string emulator, string plateform, string[] fileList)
+        {
+            List<string> prioritySections = new List<string>();
+            prioritySections.Add(Config.EmulatorPlatformKey(emulator, plateform));
+            prioritySections.Add(Config.EmulatorPlatformKey("All", "All"));
+            foreach (var prioritySection in prioritySections)
+            {
+                try
+                {
+                    string[] extensionPriority = Config.GetFilenamePriority(prioritySection).Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                    // Search the extensions in priority order
+                    foreach (string extension in extensionPriority)
+                    {
+                        //Logger.Log(string.Format("DEBUGPRIO : Check extension {0} in priority section {1}", extension, prioritySection));
+                        foreach (string fl in fileList)
+                        {
+                            //Logger.Log(string.Format("DEBUGPRIO : Check file {0} against {1}", fl.ToLower(), string.Format("*{0}", extension.ToLower().Trim())));
+                            if (Wildcard.Match(fl.ToLower(), string.Format("*{0}", extension.ToLower().Trim())))
+                            {
+                                //Logger.Log(string.Format("DEBUGPRIO : {0} is a priority file !", fl));
+                                return fl;
+                            }
+                        }
+                    }
+                }
+                catch (KeyNotFoundException)
+                {
+
+                }
+            }
+            return "";
         }
 
         /// <summary>
