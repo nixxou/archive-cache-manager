@@ -82,6 +82,7 @@ namespace ArchiveCacheManager
             this.MenuItem_pasteSaveState8 = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItem_pasteSaveState9 = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItem_extractTo = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuItem_addFavorite = new System.Windows.Forms.ToolStripMenuItem();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.saveFileDialog_extractTo = new System.Windows.Forms.SaveFileDialog();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -100,13 +101,11 @@ namespace ArchiveCacheManager
             ((System.ComponentModel.ISupportInitialize)(this.FListView_Texture)).BeginInit();
             this.SuspendLayout();
             // 
-
             // cancelButton
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cancelButton.Image = global::ArchiveCacheManager.Resources.cross_script;
-
             this.cancelButton.Location = new System.Drawing.Point(93, 691);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 28);
@@ -121,7 +120,6 @@ namespace ArchiveCacheManager
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.okButton.Image = global::ArchiveCacheManager.Resources.tick;
-
             this.okButton.Location = new System.Drawing.Point(12, 691);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 28);
@@ -148,7 +146,6 @@ namespace ArchiveCacheManager
             this.emulatorComboBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.emulatorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.emulatorComboBox.FormattingEnabled = true;
-
             this.emulatorComboBox.Location = new System.Drawing.Point(449, 696);
             this.emulatorComboBox.Name = "emulatorComboBox";
             this.emulatorComboBox.Size = new System.Drawing.Size(228, 21);
@@ -288,9 +285,11 @@ namespace ArchiveCacheManager
             this.toolStripSeparator2,
             this.MenuItem_saveCopy,
             this.MenuItem_pasteCopy,
-            this.MenuItem_extractTo});
+            this.MenuItem_extractTo,
+            this.MenuItem_addFavorite});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(184, 261);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(184, 283);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // MenuItem_showTags
             // 
@@ -544,12 +543,20 @@ namespace ArchiveCacheManager
             this.MenuItem_extractTo.Text = "Extract To...";
             this.MenuItem_extractTo.Click += new System.EventHandler(this.MenuItem_extractTo_Click);
             // 
+            // MenuItem_addFavorite
+            // 
+            this.MenuItem_addFavorite.Name = "MenuItem_addFavorite";
+            this.MenuItem_addFavorite.Size = new System.Drawing.Size(183, 22);
+            this.MenuItem_addFavorite.Text = "Add Favorite";
+            this.MenuItem_addFavorite.Click += new System.EventHandler(this.MenuItem_addFavorite_Click);
+            // 
             // imageList1
             // 
             this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             this.imageList1.Images.SetKeyName(0, "star_blue");
             this.imageList1.Images.SetKeyName(1, "star_yellow");
+            this.imageList1.Images.SetKeyName(2, "star_red");
             // 
             // saveFileDialog_extractTo
             // 
@@ -677,13 +684,10 @@ namespace ArchiveCacheManager
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(544, 453);
-
             this.ClientSize = new System.Drawing.Size(1460, 731);
             this.Controls.Add(this.fakebrowser_txt);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.fastObjectListView1);
-            this.Controls.Add(this.emulatorComboBoxLabel);
             this.Controls.Add(this.emulatorComboBox);
             this.Controls.Add(this.emulatorComboBoxLabel);
             this.Controls.Add(this.archiveNameLabel);
@@ -772,5 +776,6 @@ namespace ArchiveCacheManager
         private System.Windows.Forms.Button RemoveTexture_btn;
         private System.Windows.Forms.Label lbl_installed_texture;
         private System.Windows.Forms.TextBox fakebrowser_txt;
+        private System.Windows.Forms.ToolStripMenuItem MenuItem_addFavorite;
     }
 }

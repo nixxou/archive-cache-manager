@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.IO;
 using IniParser;
 using IniParser.Model;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace ArchiveCacheManager
 {
@@ -84,6 +86,56 @@ namespace ArchiveCacheManager
             }
 
             mGameIndex[gameId][nameof(SelectedFile)] = selectedFile;
+
+            Save();
+        }
+
+        public static List<string> GetPreferedFile(string gameId)
+        {
+            List<string> liste_prefered = new List<string>();
+            if (mGameIndex != null && mGameIndex.Sections.ContainsSection(gameId))
+            {
+                if(mGameIndex[gameId].ContainsKey("prefered")){
+                    dynamic jobj = JsonConvert.DeserializeObject(mGameIndex[gameId]["prefered"].ToString());
+                    foreach (string jstring in jobj)
+                    {
+                        liste_prefered.Add(jstring);
+                    }
+                }
+            }
+            return liste_prefered;
+        }
+
+        public static void AddPreferedFile(string gameId, string selectedFile)
+        {
+
+            if (mGameIndex == null)
+            {
+                mGameIndex = new IniData();
+            }
+            List<string> liste_prefered = GetPreferedFile(gameId);
+            if (liste_prefered.Contains(selectedFile) == false)
+            {
+                liste_prefered.Add(selectedFile);
+            }
+            mGameIndex[gameId]["prefered"] = JsonConvert.SerializeObject(liste_prefered.ToArray());
+
+            Save();
+        }
+
+        public static void RemovePreferedFile(string gameId, string selectedFile)
+        {
+            if (mGameIndex == null)
+            {
+                mGameIndex = new IniData();
+            }
+
+            List<string> liste_prefered = GetPreferedFile(gameId);
+            if (liste_prefered.Contains(selectedFile))
+            {
+                liste_prefered.Remove(selectedFile);
+            }
+            mGameIndex[gameId]["prefered"] = JsonConvert.SerializeObject(liste_prefered.ToArray());
 
             Save();
         }

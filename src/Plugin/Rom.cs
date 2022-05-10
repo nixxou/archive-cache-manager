@@ -19,11 +19,12 @@ namespace ArchiveCacheManager
         {
         }
 
-        public Rom(string title, long sizeInBytes, string iconImg = "")
+        public Rom(string title, long sizeInBytes, string iconImg = "", bool favorite = false)
         {
             this.Title = title;
             this.SizeInBytes = sizeInBytes;
             this.IconImg = iconImg;
+            this.favorite = favorite;
             SetTags();
             SetFiltersVars();
         }
@@ -45,6 +46,7 @@ namespace ArchiveCacheManager
         public bool is_romhackernet = false;
         public Dictionary<int, string> Savestate = new Dictionary<int, string>();
         public string TitleWithoutExt = "";
+        public bool favorite = false;
 
         public static string retroarch_savedir = "";
         public static string retroarch_savestatedir = "";
@@ -53,6 +55,8 @@ namespace ArchiveCacheManager
         static public bool have_french = false;
         static public bool have_english = false;
         static public bool have_romhackernet = false;
+
+
 
         public void SetFiltersVars()
         {
@@ -234,9 +238,9 @@ namespace ArchiveCacheManager
                 validTagColumns[z] = false;
             }
         }
-        static internal void AddRom(string title, long sizeInBytes, string iconImg = "")
+        static internal void AddRom(string title, long sizeInBytes, string iconImg = "", bool favorite=false)
         {
-            AllRoms.Add(new Rom(title, sizeInBytes, iconImg));
+            AllRoms.Add(new Rom(title, sizeInBytes, iconImg,favorite));
         }
         static internal List<Rom> GetRoms()
         {

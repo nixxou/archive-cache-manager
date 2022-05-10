@@ -30,6 +30,7 @@ namespace ArchiveCacheManager
         public string SelectedFile;
         public int EmulatorIndex;
         public bool TagsActive = false; //Show extra tags columns
+        public string SelectedID;
         
         //Additionals filters
         public string filter_text = "";
@@ -269,9 +270,10 @@ namespace ArchiveCacheManager
         //archiveDir : The directory of the 7z file
         //sizeList : The size of each file, with the same index as fileList
         //plateform : I need that for determining the "prefered" rom to show a little yellow star
-        public ArchiveListWindow(string archiveName, string archiveDir, string[] fileList, long[] sizeList, string plateform, string emulator_id, string emulator, string[] emulatorList, string selection = "")
+        public ArchiveListWindow(string archiveName, string archiveDir, string[] fileList, long[] sizeList, string plateform, string emulator_id, string emulator, string[] emulatorList, string selection = "", string selectedid="")
         {
             Plateform = plateform;
+            this.SelectedID = selectedid;
             //We clear the rom class static variable, it must be done first !
 
 
@@ -339,6 +341,8 @@ namespace ArchiveCacheManager
             //We search the priority file if any :
             string priority_file = find_priority_file(emulator, plateform, fileList);
 
+            List<string> favorite_roms = GameIndex.GetPreferedFile(this.SelectedID);
+
             //fill the Rom List (a static list within the Rom class) with Roms.
             int i = 0;
             int selected_index = -1;
@@ -369,9 +373,15 @@ namespace ArchiveCacheManager
                 else
                 {
                     string icon_img = "";
+                    bool is_favorite = false;
+                    if (favorite_roms.Contains(fl))
+                    {
+                        icon_img = "star_red";
+                        is_favorite = true;
+                    } 
                     if (fl == priority_file) icon_img = "star_yellow";
                     if (fl == selection) icon_img = "star_blue";
-                    Rom.AddRom(fl.ToString(), sizeList[i], icon_img);
+                    Rom.AddRom(fl.ToString(), sizeList[i], icon_img, is_favorite);
                     if (selection != string.Empty && fl.ToString() == selection) selected_index = i;
                 }
                 i++;
@@ -585,11 +595,20 @@ namespace ArchiveCacheManager
             };
             //To register the double click or enter in the list
             //fastObjectListView1.ItemActivate += new System.EventHandler(this.fastObjectListView1_ItemActivate);
+            fastObjectListView1.FormatRow += new System.EventHandler<BrightIdeasSoftware.FormatRowEventArgs>(this.fastObjectListView1_FormatRow);
             //To execute this function before loading the context menu, usefull to hide some option if no rom is selected
             contextMenuStrip1.Opened += new System.EventHandler(this.contextMenuStrip1_Opened);
             //For the search textbox filter, to validate a new filter text, since there is no "ok" button
             MenuItem_textBoxFilter.LostFocus += new System.EventHandler(this.MenuItem_textBoxFilter_Leave);
             MenuItem_textBoxFilter.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MenuItem_textBoxFilter_CheckEnterKeyPress);
+
+        }
+
+        private void fastObjectListView1_FormatRow(object sender, FormatRowEventArgs e)
+        {
+            Rom myrom = (Rom)e.Model;
+            if (myrom.favorite)
+                e.Item.Font = new Font(e.Item.Font, FontStyle.Bold);
 
         }
 
@@ -687,6 +706,9 @@ namespace ArchiveCacheManager
                 MenuItem_extractTo.Visible = true;
 
                 Rom myrom = (Rom)this.fastObjectListView1.SelectedObject;
+
+                if (myrom.favorite) MenuItem_addFavorite.Text = "Remove Favorite";
+                else MenuItem_addFavorite.Text = "Add Favorite";
                 //We load the save state, i do that here instead of doing globaly on form load to avoid useless and costly file lookup
                 var liste_savestate = myrom.loadSave();
                 if (liste_savestate.Count > 0)
@@ -968,6 +990,35 @@ namespace ArchiveCacheManager
         {
             this.filter_french = !this.filter_french;
             Updatefilter();
+        }
+
+        private void MenuItem_addFavorite_Click(object sender, EventArgs e)
+        {
+            if (fastObjectListView1.SelectedIndex >= 0)
+            {
+                Rom myrom = (Rom)this.fastObjectListView1.SelectedObject;
+                if (myrom.favorite)
+                {
+                    GameIndex.RemovePreferedFile(this.SelectedID, myrom.Title);
+                    myrom.favorite = false;
+                    if (myrom.IconImg == "star_red")
+                    {
+                        myrom.IconImg = "";
+                        this.fastObjectListView1.Refresh();
+                    }
+                }
+                else
+                {
+                    GameIndex.AddPreferedFile(this.SelectedID, myrom.Title);
+                    myrom.favorite = true;
+                    if (myrom.IconImg == "")
+                    {
+                        myrom.IconImg = "star_red";
+                        this.fastObjectListView1.Refresh();
+                    }
+                }
+
+            }
         }
 
         private void MenuItem_filterEnglish_Click(object sender, EventArgs e)
@@ -1317,6 +1368,11 @@ namespace ArchiveCacheManager
             if (File.Exists(potential_out + ".htc")) File.Delete(potential_out + ".htc");
             if (File.Exists(potential_out + ".hts")) File.Delete(potential_out + ".hts");
             EmulatorSelectedUpdate();
+        }
+
+        private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
+        {
+
         }
     }
 
