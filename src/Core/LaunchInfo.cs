@@ -100,6 +100,11 @@ namespace ArchiveCacheManager
             mGameCacheData.Size = size;
         }
 
+        public static bool getConfigSmartExtract()
+        {
+            return mGameCacheData.Config.SmartExtract;
+        }
+
         /// <summary>
         /// Get the size of the game archive when extracted. For multi-disc games, the size will be the total of all discs.
         /// </summary>
@@ -429,6 +434,26 @@ namespace ArchiveCacheManager
             return GetArchiveInCache() ? 1 : 0;
         }
 
+        public static long DirSize(DirectoryInfo d)
+        {
+            long size = 0;
+            // Add file sizes.
+            FileInfo[] fis = d.GetFiles();
+            foreach (FileInfo fi in fis)
+            {
+                string filename = fi.Name;
+                if (filename == "game.ini" || filename == "lastplayed" || filename == "link") continue;
+                size += fi.Length;
+            }
+            // Add subdirectory sizes.
+            DirectoryInfo[] dis = d.GetDirectories();
+            foreach (DirectoryInfo di in dis)
+            {
+                size += DirSize(di);
+            }
+            return size;
+        }
+
         public static void SaveToCache(int? disc = null)
         {
             if (mGame.MultiDisc && MultiDiscSupport && disc == null)
@@ -442,12 +467,19 @@ namespace ArchiveCacheManager
             }
 
             string archiveCacheGameInfoPath = PathUtils.GetArchiveCacheGameInfoPath(GetArchiveCachePath(disc));
+            
+
             GameInfo savedGameInfo = new GameInfo(mGame);
             GameInfo cachedGameInfo = new GameInfo(archiveCacheGameInfoPath);
 
             if (cachedGameInfo.InfoLoaded)
             {
                 savedGameInfo.MergeCacheInfo(cachedGameInfo);
+                if(disc == null)
+                {
+                    Logger.Log("Existing game.ini and no disc, will recalculate the cache size");
+                    savedGameInfo.DecompressedSize = DirSize(new DirectoryInfo(GetArchiveCachePath(disc)));
+                }
             }
             else
             {

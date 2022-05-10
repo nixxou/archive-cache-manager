@@ -5,6 +5,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Reflection;
 
+
 namespace ArchiveCacheManager
 {
     public class CacheManager
@@ -88,8 +89,18 @@ namespace ArchiveCacheManager
                 string singleFile = LaunchInfo.GetExtractSingleFile();
                 if (!string.IsNullOrEmpty(singleFile))
                 {
+                    if(LaunchInfo.Extractor.Name() == "7-Zip")
+                    {
+                        (string[] dontdelete_fileList, long[] dontdelete_sizeList) = new Zip().ListWithSize(LaunchInfo.GetArchivePath(disc));
+                        DiskUtils.DeleteDirectory(LaunchInfo.GetArchiveCachePath(disc), true, false, dontdelete_fileList, dontdelete_sizeList);
+
+                    }
+                    else
+                    {
+                        DiskUtils.DeleteDirectory(LaunchInfo.GetArchiveCachePath(disc), true);
+                    }
                     // Delete previous directory contents. Don't want a build up of old individually extracted files.
-                    DiskUtils.DeleteDirectory(LaunchInfo.GetArchiveCachePath(disc), true);
+                    
                 }
 
                 DiskUtils.CreateFile(PathUtils.GetArchiveCacheExtractingFlagPath(LaunchInfo.GetArchiveCachePath(disc)));
@@ -97,6 +108,7 @@ namespace ArchiveCacheManager
                 Logger.Log(string.Format("Extracting archive to \"{0}\".", LaunchInfo.GetArchiveCachePath(disc)));
 
                 var result = LaunchInfo.Extractor.Extract(LaunchInfo.GetArchivePath(disc), LaunchInfo.GetArchiveCachePath(disc), singleFile.ToSingleArray());
+                
                 if (result)
                 {
                     LaunchInfo.SaveToCache(disc);

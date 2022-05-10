@@ -2,6 +2,7 @@
 using System.Linq;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Collections.Generic;
 
 namespace ArchiveCacheManager
 {
@@ -16,8 +17,10 @@ namespace ArchiveCacheManager
         /// </summary>
         /// <param name="path">The path to delete.</param>
         /// <param name="contentsOnly">Whether to delete the path itself, or only the contents.</param>
-        public static void DeleteDirectory(string path, bool contentsOnly = false, bool unlink = false)
+        public static void DeleteDirectory(string path, bool contentsOnly = false, bool unlink = false, string[] dontdelete_fileList = null, long[] dontdelete_sizeList = null)
         {
+            dontdelete_fileList = dontdelete_fileList ?? new string[0];
+            dontdelete_sizeList = dontdelete_sizeList ?? new long[0];
             try
             {
                 if (Directory.Exists(path))
@@ -31,8 +34,43 @@ namespace ArchiveCacheManager
                     {
                     }
 
+                    dynamic liste_file = Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories);
+
+                    bool skip_delete = true;
+                    if (dontdelete_fileList.Length > 0)
+                    {
+                        foreach (string filePath in liste_file)
+                        {
+                            bool preserve = false;
+                            string filename = Path.GetFileName(filePath);
+                            if (filename == "game.ini" || filename == "lastplayed" || filename == "link") continue;
+                            int i = 0;
+                            foreach (string ddf in dontdelete_fileList)
+                            {
+                                if (ddf == filename)
+                                {
+                                    FileInfo fi = new FileInfo(filePath);
+                                    if (fi.Length == dontdelete_sizeList[i]) preserve = true;
+                                }
+                                i++;
+                            }
+                            if (preserve == false)
+                            {
+                                Logger.Log(string.Format("SmartExtract with preservation because of this file : \"{0}\".", filePath));
+                                skip_delete = false;
+                                break;
+                            }
+                        }
+                        if (skip_delete)
+                        {
+                            Logger.Log("SmartExtract with preservation of existing cache files.");
+                            return;
+                        }
+                    }
+
+
                     // Enumerate and delete all files in all subdirectories
-                    foreach (string filePath in Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories))
+                    foreach (string filePath in liste_file)
                     {
                         // Clear any read-only or other special file attributes.
                         File.SetAttributes(filePath, FileAttributes.Normal);
