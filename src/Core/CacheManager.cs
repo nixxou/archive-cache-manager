@@ -648,6 +648,45 @@ namespace ArchiveCacheManager
             }
         }
 
+        public static void LinkCacheToExternalFolder(string in_path,string out_path, bool link=true)
+        {
+
+            Logger.Log(string.Format("Linking {0} to {1}", in_path, out_path));
+            try
+            {
+                if (!Directory.Exists(out_path))
+                {
+                    Directory.CreateDirectory(out_path);
+                }
+
+                // Delete the old directory contents
+                DiskUtils.DeleteDirectory(out_path, true, true);
+
+                string[] managerFiles = PathUtils.GetManagerFiles(in_path);
+
+                foreach (var dir in Directory.GetDirectories(in_path, "*", SearchOption.AllDirectories))
+                {
+                    string relativeDir = PathUtils.GetRelativePath(in_path, dir);
+                    Directory.CreateDirectory(Path.Combine(out_path, relativeDir));
+                }
+
+                foreach (var file in Directory.GetFiles(in_path, "*", SearchOption.AllDirectories))
+                {
+                    if (!managerFiles.Contains(file))
+                    {
+                        string relativeFilePath = PathUtils.GetRelativePath(in_path, file);
+                        DiskUtils.HardLink(Path.Combine(out_path, relativeFilePath), file);
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                Logger.Log(e.ToString());
+            }
+            
+        }
+
         /// <summary>
         /// Checks for and extracts an archive to the archive cache if it is not already in there. Updates the last played time of the cached archive.
         /// </summary>

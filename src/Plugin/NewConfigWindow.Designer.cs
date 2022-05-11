@@ -30,15 +30,15 @@ namespace ArchiveCacheManager
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("Cache Settings");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("Extraction Settings");
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("Smart Extract Settings");
-            System.Windows.Forms.TreeNode treeNode4 = new System.Windows.Forms.TreeNode("Plugin Settings");
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.TreeNode treeNode5 = new System.Windows.Forms.TreeNode("Cache Settings");
+            System.Windows.Forms.TreeNode treeNode6 = new System.Windows.Forms.TreeNode("Extraction Settings");
+            System.Windows.Forms.TreeNode treeNode7 = new System.Windows.Forms.TreeNode("Smart Extract Settings");
+            System.Windows.Forms.TreeNode treeNode8 = new System.Windows.Forms.TreeNode("Plugin Settings");
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(NewConfigWindow));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.openInExplorerButton = new System.Windows.Forms.Button();
             this.configureCacheButton = new System.Windows.Forms.Button();
@@ -55,9 +55,16 @@ namespace ArchiveCacheManager
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.tabControl1 = new ArchiveCacheManager.StackPanel();
             this.tab1CacheSettings = new System.Windows.Forms.TabPage();
+            this.deleteExportButton = new System.Windows.Forms.Button();
+            this.exportCacheButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.cacheSummaryTextBox = new System.Windows.Forms.RichTextBox();
             this.cacheDataGridView = new System.Windows.Forms.DataGridView();
+            this.ArchivePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Archive = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ArchivePlatform = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ArchiveSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Keep = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.tab2ExtractionSettings = new System.Windows.Forms.TabPage();
             this.label9 = new System.Windows.Forms.Label();
             this.extractionSettingsTipLabel = new System.Windows.Forms.Label();
@@ -89,11 +96,7 @@ namespace ArchiveCacheManager
             this.label7 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.updateCheckCheckBox = new System.Windows.Forms.CheckBox();
-            this.ArchivePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Archive = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ArchivePlatform = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ArchiveSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Keep = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.ExportCacheSizeTextBox = new System.Windows.Forms.RichTextBox();
             this.flowLayoutPanel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tab1CacheSettings.SuspendLayout();
@@ -108,9 +111,9 @@ namespace ArchiveCacheManager
             // 
             this.openInExplorerButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.openInExplorerButton.Image = global::ArchiveCacheManager.Resources.folder_horizontal_open;
-            this.openInExplorerButton.Location = new System.Drawing.Point(576, 92);
+            this.openInExplorerButton.Location = new System.Drawing.Point(598, 92);
             this.openInExplorerButton.Name = "openInExplorerButton";
-            this.openInExplorerButton.Size = new System.Drawing.Size(156, 28);
+            this.openInExplorerButton.Size = new System.Drawing.Size(134, 28);
             this.openInExplorerButton.TabIndex = 6;
             this.openInExplorerButton.Text = "Open In Explorer";
             this.openInExplorerButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -123,9 +126,9 @@ namespace ArchiveCacheManager
             // 
             this.configureCacheButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.configureCacheButton.Image = global::ArchiveCacheManager.Resources.gear;
-            this.configureCacheButton.Location = new System.Drawing.Point(576, 58);
+            this.configureCacheButton.Location = new System.Drawing.Point(598, 58);
             this.configureCacheButton.Name = "configureCacheButton";
-            this.configureCacheButton.Size = new System.Drawing.Size(156, 28);
+            this.configureCacheButton.Size = new System.Drawing.Size(134, 28);
             this.configureCacheButton.TabIndex = 5;
             this.configureCacheButton.Text = "Configure Cache...";
             this.configureCacheButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -265,19 +268,19 @@ namespace ArchiveCacheManager
             this.treeView1.ItemHeight = 32;
             this.treeView1.Location = new System.Drawing.Point(12, 12);
             this.treeView1.Name = "treeView1";
-            treeNode1.Name = "CacheSettings";
-            treeNode1.Text = "Cache Settings";
-            treeNode2.Name = "ExtractionSettings";
-            treeNode2.Text = "Extraction Settings";
-            treeNode3.Name = "SmartExtractSettings";
-            treeNode3.Text = "Smart Extract Settings";
-            treeNode4.Name = "PluginSettings";
-            treeNode4.Text = "Plugin Settings";
+            treeNode5.Name = "CacheSettings";
+            treeNode5.Text = "Cache Settings";
+            treeNode6.Name = "ExtractionSettings";
+            treeNode6.Text = "Extraction Settings";
+            treeNode7.Name = "SmartExtractSettings";
+            treeNode7.Text = "Smart Extract Settings";
+            treeNode8.Name = "PluginSettings";
+            treeNode8.Text = "Plugin Settings";
             this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode1,
-            treeNode2,
-            treeNode3,
-            treeNode4});
+            treeNode5,
+            treeNode6,
+            treeNode7,
+            treeNode8});
             this.treeView1.ShowLines = false;
             this.treeView1.Size = new System.Drawing.Size(166, 550);
             this.treeView1.TabIndex = 3;
@@ -314,6 +317,9 @@ namespace ArchiveCacheManager
             // tab1CacheSettings
             // 
             this.tab1CacheSettings.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.tab1CacheSettings.Controls.Add(this.ExportCacheSizeTextBox);
+            this.tab1CacheSettings.Controls.Add(this.deleteExportButton);
+            this.tab1CacheSettings.Controls.Add(this.exportCacheButton);
             this.tab1CacheSettings.Controls.Add(this.label1);
             this.tab1CacheSettings.Controls.Add(this.openInExplorerButton);
             this.tab1CacheSettings.Controls.Add(this.configureCacheButton);
@@ -329,6 +335,34 @@ namespace ArchiveCacheManager
             this.tab1CacheSettings.TabIndex = 0;
             this.tab1CacheSettings.Text = "Cache Settings";
             this.tab1CacheSettings.UseVisualStyleBackColor = true;
+            // 
+            // deleteExportButton
+            // 
+            this.deleteExportButton.Enabled = false;
+            this.deleteExportButton.Image = global::ArchiveCacheManager.Resources.broom;
+            this.deleteExportButton.Location = new System.Drawing.Point(458, 92);
+            this.deleteExportButton.Name = "deleteExportButton";
+            this.deleteExportButton.Size = new System.Drawing.Size(134, 27);
+            this.deleteExportButton.TabIndex = 101;
+            this.deleteExportButton.Text = "Delete Export";
+            this.deleteExportButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.deleteExportButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.deleteExportButton.UseVisualStyleBackColor = true;
+            this.deleteExportButton.Click += new System.EventHandler(this.deleteExportButton_Click);
+            // 
+            // exportCacheButton
+            // 
+            this.exportCacheButton.Enabled = false;
+            this.exportCacheButton.Image = global::ArchiveCacheManager.Resources.icon16x16_play;
+            this.exportCacheButton.Location = new System.Drawing.Point(458, 58);
+            this.exportCacheButton.Name = "exportCacheButton";
+            this.exportCacheButton.Size = new System.Drawing.Size(134, 28);
+            this.exportCacheButton.TabIndex = 100;
+            this.exportCacheButton.Text = "Export Cache";
+            this.exportCacheButton.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.exportCacheButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.exportCacheButton.UseVisualStyleBackColor = true;
+            this.exportCacheButton.Click += new System.EventHandler(this.exportCacheButton_Click);
             // 
             // label1
             // 
@@ -369,15 +403,15 @@ namespace ArchiveCacheManager
             this.cacheDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.cacheDataGridView.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
             this.cacheDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.cacheDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.Padding = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.cacheDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.cacheDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.cacheDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ArchivePath,
@@ -395,6 +429,49 @@ namespace ArchiveCacheManager
             this.cacheDataGridView.TabIndex = 7;
             this.cacheDataGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.cacheDataGridView_CellPainting);
             this.cacheDataGridView.CurrentCellDirtyStateChanged += new System.EventHandler(this.cacheDataGridView_CurrentCellDirtyStateChanged);
+            // 
+            // ArchivePath
+            // 
+            this.ArchivePath.HeaderText = "ArchivePath";
+            this.ArchivePath.Name = "ArchivePath";
+            this.ArchivePath.ReadOnly = true;
+            this.ArchivePath.Visible = false;
+            // 
+            // Archive
+            // 
+            dataGridViewCellStyle6.Padding = new System.Windows.Forms.Padding(24, 0, 0, 0);
+            this.Archive.DefaultCellStyle = dataGridViewCellStyle6;
+            this.Archive.HeaderText = "Archive";
+            this.Archive.Name = "Archive";
+            this.Archive.ReadOnly = true;
+            // 
+            // ArchivePlatform
+            // 
+            this.ArchivePlatform.FillWeight = 60F;
+            this.ArchivePlatform.HeaderText = "Platform";
+            this.ArchivePlatform.Name = "ArchivePlatform";
+            this.ArchivePlatform.ReadOnly = true;
+            // 
+            // ArchiveSize
+            // 
+            this.ArchiveSize.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle7.Format = "N1";
+            this.ArchiveSize.DefaultCellStyle = dataGridViewCellStyle7;
+            this.ArchiveSize.FillWeight = 25F;
+            this.ArchiveSize.HeaderText = "Size (MB)";
+            this.ArchiveSize.Name = "ArchiveSize";
+            this.ArchiveSize.ReadOnly = true;
+            this.ArchiveSize.Width = 77;
+            // 
+            // Keep
+            // 
+            this.Keep.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.Keep.FillWeight = 12F;
+            this.Keep.HeaderText = "Keep";
+            this.Keep.Name = "Keep";
+            this.Keep.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Keep.Width = 57;
             // 
             // tab2ExtractionSettings
             // 
@@ -477,15 +554,15 @@ namespace ArchiveCacheManager
             this.emulatorPlatformConfigDataGridView.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.emulatorPlatformConfigDataGridView.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
             this.emulatorPlatformConfigDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle4.Padding = new System.Windows.Forms.Padding(0, 3, 0, 3);
-            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.emulatorPlatformConfigDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle8.Padding = new System.Windows.Forms.Padding(0, 3, 0, 3);
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.emulatorPlatformConfigDataGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
             this.emulatorPlatformConfigDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.emulatorPlatformConfigDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Emulator,
@@ -565,7 +642,7 @@ namespace ArchiveCacheManager
             this.LaunchPath.Name = "LaunchPath";
             this.LaunchPath.ToolTipText = "Launch games from a common path within the cache. Useful for RetroArch common set" +
     "tings.";
-            this.LaunchPath.Width = 74;
+            this.LaunchPath.Width = 67;
             // 
             // MultiDisc
             // 
@@ -595,7 +672,7 @@ namespace ArchiveCacheManager
             this.SmartExtract.HeaderText = "Smart Extract";
             this.SmartExtract.Name = "SmartExtract";
             this.SmartExtract.ToolTipText = "Only extract a single ROM from an archive if certain conditions are met.";
-            this.SmartExtract.Width = 76;
+            this.SmartExtract.Width = 68;
             // 
             // Chdman
             // 
@@ -751,7 +828,7 @@ namespace ArchiveCacheManager
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(6, 193);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(489, 13);
+            this.label7.Size = new System.Drawing.Size(253, 13);
             this.label7.TabIndex = 99;
             this.label7.Text = "Sorry, but UPDATE CHECK is Disabled on this fork !";
             // 
@@ -781,48 +858,20 @@ namespace ArchiveCacheManager
             this.updateCheckCheckBox.UseVisualStyleBackColor = true;
             this.updateCheckCheckBox.CheckedChanged += new System.EventHandler(this.multiDiscSupportCheckBox_CheckedChanged);
             // 
-            // ArchivePath
+            // ExportCacheSizeTextBox
             // 
-            this.ArchivePath.HeaderText = "ArchivePath";
-            this.ArchivePath.Name = "ArchivePath";
-            this.ArchivePath.ReadOnly = true;
-            this.ArchivePath.Visible = false;
-            // 
-            // Archive
-            // 
-            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(24, 0, 0, 0);
-            this.Archive.DefaultCellStyle = dataGridViewCellStyle2;
-            this.Archive.HeaderText = "Archive";
-            this.Archive.Name = "Archive";
-            this.Archive.ReadOnly = true;
-            // 
-            // ArchivePlatform
-            // 
-            this.ArchivePlatform.FillWeight = 60F;
-            this.ArchivePlatform.HeaderText = "Platform";
-            this.ArchivePlatform.Name = "ArchivePlatform";
-            this.ArchivePlatform.ReadOnly = true;
-            // 
-            // ArchiveSize
-            // 
-            this.ArchiveSize.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Format = "N1";
-            this.ArchiveSize.DefaultCellStyle = dataGridViewCellStyle3;
-            this.ArchiveSize.FillWeight = 25F;
-            this.ArchiveSize.HeaderText = "Size (MB)";
-            this.ArchiveSize.Name = "ArchiveSize";
-            this.ArchiveSize.ReadOnly = true;
-            this.ArchiveSize.Width = 77;
-            // 
-            // Keep
-            // 
-            this.Keep.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.Keep.FillWeight = 12F;
-            this.Keep.HeaderText = "Keep";
-            this.Keep.Name = "Keep";
-            this.Keep.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Keep.Width = 57;
+            this.ExportCacheSizeTextBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ExportCacheSizeTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.ExportCacheSizeTextBox.Cursor = System.Windows.Forms.Cursors.Default;
+            this.ExportCacheSizeTextBox.Font = new System.Drawing.Font("Consolas", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ExportCacheSizeTextBox.Location = new System.Drawing.Point(9, 106);
+            this.ExportCacheSizeTextBox.Name = "ExportCacheSizeTextBox";
+            this.ExportCacheSizeTextBox.ReadOnly = true;
+            this.ExportCacheSizeTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            this.ExportCacheSizeTextBox.Size = new System.Drawing.Size(418, 13);
+            this.ExportCacheSizeTextBox.TabIndex = 102;
+            this.ExportCacheSizeTextBox.TabStop = false;
+            this.ExportCacheSizeTextBox.Text = "Export Cache Size = 33MB";
             // 
             // NewConfigWindow
             // 
@@ -845,6 +894,7 @@ namespace ArchiveCacheManager
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Archive Cache Manager";
+            this.Load += new System.EventHandler(this.NewConfigWindow_Load);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
@@ -917,5 +967,8 @@ namespace ArchiveCacheManager
         private System.Windows.Forms.DataGridViewTextBoxColumn ArchivePlatform;
         private System.Windows.Forms.DataGridViewTextBoxColumn ArchiveSize;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Keep;
+        private System.Windows.Forms.Button exportCacheButton;
+        private System.Windows.Forms.Button deleteExportButton;
+        private System.Windows.Forms.RichTextBox ExportCacheSizeTextBox;
     }
 }

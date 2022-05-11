@@ -90,6 +90,10 @@ namespace ArchiveCacheManager
 
             updateCacheInfo(true);
             updateEnabledState();
+
+
+
+
         }
 
         /// <summary>
@@ -440,6 +444,96 @@ namespace ArchiveCacheManager
 
             }
 
+        }
+
+        private void UpdateExtractCache()
+        {
+            deleteExportButton.Enabled = false;
+            exportCacheButton.Enabled = false;
+            long dirsizeExport = 0;
+            bool have_subdirorfile = false;
+            if (Directory.Exists("ArchiveExtract"))
+            {
+                string fullpathArchiveExtract = Path.GetFullPath("ArchiveExtract");
+                dynamic liste_file = Directory.EnumerateFiles(fullpathArchiveExtract, "*", SearchOption.AllDirectories);
+                foreach (string f in liste_file)
+                {
+                    have_subdirorfile = true;
+                    break;
+                }
+                dirsizeExport = LaunchInfo.DirSize(new DirectoryInfo(fullpathArchiveExtract));
+            }
+            if (have_subdirorfile)
+            {
+                deleteExportButton.Enabled = true;
+                exportCacheButton.Enabled = false;
+                double sizeInMb = dirsizeExport / 1048576.0;
+                ExportCacheSizeTextBox.Text = string.Format("Export Cache Size = {0} Mb", Math.Round(sizeInMb, 2));
+            }
+            else
+            {
+                ExportCacheSizeTextBox.Text = "Export Cache Size = Empty";
+                deleteExportButton.Enabled = false;
+                exportCacheButton.Enabled = true;
+            }
+        }
+
+        private void exportCacheButton_Click(object sender, EventArgs e)
+        {
+            string outdir = @"ArchiveExtract";
+            if (Directory.Exists(outdir) == false) Directory.CreateDirectory(outdir);
+            outdir = Path.GetFullPath(outdir);
+
+            DiskUtils.DeleteDirectory(outdir, true, false);
+
+            Dictionary<string, int> ListeCount = new Dictionary<string, int>();
+            Dictionary<string, string> ListeOut = new Dictionary<string, string>();
+
+            foreach (DataGridViewRow row in cacheDataGridView.Rows)
+            {
+                Logger.Log(string.Format("DEBUG! Query item \"{0}\".", row.Cells["ArchivePath"].Value));
+                string game_info_file = Path.Combine(row.Cells["ArchivePath"].Value.ToString(), PathUtils.GetGameInfoFileName());
+                if (File.Exists(game_info_file))
+                {
+                    GameInfo gameInfo = new GameInfo(game_info_file);
+                    Logger.Log(string.Format("DEBUG! Plateform=\"{0}\".", gameInfo.Platform));
+                    string plateform_dir = Path.Combine(outdir, gameInfo.Platform);
+
+                    if (!Directory.Exists(plateform_dir)) Directory.CreateDirectory(plateform_dir);
+                    string game_dir = Path.Combine(plateform_dir, row.Cells["Archive"].Value.ToString());
+
+                    string game_dir_no_ext = Path.ChangeExtension(game_dir, null);
+                    if(!ListeCount.ContainsKey(game_dir_no_ext)) ListeCount[game_dir_no_ext] = 0;
+                    else ListeCount[game_dir_no_ext]++;
+                    ListeOut[row.Cells["ArchivePath"].Value.ToString()] = game_dir;
+                }
+            }
+            foreach (var item in ListeOut)
+            {
+                string dir_out = Path.ChangeExtension(item.Value, null);
+                if (ListeCount[dir_out] > 0)
+                {
+                    dir_out = item.Value;
+                }
+                CacheManager.LinkCacheToExternalFolder(item.Key, dir_out);
+            }
+            UpdateExtractCache();
+            MessageBox.Show("Done !");
+
+
+        }
+
+        private void NewConfigWindow_Load(object sender, EventArgs e)
+        {
+            UpdateExtractCache();
+        }
+
+        private void deleteExportButton_Click(object sender, EventArgs e)
+        {
+            string outdir = @"ArchiveExtract";
+            if (Directory.Exists(outdir) == false) return;
+            DiskUtils.DeleteDirectory(outdir, true, false);
+            UpdateExtractCache();
         }
     }
 }
