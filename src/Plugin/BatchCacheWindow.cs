@@ -32,6 +32,7 @@ namespace ArchiveCacheManager
 
 
         public bool RefreshLaunchBox = false;
+        
 
         private IGame[] mSelectedGames;
         private double requiredCacheSize = 0;
@@ -88,6 +89,7 @@ namespace ArchiveCacheManager
         }
 
         public static Dictionary<int, ArchiveContent> SingleExtractData = new Dictionary<int, ArchiveContent>();
+        public static int ChkStatus = 0;
 
         //public static Dictionary<string, ZipFileContent[]> zipcontent = new Dictionary<string, ZipFileContent[]>();
 
@@ -153,6 +155,7 @@ namespace ArchiveCacheManager
         {
             //zipcontent.Clear();
             SingleExtractData.Clear();
+            ChkStatus = 0;
 
             Extractor zip = new Zip();
             Extractor chdman = new Chdman();
@@ -595,6 +598,58 @@ namespace ArchiveCacheManager
         private void closeButton_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void updateRowSize()
+        {
+            int status_chkbox = 0;
+            if (chk_PriorityOnly.Checked) status_chkbox += 1;
+            if (chk_PreferedOnly.Checked) status_chkbox += 2;
+            if(status_chkbox != ChkStatus)
+            {
+                ChkStatus = status_chkbox;
+                for (int i = 0; i < cacheStatusGridView.Rows.Count; i++)
+                {
+                    long archiveSize = 0;
+                    if (SingleExtractData.ContainsKey(i))
+                    {
+                        if (ChkStatus == 0)
+                        {
+                            archiveSize = SingleExtractData[i].TotalSize;
+                        }
+                        if (ChkStatus == 1)
+                        {
+                            archiveSize = SingleExtractData[i].Sizepriority;
+                        }
+                        if (ChkStatus == 2)
+                        {
+                            archiveSize = SingleExtractData[i].Sizeprefered;
+                        }
+                        if (ChkStatus == 3)
+                        {
+                            if(SingleExtractData[i].Preferedfile.Contains(SingleExtractData[i].Priorityfile)) archiveSize = SingleExtractData[i].Sizeprefered;
+                            else archiveSize = SingleExtractData[i].Sizepriority + SingleExtractData[i].Sizeprefered;
+                        }
+                    }
+
+                    double archiveSizeMb = archiveSize / 1048576.0;
+                    cacheStatusGridView.Rows[i].Cells["ArchiveSize"].Value = archiveSize;
+                    cacheStatusGridView.Rows[i].Cells["ArchiveSizeMb"].Value = archiveSizeMb;
+                }
+
+
+            }
+
+
+        }
+        private void chk_PriorityOnly_CheckedChanged(object sender, EventArgs e)
+        {
+            updateRowSize();
+        }
+
+        private void chk_PreferedOnly_CheckedChanged(object sender, EventArgs e)
+        {
+            updateRowSize();
         }
     }
 }

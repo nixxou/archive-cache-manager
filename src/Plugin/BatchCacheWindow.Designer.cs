@@ -248,6 +248,7 @@ namespace ArchiveCacheManager
             this.chk_PriorityOnly.TabIndex = 13;
             this.chk_PriorityOnly.Text = "Extract Priority file for SmartExtract Plateform";
             this.chk_PriorityOnly.UseVisualStyleBackColor = true;
+            this.chk_PriorityOnly.CheckedChanged += new System.EventHandler(this.chk_PriorityOnly_CheckedChanged);
             // 
             // chk_PreferedOnly
             // 
@@ -259,6 +260,7 @@ namespace ArchiveCacheManager
             this.chk_PreferedOnly.TabIndex = 14;
             this.chk_PreferedOnly.Text = "Extract Favorite files for SmartExtract Plateform";
             this.chk_PreferedOnly.UseVisualStyleBackColor = true;
+            this.chk_PreferedOnly.CheckedChanged += new System.EventHandler(this.chk_PreferedOnly_CheckedChanged);
             // 
             // BatchCacheWindow
             // 
