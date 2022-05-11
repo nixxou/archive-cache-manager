@@ -43,21 +43,6 @@ namespace ArchiveCacheManager
         private static int mStaticCurrentGame = 0;
         private static int mStaticTotalGames = 0;
 
-        /*
-        public struct ZipFileContent
-        {
-            public ZipFileContent(string file, long size)
-            {
-                File = file;
-                Size = size;
-            }
-            public string File { get; }
-            public long Size { get; }
-
-            public override string ToString() => $"({File} => {Size})";
-        }
-        */
-
         public struct ArchiveContent
         {
             public ArchiveContent(string archive, long totalsize, string priorityfile, long sizepriority, string[] preferedfile, long sizeprefered)
@@ -90,8 +75,6 @@ namespace ArchiveCacheManager
 
         public static Dictionary<int, ArchiveContent> SingleExtractData = new Dictionary<int, ArchiveContent>();
         public static int ChkStatus = 0;
-
-        //public static Dictionary<string, ZipFileContent[]> zipcontent = new Dictionary<string, ZipFileContent[]>();
 
         public BatchCacheWindow(IGame[] selectedGames)
         {
@@ -234,20 +217,9 @@ namespace ArchiveCacheManager
                     if (extract || copy)
                     {
                         
-                        if(extractor.Name() == "7-Zip" && is_smart_extract)
+                        if(extract && extractor.Name() == "7-Zip" && is_smart_extract)
                         {
-
-                            /*
                             (string[] fileList, long[] sizeList) = await Task.Run(() => extractor.ListWithSize(path));
-                            List<ZipFileContent> listcontent = new List<ZipFileContent>();
-                            for(int z = 0; z < fileList.Length; z++)
-                            {
-                                listcontent.Add(new ZipFileContent(fileList[z], sizeList[z]));
-                            }
-                            zipcontent[Path.GetFullPath(path)] = listcontent.ToArray();
-                            */
-                            (string[] fileList, long[] sizeList) = await Task.Run(() => extractor.ListWithSize(path));
-                            //ArchiveContent contenuArchive = new ArchiveContent();
 
                             string gameId = cacheStatusGridView.Rows[i].Cells["GameId"].Value.ToString();
                             IGame game = PluginHelper.DataManager.GetGameById(gameId);
