@@ -106,6 +106,32 @@ namespace ArchiveCacheManager
             return liste_prefered;
         }
 
+        public static string GetPreferedFileString(string gameId)
+        {
+            if (mGameIndex != null && mGameIndex.Sections.ContainsSection(gameId))
+            {
+                if (mGameIndex[gameId].ContainsKey("prefered"))
+                {
+                    return mGameIndex[gameId]["prefered"].ToString();
+                }
+            }
+            return "";
+        }
+
+        public static string[] PreferedStringToArray(string prefered)
+        {
+            List<string> liste_prefered = new List<string>();
+            if(prefered != "")
+            {
+                dynamic jobj = JsonConvert.DeserializeObject(prefered.ToString());
+                foreach (string jstring in jobj)
+                {
+                    liste_prefered.Add(jstring);
+                }
+            }
+            return liste_prefered.ToArray();
+        }
+
         public static void AddPreferedFile(string gameId, string selectedFile)
         {
 

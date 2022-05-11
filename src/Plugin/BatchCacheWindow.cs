@@ -29,6 +29,8 @@ namespace ArchiveCacheManager
             Error
         };
 
+
+
         public bool RefreshLaunchBox = false;
 
         private IGame[] mSelectedGames;
@@ -39,6 +41,55 @@ namespace ArchiveCacheManager
         private static ProgressBarFlat mStaticProgressBar = null;
         private static int mStaticCurrentGame = 0;
         private static int mStaticTotalGames = 0;
+
+        /*
+        public struct ZipFileContent
+        {
+            public ZipFileContent(string file, long size)
+            {
+                File = file;
+                Size = size;
+            }
+            public string File { get; }
+            public long Size { get; }
+
+            public override string ToString() => $"({File} => {Size})";
+        }
+        */
+
+        public struct ArchiveContent
+        {
+            public ArchiveContent(string archive, long totalsize, string priorityfile, long sizepriority, string[] preferedfile, long sizeprefered)
+            {
+                Archive = archive;
+                TotalSize = totalsize;
+                Priorityfile = priorityfile;
+                Sizepriority = sizepriority;
+                Preferedfile = preferedfile;
+                Sizeprefered = sizeprefered;
+            }
+            public string Archive { get; }
+            public long TotalSize { get; }
+            public string Priorityfile { get; }
+            public long Sizepriority { get; }
+            public string[] Preferedfile { get; }
+            public long Sizeprefered { get; }
+
+            public override string ToString()
+            {
+                string preferedstring = "[";
+                foreach(string pref in Preferedfile)
+                {
+                    preferedstring += pref + ",";
+                }
+                preferedstring += "]";
+                return $"Archive={Archive}, TotalSize={TotalSize}, Priorityfile={Priorityfile}, Sizepriority={Sizepriority}, Preferedfile={preferedstring}, Sizeprefered={Sizeprefered}";
+            }
+        }
+
+        public static Dictionary<int, ArchiveContent> SingleExtractData = new Dictionary<int, ArchiveContent>();
+
+        //public static Dictionary<string, ZipFileContent[]> zipcontent = new Dictionary<string, ZipFileContent[]>();
 
         public BatchCacheWindow(IGame[] selectedGames)
         {
@@ -55,6 +106,8 @@ namespace ArchiveCacheManager
             stopButton.Enabled = false;
             progressBar.Visible = false;
             mStatus = StatusEnum.None;
+
+            
 
             PopulateTable();
         }
@@ -98,6 +151,9 @@ namespace ArchiveCacheManager
 
         private async void PopulateTableArchiveSize()
         {
+            //zipcontent.Clear();
+            SingleExtractData.Clear();
+
             Extractor zip = new Zip();
             Extractor chdman = new Chdman();
             Extractor dolphinTool = new DolphinTool();
@@ -158,6 +214,8 @@ namespace ArchiveCacheManager
                     bool extract = (action == Config.Action.Extract || action == Config.Action.ExtractCopy);
                     bool copy = (action == Config.Action.Copy || action == Config.Action.ExtractCopy);
 
+                    bool is_smart_extract = Config.GetSmartExtract(key);
+
                     if (extract && Zip.SupportedType(path))
                         extractor = zip;
                     else if (extract && Config.GetChdman(key) && Chdman.SupportedType(path))
@@ -172,7 +230,57 @@ namespace ArchiveCacheManager
 
                     if (extract || copy)
                     {
-                        archiveSize = await Task.Run(() => extractor.GetSize(path));
+                        
+                        if(extractor.Name() == "7-Zip" && is_smart_extract)
+                        {
+
+                            /*
+                            (string[] fileList, long[] sizeList) = await Task.Run(() => extractor.ListWithSize(path));
+                            List<ZipFileContent> listcontent = new List<ZipFileContent>();
+                            for(int z = 0; z < fileList.Length; z++)
+                            {
+                                listcontent.Add(new ZipFileContent(fileList[z], sizeList[z]));
+                            }
+                            zipcontent[Path.GetFullPath(path)] = listcontent.ToArray();
+                            */
+                            (string[] fileList, long[] sizeList) = await Task.Run(() => extractor.ListWithSize(path));
+                            //ArchiveContent contenuArchive = new ArchiveContent();
+
+                            string gameId = cacheStatusGridView.Rows[i].Cells["GameId"].Value.ToString();
+                            IGame game = PluginHelper.DataManager.GetGameById(gameId);
+                            IEmulator emulator = PluginHelper.DataManager.GetEmulatorById(game.EmulatorId);
+                            string[] Prefered = GameIndex.PreferedStringToArray(GameIndex.GetPreferedFileString(game.Id));
+                            string priority = LaunchInfo.find_priority_file(emulator.Title, game.Platform, fileList.ToArray());
+
+                            bool have_prefered = false;
+                            List<string> ValidatePrefered = new List<string>();
+                            foreach(string Pref in Prefered)
+                            {
+                                if (fileList.Contains(Pref) && ValidatePrefered.Contains(Pref) == false)
+                                {
+                                    ValidatePrefered.Add(Pref);
+                                    have_prefered = true;
+                                }
+                            }
+
+                            long full_size = 0;
+                            long priority_size = 0;
+                            long prefered_size = 0;
+                            for (int z = 0; z < fileList.Length; z++)
+                            {
+                                full_size += sizeList[z];
+                                if(priority != "" && priority == fileList[z] ) priority_size += sizeList[z];
+                                if (have_prefered && ValidatePrefered.Contains(fileList[z])) prefered_size += sizeList[z];
+                            }
+                            SingleExtractData[i]= new ArchiveContent(Path.GetFullPath(path), full_size, priority, priority_size, ValidatePrefered.ToArray(), prefered_size);
+                            archiveSize = full_size;
+                            //Logger.Log(string.Format("DEBUG! SingleExtractData[{0}]={1}",i, SingleExtractData[i]));
+
+                        }
+                        else
+                        {
+                            archiveSize = await Task.Run(() => extractor.GetSize(path));
+                        }
                         archiveSizeMb = archiveSize / 1048576.0;
                         cacheStatusGridView.Rows[i].Cells["ArchiveSize"].Value = archiveSize;
                         cacheStatusGridView.Rows[i].Cells["ArchiveSizeMb"].Value = archiveSizeMb;
@@ -190,6 +298,8 @@ namespace ArchiveCacheManager
 
                     progressBar.PerformStep();
                 }
+                chk_PreferedOnly.Enabled = true;
+                chk_PriorityOnly.Enabled = true;
 
                 cacheButton.Enabled = true;
                 progressBar.Visible = false;
@@ -298,8 +408,43 @@ namespace ArchiveCacheManager
                 IEmulator emulator = PluginHelper.DataManager.GetEmulatorById(game.EmulatorId);
 
                 cacheStatusGridView.Rows[i].Cells["CacheStatus"].Value = "Caching...";
-                GameLaunching.SaveGameInfo(game, app, emulator);
-                (string stdout, string stderr, int exitCode) = await Task.Run(() => ProcessUtils.RunProcess(PathUtils.GetLaunchBox7zPath(), $"c {cacheStatusGridView.Rows[i].Cells["ArchiveSize"].Value}", true, ExtractionProgress));
+                GameInfo gameInfo = GameLaunching.SaveGameInfo(game, app, emulator);
+
+                long newsize = 0;
+                string includeArgs = string.Empty;
+                string size = cacheStatusGridView.Rows[i].Cells["ArchiveSize"].Value.ToString();
+                if (SingleExtractData.ContainsKey(i) && (!string.IsNullOrEmpty(SingleExtractData[i].Priorityfile) || SingleExtractData[i].Preferedfile.Length>0))
+                {
+                    List<string> includeList = new List<string>();
+                    if (chk_PriorityOnly.Checked && !string.IsNullOrEmpty(SingleExtractData[i].Priorityfile))
+                    {
+                        includeList.Add(SingleExtractData[i].Priorityfile);
+                        newsize += SingleExtractData[i].Sizepriority;
+                    }
+                    if (chk_PreferedOnly.Checked && SingleExtractData[i].Preferedfile.Length > 0)
+                    {
+                        foreach (string prf in SingleExtractData[i].Preferedfile)
+                        {
+                            if (prf != "" && includeList.Contains(prf) == false)
+                            {
+                                if (prf == SingleExtractData[i].Priorityfile) newsize = 0;
+                                includeList.Add(prf);
+                            }
+                        }
+                        newsize += SingleExtractData[i].Sizeprefered;
+                    }
+                    foreach (var include in includeList.ToArray())
+                    {
+                        includeArgs = string.Format("{0} \"{1}\"", includeArgs, include);
+                    }
+                }
+                if (!string.IsNullOrEmpty(includeArgs))
+                {
+                    size = newsize.ToString();
+                }
+
+
+                (string stdout, string stderr, int exitCode) = await Task.Run(() => ProcessUtils.RunProcess(PathUtils.GetLaunchBox7zPath(), $"c {size} {includeArgs}", true, ExtractionProgress));
                 mStaticCurrentGame++;
 
                 if (mStatus == StatusEnum.Stopped || mStatus == StatusEnum.Closing)

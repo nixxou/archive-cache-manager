@@ -107,7 +107,12 @@ namespace ArchiveCacheManager
                 ClearCacheSpace(LaunchInfo.GetSize(disc));
                 Logger.Log(string.Format("Extracting archive to \"{0}\".", LaunchInfo.GetArchiveCachePath(disc)));
 
-                var result = LaunchInfo.Extractor.Extract(LaunchInfo.GetArchivePath(disc), LaunchInfo.GetArchiveCachePath(disc), singleFile.ToSingleArray());
+
+                
+                string[] includelist = singleFile.ToSingleArray();
+                if (LaunchInfo.GetForceInclude().Length > 0) includelist = LaunchInfo.GetForceInclude();
+
+                var result = LaunchInfo.Extractor.Extract(LaunchInfo.GetArchivePath(disc), LaunchInfo.GetArchiveCachePath(disc), includelist);
                 
                 if (result)
                 {
@@ -688,6 +693,15 @@ namespace ArchiveCacheManager
             if (args.Length > 1)
             {
                 LaunchInfo.SetSize(Convert.ToInt64(args[1]));
+                int i = 0;
+                foreach(string arg in args)
+                {
+                    if (i >= 2)
+                    {
+                        LaunchInfo.AddForceInclude(arg);
+                    }
+                    i++;
+                }
             }
             ExtractArchive(args);
         }

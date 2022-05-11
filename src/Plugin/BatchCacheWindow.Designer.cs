@@ -49,6 +49,8 @@ namespace ArchiveCacheManager
             this.progressBar = new ArchiveCacheManager.ProgressBarFlat();
             this.stopButton = new System.Windows.Forms.Button();
             this.cacheButton = new System.Windows.Forms.Button();
+            this.chk_PriorityOnly = new System.Windows.Forms.CheckBox();
+            this.chk_PreferedOnly = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.cacheStatusGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -236,11 +238,35 @@ namespace ArchiveCacheManager
             this.cacheButton.UseVisualStyleBackColor = true;
             this.cacheButton.Click += new System.EventHandler(this.cacheButton_Click);
             // 
+            // chk_PriorityOnly
+            // 
+            this.chk_PriorityOnly.AutoSize = true;
+            this.chk_PriorityOnly.Enabled = false;
+            this.chk_PriorityOnly.Location = new System.Drawing.Point(280, 408);
+            this.chk_PriorityOnly.Name = "chk_PriorityOnly";
+            this.chk_PriorityOnly.Size = new System.Drawing.Size(234, 17);
+            this.chk_PriorityOnly.TabIndex = 13;
+            this.chk_PriorityOnly.Text = "Extract Priority file for SmartExtract Plateform";
+            this.chk_PriorityOnly.UseVisualStyleBackColor = true;
+            // 
+            // chk_PreferedOnly
+            // 
+            this.chk_PreferedOnly.AutoSize = true;
+            this.chk_PreferedOnly.Enabled = false;
+            this.chk_PreferedOnly.Location = new System.Drawing.Point(520, 408);
+            this.chk_PreferedOnly.Name = "chk_PreferedOnly";
+            this.chk_PreferedOnly.Size = new System.Drawing.Size(246, 17);
+            this.chk_PreferedOnly.TabIndex = 14;
+            this.chk_PreferedOnly.Text = "Extract Favorite files for SmartExtract Plateform";
+            this.chk_PreferedOnly.UseVisualStyleBackColor = true;
+            // 
             // BatchCacheWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(944, 441);
+            this.Controls.Add(this.chk_PreferedOnly);
+            this.Controls.Add(this.chk_PriorityOnly);
             this.Controls.Add(this.closeButton);
             this.Controls.Add(this.stopButton);
             this.Controls.Add(this.cacheButton);
@@ -256,6 +282,7 @@ namespace ArchiveCacheManager
             this.Shown += new System.EventHandler(this.BatchCacheWindow_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.cacheStatusGridView)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -276,5 +303,7 @@ namespace ArchiveCacheManager
         private System.Windows.Forms.DataGridViewTextBoxColumn CacheAction;
         private System.Windows.Forms.DataGridViewTextBoxColumn CacheStatus;
         private System.Windows.Forms.Button closeButton;
+        private System.Windows.Forms.CheckBox chk_PriorityOnly;
+        private System.Windows.Forms.CheckBox chk_PreferedOnly;
     }
 }

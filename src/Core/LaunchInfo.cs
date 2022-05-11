@@ -24,6 +24,8 @@ namespace ArchiveCacheManager
             public string ArchiveCacheLaunchPath;
             public string M3uName;
 
+            public List<string> ForceInclude;
+
             public CacheData()
             {
                 Config = new Config.EmulatorPlatformConfig();
@@ -47,6 +49,7 @@ namespace ArchiveCacheManager
         {
             mGame = new GameInfo(PathUtils.GetGameInfoPath());
             mGameCacheData = new CacheData();
+            mGameCacheData.ForceInclude = new List<string>();
             mGameCacheData.ArchivePath = mGame.ArchivePath;
             mGameCacheData.ArchiveCachePath = PathUtils.ArchiveCachePath(mGame.ArchivePath);
             mGameCacheData.Config = Config.GetEmulatorPlatformConfig(Config.EmulatorPlatformKey(mGame.Emulator, mGame.Platform));
@@ -98,6 +101,16 @@ namespace ArchiveCacheManager
         public static void SetSize(long size)
         {
             mGameCacheData.Size = size;
+        }
+
+        public static void AddForceInclude(string file)
+        {
+            mGameCacheData.ForceInclude.Add(file);
+        }
+
+        public static string[] GetForceInclude()
+        {
+            return mGameCacheData.ForceInclude.ToArray();
         }
 
         public static bool getConfigSmartExtract()
