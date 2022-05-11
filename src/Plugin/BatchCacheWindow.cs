@@ -217,7 +217,7 @@ namespace ArchiveCacheManager
                     if (extract || copy)
                     {
                         
-                        if(extract && extractor.Name() == "7-Zip" && is_smart_extract)
+                        if(action == Config.Action.Extract && extractor.Name() == "7-Zip" && is_smart_extract)
                         {
                             (string[] fileList, long[] sizeList) = await Task.Run(() => extractor.ListWithSize(path));
 
