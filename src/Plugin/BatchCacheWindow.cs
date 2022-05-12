@@ -36,6 +36,11 @@ namespace ArchiveCacheManager
 
         private IGame[] mSelectedGames;
         private double requiredCacheSize = 0;
+        private long fullsize = 0;
+        private double requiredCacheSize_pending = 0;
+        private long fullsize_pending = 0;
+
+
         private static int mStaticRowIndex = -1;
         private static DataGridView mStaticCacheStatusGridView = null;
         private static StatusEnum mStatus;
@@ -174,6 +179,7 @@ namespace ArchiveCacheManager
                         cacheStatusGridView.Rows[i].Cells["ArchiveSize"].Value = archiveSize;
                         cacheStatusGridView.Rows[i].Cells["ArchiveSizeMb"].Value = archiveSizeMb;
                         requiredCacheSize += archiveSizeMb;
+                        fullsize += archiveSize;
                         cacheStatusGridView.Rows[i].Cells["CacheAction"].Value = "None";
                         cacheStatusGridView.Rows[i].Cells["CacheStatus"].Value = "Already cached.";
                         continue;
@@ -268,6 +274,8 @@ namespace ArchiveCacheManager
                         cacheStatusGridView.Rows[i].Cells["ArchiveSize"].Value = archiveSize;
                         cacheStatusGridView.Rows[i].Cells["ArchiveSizeMb"].Value = archiveSizeMb;
                         requiredCacheSize += archiveSizeMb;
+                        fullsize += archiveSize;
+                        fullsize_pending += archiveSize;
                         cacheStatusGridView.Rows[i].Cells["CacheAction"].Value = extract ? "Extract" : "Copy";
                         cacheStatusGridView.Rows[i].Cells["CacheStatus"].Value = "Ready.";
                     }
@@ -278,9 +286,14 @@ namespace ArchiveCacheManager
                         cacheStatusGridView.Rows[i].Cells["CacheAction"].Value = "None";
                         cacheStatusGridView.Rows[i].Cells["CacheStatus"].Value = "No rule to cache.";
                     }
-
+                    RequiredSizeLabel.Text = Math.Round(requiredCacheSize, 2).ToString();
                     progressBar.PerformStep();
                 }
+
+                double batchsizemb = (fullsize_pending / 1048576.0);
+                RequiredSizeLabel.Text = Math.Round(requiredCacheSize, 2).ToString();
+                BatchSizeLabel.Text = Math.Round(batchsizemb, 2).ToString();
+
                 chk_PreferedOnly.Enabled = true;
                 chk_PriorityOnly.Enabled = true;
 
@@ -419,6 +432,13 @@ namespace ArchiveCacheManager
                     foreach (var include in includeList.ToArray())
                     {
                         includeArgs = string.Format("{0} \"{1}\"", includeArgs, include);
+                    }
+
+                    if(includeList.Count == 0)
+                    {
+                        mStaticCurrentGame++;
+                        cacheStatusGridView.Rows[i].Cells["CacheStatus"].Value = "Skip";
+                        continue;
                     }
                 }
                 if (!string.IsNullOrEmpty(includeArgs))
@@ -580,9 +600,8 @@ namespace ArchiveCacheManager
             Close();
         }
 
-        private double updateRowSizeAsync(int ChkStatus)
+        private void updateRowSizeAsync(int ChkStatus)
         {
-            double new_requiredCacheSize = 0;
             for (int i = 0; i < cacheStatusGridView.Rows.Count; i++)
             {
                 long archiveSize = 0;
@@ -608,17 +627,8 @@ namespace ArchiveCacheManager
                     double archiveSizeMb = archiveSize / 1048576.0;
                     cacheStatusGridView.Rows[i].Cells["ArchiveSize"].Value = archiveSize;
                     cacheStatusGridView.Rows[i].Cells["ArchiveSizeMb"].Value = archiveSizeMb;
-                    new_requiredCacheSize += archiveSizeMb;
-                }
-                else
-                {
-                    double parsedvalue;
-                    Double.TryParse(cacheStatusGridView.Rows[i].Cells["ArchiveSizeMb"].Value.ToString(), out parsedvalue);
-                    new_requiredCacheSize += parsedvalue;
                 }
             }
-            return new_requiredCacheSize;
-
         }
         private async void updateRowSize()
         {
@@ -629,7 +639,38 @@ namespace ArchiveCacheManager
             if (status_chkbox != ChkStatus)
             {
                 ChkStatus = status_chkbox;
-                requiredCacheSize = await Task.Run(() => updateRowSizeAsync(ChkStatus));
+                long diff_size = 0;
+                for (int i = 0; i < cacheStatusGridView.Rows.Count; i++)
+                {
+                    long archiveSize = 0;
+                    if (SingleExtractData.ContainsKey(i))
+                    {
+                        if (ChkStatus == 0)
+                        {
+                            archiveSize = SingleExtractData[i].TotalSize;
+                        }
+                        if (ChkStatus == 1)
+                        {
+                            archiveSize = SingleExtractData[i].Sizepriority;
+                        }
+                        if (ChkStatus == 2)
+                        {
+                            archiveSize = SingleExtractData[i].Sizeprefered;
+                        }
+                        if (ChkStatus == 3)
+                        {
+                            if (SingleExtractData[i].Preferedfile.Contains(SingleExtractData[i].Priorityfile)) archiveSize = SingleExtractData[i].Sizeprefered;
+                            else archiveSize = SingleExtractData[i].Sizepriority + SingleExtractData[i].Sizeprefered;
+                        }
+                        diff_size += (archiveSize - SingleExtractData[i].TotalSize);
+                    }
+                }
+                requiredCacheSize = (fullsize + diff_size) / 1048576.0;
+                RequiredSizeLabel.Text = Math.Round(requiredCacheSize, 2).ToString();
+                double batchsizemb = (fullsize_pending + diff_size) / 1048576.0;
+                BatchSizeLabel.Text = Math.Round(batchsizemb, 2).ToString();
+
+                await Task.Run(() => updateRowSizeAsync(ChkStatus));
             }
             SmartOptionsGroup.Enabled = true;
 

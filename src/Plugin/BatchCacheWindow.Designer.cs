@@ -52,6 +52,10 @@ namespace ArchiveCacheManager
             this.chk_PreferedOnly = new System.Windows.Forms.CheckBox();
             this.SmartOptionsGroup = new System.Windows.Forms.GroupBox();
             this.progressBar = new ArchiveCacheManager.ProgressBarFlat();
+            this.RequiredSizeLabel = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.BatchSizeLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.cacheStatusGridView)).BeginInit();
             this.SmartOptionsGroup.SuspendLayout();
             this.SuspendLayout();
@@ -276,11 +280,51 @@ namespace ArchiveCacheManager
             this.progressBar.TabIndex = 11;
             this.progressBar.Visible = false;
             // 
+            // RequiredSizeLabel
+            // 
+            this.RequiredSizeLabel.AutoSize = true;
+            this.RequiredSizeLabel.Location = new System.Drawing.Point(751, 401);
+            this.RequiredSizeLabel.Name = "RequiredSizeLabel";
+            this.RequiredSizeLabel.Size = new System.Drawing.Size(25, 13);
+            this.RequiredSizeLabel.TabIndex = 16;
+            this.RequiredSizeLabel.Text = "???";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(607, 401);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(138, 13);
+            this.label1.TabIndex = 17;
+            this.label1.Text = "Required Cache Size (MB) :";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(607, 416);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(131, 13);
+            this.label2.TabIndex = 18;
+            this.label2.Text = "Batch Pending Size (MB) :";
+            // 
+            // BatchSizeLabel
+            // 
+            this.BatchSizeLabel.AutoSize = true;
+            this.BatchSizeLabel.Location = new System.Drawing.Point(751, 416);
+            this.BatchSizeLabel.Name = "BatchSizeLabel";
+            this.BatchSizeLabel.Size = new System.Drawing.Size(25, 13);
+            this.BatchSizeLabel.TabIndex = 19;
+            this.BatchSizeLabel.Text = "???";
+            // 
             // BatchCacheWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(944, 441);
+            this.Controls.Add(this.BatchSizeLabel);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.RequiredSizeLabel);
             this.Controls.Add(this.SmartOptionsGroup);
             this.Controls.Add(this.closeButton);
             this.Controls.Add(this.stopButton);
@@ -299,6 +343,7 @@ namespace ArchiveCacheManager
             this.SmartOptionsGroup.ResumeLayout(false);
             this.SmartOptionsGroup.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -322,5 +367,9 @@ namespace ArchiveCacheManager
         private System.Windows.Forms.CheckBox chk_PriorityOnly;
         private System.Windows.Forms.CheckBox chk_PreferedOnly;
         private System.Windows.Forms.GroupBox SmartOptionsGroup;
+        private System.Windows.Forms.Label RequiredSizeLabel;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label BatchSizeLabel;
     }
 }
