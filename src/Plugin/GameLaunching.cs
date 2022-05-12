@@ -251,6 +251,7 @@ namespace ArchiveCacheManager
             paths.Add(Path.Combine(pluginRootPath, "INIFileParser.dll"), Path.Combine(launchBox7zRootPath, "INIFileParser.dll"));
             paths.Add(Path.Combine(pluginRootPath, "ArchiveCacheManager.exe"), Path.Combine(launchBox7zRootPath, "7z.exe"));
             paths.Add(Path.Combine(plugin7zRootPath, "7z.exe.original"), Path.Combine(launchBox7zRootPath, "7-zip.exe"));
+            paths.Add(Path.Combine(plugin7zRootPath, "7z.dll.original"), Path.Combine(launchBox7zRootPath, "7z.dll"));
 
             foreach (var path in paths)
             {

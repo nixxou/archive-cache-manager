@@ -46,12 +46,14 @@ namespace ArchiveCacheManager
             this.CacheAction = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CacheStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.closeButton = new System.Windows.Forms.Button();
-            this.progressBar = new ArchiveCacheManager.ProgressBarFlat();
             this.stopButton = new System.Windows.Forms.Button();
             this.cacheButton = new System.Windows.Forms.Button();
             this.chk_PriorityOnly = new System.Windows.Forms.CheckBox();
             this.chk_PreferedOnly = new System.Windows.Forms.CheckBox();
+            this.SmartOptionsGroup = new System.Windows.Forms.GroupBox();
+            this.progressBar = new ArchiveCacheManager.ProgressBarFlat();
             ((System.ComponentModel.ISupportInitialize)(this.cacheStatusGridView)).BeginInit();
+            this.SmartOptionsGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // cacheStatusGridView
@@ -198,18 +200,6 @@ namespace ArchiveCacheManager
             this.closeButton.UseVisualStyleBackColor = true;
             this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
             // 
-            // progressBar
-            // 
-            this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar.Location = new System.Drawing.Point(12, 385);
-            this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(920, 10);
-            this.progressBar.Step = 1;
-            this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.progressBar.TabIndex = 11;
-            this.progressBar.Visible = false;
-            // 
             // stopButton
             // 
             this.stopButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -242,11 +232,11 @@ namespace ArchiveCacheManager
             // 
             this.chk_PriorityOnly.AutoSize = true;
             this.chk_PriorityOnly.Enabled = false;
-            this.chk_PriorityOnly.Location = new System.Drawing.Point(280, 408);
+            this.chk_PriorityOnly.Location = new System.Drawing.Point(6, 16);
             this.chk_PriorityOnly.Name = "chk_PriorityOnly";
-            this.chk_PriorityOnly.Size = new System.Drawing.Size(234, 17);
+            this.chk_PriorityOnly.Size = new System.Drawing.Size(109, 17);
             this.chk_PriorityOnly.TabIndex = 13;
-            this.chk_PriorityOnly.Text = "Extract Priority file for SmartExtract Plateform";
+            this.chk_PriorityOnly.Text = "Extract Priority file";
             this.chk_PriorityOnly.UseVisualStyleBackColor = true;
             this.chk_PriorityOnly.CheckedChanged += new System.EventHandler(this.chk_PriorityOnly_CheckedChanged);
             // 
@@ -254,21 +244,44 @@ namespace ArchiveCacheManager
             // 
             this.chk_PreferedOnly.AutoSize = true;
             this.chk_PreferedOnly.Enabled = false;
-            this.chk_PreferedOnly.Location = new System.Drawing.Point(520, 408);
+            this.chk_PreferedOnly.Location = new System.Drawing.Point(134, 16);
             this.chk_PreferedOnly.Name = "chk_PreferedOnly";
-            this.chk_PreferedOnly.Size = new System.Drawing.Size(246, 17);
+            this.chk_PreferedOnly.Size = new System.Drawing.Size(126, 17);
             this.chk_PreferedOnly.TabIndex = 14;
-            this.chk_PreferedOnly.Text = "Extract Favorite files for SmartExtract Plateform";
+            this.chk_PreferedOnly.Text = "Extract Favorites files";
             this.chk_PreferedOnly.UseVisualStyleBackColor = true;
             this.chk_PreferedOnly.CheckedChanged += new System.EventHandler(this.chk_PreferedOnly_CheckedChanged);
+            // 
+            // SmartOptionsGroup
+            // 
+            this.SmartOptionsGroup.Controls.Add(this.chk_PriorityOnly);
+            this.SmartOptionsGroup.Controls.Add(this.chk_PreferedOnly);
+            this.SmartOptionsGroup.Enabled = false;
+            this.SmartOptionsGroup.Location = new System.Drawing.Point(280, 396);
+            this.SmartOptionsGroup.Name = "SmartOptionsGroup";
+            this.SmartOptionsGroup.Size = new System.Drawing.Size(274, 40);
+            this.SmartOptionsGroup.TabIndex = 15;
+            this.SmartOptionsGroup.TabStop = false;
+            this.SmartOptionsGroup.Text = "Options for SmartExtract Archives Only";
+            // 
+            // progressBar
+            // 
+            this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar.Location = new System.Drawing.Point(12, 385);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(920, 10);
+            this.progressBar.Step = 1;
+            this.progressBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.progressBar.TabIndex = 11;
+            this.progressBar.Visible = false;
             // 
             // BatchCacheWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.ClientSize = new System.Drawing.Size(944, 441);
-            this.Controls.Add(this.chk_PreferedOnly);
-            this.Controls.Add(this.chk_PriorityOnly);
+            this.Controls.Add(this.SmartOptionsGroup);
             this.Controls.Add(this.closeButton);
             this.Controls.Add(this.stopButton);
             this.Controls.Add(this.cacheButton);
@@ -283,8 +296,9 @@ namespace ArchiveCacheManager
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BatchCacheWindow_FormClosing);
             this.Shown += new System.EventHandler(this.BatchCacheWindow_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.cacheStatusGridView)).EndInit();
+            this.SmartOptionsGroup.ResumeLayout(false);
+            this.SmartOptionsGroup.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -307,5 +321,6 @@ namespace ArchiveCacheManager
         private System.Windows.Forms.Button closeButton;
         private System.Windows.Forms.CheckBox chk_PriorityOnly;
         private System.Windows.Forms.CheckBox chk_PreferedOnly;
+        private System.Windows.Forms.GroupBox SmartOptionsGroup;
     }
 }

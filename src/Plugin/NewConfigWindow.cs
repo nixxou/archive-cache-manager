@@ -491,12 +491,10 @@ namespace ArchiveCacheManager
 
             foreach (DataGridViewRow row in cacheDataGridView.Rows)
             {
-                Logger.Log(string.Format("DEBUG! Query item \"{0}\".", row.Cells["ArchivePath"].Value));
                 string game_info_file = Path.Combine(row.Cells["ArchivePath"].Value.ToString(), PathUtils.GetGameInfoFileName());
                 if (File.Exists(game_info_file))
                 {
                     GameInfo gameInfo = new GameInfo(game_info_file);
-                    Logger.Log(string.Format("DEBUG! Plateform=\"{0}\".", gameInfo.Platform));
                     string plateform_dir = Path.Combine(outdir, gameInfo.Platform);
 
                     if (!Directory.Exists(plateform_dir)) Directory.CreateDirectory(plateform_dir);

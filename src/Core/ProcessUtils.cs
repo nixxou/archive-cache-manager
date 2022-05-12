@@ -24,7 +24,7 @@ namespace ArchiveCacheManager
         }
 
         public static (string, string, int) RunProcess(string executable, string args, bool redirectOutput = false, Func<string, string> processOutput = null, bool redirectError = false, Func<string, string> processError = null)
-        {
+        {         
             string stdout;
             string stderr;
             int exitCode;
