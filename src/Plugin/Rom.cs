@@ -105,7 +105,7 @@ namespace ArchiveCacheManager
                     validTagColumns[2] = true;
                     continue;
                 }
-                if (valtag == "[GOODSET]" || valtag == "[N64V]" || valtag == "[RHCOM]" || valtag == "[HTGDB]")
+                if (valtag == "[GOODSET]" || valtag == "[N64V]" || valtag == "[RHCOM]" || valtag == "[HTGDB]" || valtag == "[CDRO]" || valtag == "[POKEMONRH]")
                 {
                     if (valtag == "[GOODSET]") is_goodset = i;
                     this.Tag2 += m.Value.Trim();
