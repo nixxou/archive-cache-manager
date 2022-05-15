@@ -21,6 +21,15 @@ namespace ArchiveCacheManager
 
         public override bool Extract(string archivePath, string cachePath, string[] includeList = null, string[] excludeList = null)
         {
+            char DriveArchive = Path.GetFullPath(archivePath).ToLower().Substring(0, 1)[0];
+            char DriveCache = Path.GetFullPath(cachePath).ToLower().Substring(0, 1)[0];
+            if(char.IsLetter(DriveCache) && DriveArchive == DriveCache)
+            {
+                DiskUtils.HardLink(Path.Combine(cachePath, Path.GetFileName(archivePath)), archivePath);
+                if (File.Exists(Path.Combine(cachePath, Path.GetFileName(archivePath)))) return true;
+            }
+
+
             // If the file is less than 50MB, the overhead of calling Robocopy isn't worth it. Instead just use File.Copy().
             if (GetSize(archivePath) > 52_428_800)
             {
