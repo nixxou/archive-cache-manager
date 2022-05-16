@@ -60,7 +60,8 @@ namespace ArchiveCacheManager
                                                                                 config.Value.SmartExtract,
                                                                                 config.Value.Chdman,
                                                                                 config.Value.DolphinTool,
-                                                                                config.Value.TexturePath
+                                                                                config.Value.TexturePath,
+                                                                                config.Value.AltPath
                     });
                 }
                 else
@@ -75,7 +76,8 @@ namespace ArchiveCacheManager
                                                                           config.Value.SmartExtract,
                                                                           config.Value.Chdman,
                                                                           config.Value.DolphinTool,
-                                                                          config.Value.TexturePath
+                                                                          config.Value.TexturePath,
+                                                                          config.Value.AltPath
                     });
                 }
             }
@@ -218,6 +220,7 @@ namespace ArchiveCacheManager
                 config[key].Chdman = Convert.ToBoolean(row.Cells[8].Value);
                 config[key].DolphinTool = Convert.ToBoolean(row.Cells[9].Value);
                 config[key].TexturePath = row.Cells[10].Value == null ? string.Empty : row.Cells[10].Value.ToString();
+                config[key].AltPath = row.Cells[11].Value == null ? string.Empty : row.Cells[11].Value.ToString();
             }
 
             Config.UpdateCheck = updateCheckCheckBox.Checked;
@@ -428,6 +431,17 @@ namespace ArchiveCacheManager
                 if (window.DialogResult == DialogResult.OK)
                 {
                     emulatorPlatformConfigDataGridView.Rows[e.RowIndex].Cells[10].Value = HiresConfigWindow.txtpath;
+                }
+            }
+            
+            if (e.ColumnIndex == 11)
+            {
+                AltPathConfigWindow.altpath = emulatorPlatformConfigDataGridView.Rows[e.RowIndex].Cells[11].Value.ToString();
+                AltPathConfigWindow window2 = new AltPathConfigWindow();
+                window2.ShowDialog(this);
+                if (window2.DialogResult == DialogResult.OK)
+                {
+                    emulatorPlatformConfigDataGridView.Rows[e.RowIndex].Cells[11].Value = AltPathConfigWindow.altpath;
                 }
             }
 

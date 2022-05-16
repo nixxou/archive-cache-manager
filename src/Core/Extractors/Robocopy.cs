@@ -19,28 +19,8 @@ namespace ArchiveCacheManager
             archiveSizePath = string.Empty;
         }
 
-        public string GetArchivePathAlt(string archivePath)
-        {
-            if (!File.Exists(archivePath))
-            {
-                List<string> AlternativePath = new List<string>();
-                AlternativePath.Add(@"C:\coffre\extract\NDS2");
-                string potentialpath = "";
-                foreach(string altp in AlternativePath)
-                {
-                    potentialpath = Path.Combine(altp, Path.GetFileName(archivePath));
-                    if (File.Exists(potentialpath))
-                    {
-                        return potentialpath;
-                    }
-                }
-            }
-            return archivePath;
-        }
         public override bool Extract(string archivePath, string cachePath, string[] includeList = null, string[] excludeList = null)
         {
-            archivePath = GetArchivePathAlt(archivePath);
-
             char DriveArchive = Path.GetFullPath(archivePath).ToLower().Substring(0, 1)[0];
             char DriveCache = Path.GetFullPath(cachePath).ToLower().Substring(0, 1)[0];
             if(char.IsLetter(DriveCache) && DriveArchive == DriveCache)
@@ -85,7 +65,6 @@ namespace ArchiveCacheManager
 
         public override long GetSize(string archivePath, string fileInArchive = null)
         {
-            archivePath = GetArchivePathAlt(archivePath);
             if (!Equals(archivePath, archiveSizePath) || archiveSize == null)
             {
                 archiveSizePath = archivePath;
@@ -97,14 +76,11 @@ namespace ArchiveCacheManager
 
         public override string[] List(string archivePath, string[] includeList = null, string[] excludeList = null, bool prefixWildcard = false)
         {
-            archivePath = GetArchivePathAlt(archivePath);
             return Path.GetFileName(archivePath).ToSingleArray();
         }
 
         override public (string[], long[]) ListWithSize(string archivePath, string[] includeList = null, string[] excludeList = null, bool prefixWildcard = false)
         {
-            archivePath = GetArchivePathAlt(archivePath);
-
             string[] fileList = List(archivePath, includeList, excludeList, prefixWildcard);
             long[] fileSize = new long[fileList.Count()];
             for (int i = 0; i < fileList.Count(); i++) fileSize[i] = 0;

@@ -37,7 +37,6 @@ namespace ArchiveCacheManager
         private IGame[] mSelectedGames;
         private double requiredCacheSize = 0;
         private long fullsize = 0;
-        private double requiredCacheSize_pending = 0;
         private long fullsize_pending = 0;
 
 
@@ -115,13 +114,14 @@ namespace ArchiveCacheManager
                         cacheStatusGridView.Rows.Add(new object[] { i.ToString(),
                                                                     mSelectedGames[i].Id,
                                                                     disc.ApplicationId,
-                                                                    disc.ArchivePath,
+                                                                    PluginUtils.GetArchivePath(mSelectedGames[i],disc.ArchivePath),
                                                                     Path.GetFileName(disc.ArchivePath),
                                                                     mSelectedGames[i].Platform,
                                                                     "",
                                                                     "",
                                                                     "",
-                                                                    "Checking..." });
+                                                                    "Checking...",
+                                                                    disc.ArchivePath});
                     }
                 }
                 else
@@ -129,13 +129,14 @@ namespace ArchiveCacheManager
                     cacheStatusGridView.Rows.Add(new object[] { i.ToString(),
                                                                 mSelectedGames[i].Id,
                                                                 string.Empty,
-                                                                mSelectedGames[i].ApplicationPath,
+                                                                PluginUtils.GetArchivePath(mSelectedGames[i]),
                                                                 Path.GetFileName(mSelectedGames[i].ApplicationPath),
                                                                 mSelectedGames[i].Platform,
                                                                 "",
                                                                 "",
                                                                 "",
-                                                                "Checking..." });
+                                                                "Checking...",
+                                                                mSelectedGames[i].ApplicationPath});
                 }
             }
         }
@@ -168,9 +169,11 @@ namespace ArchiveCacheManager
                 for (int i = 0; i < cacheStatusGridView.RowCount; i++)
                 {
                     Extractor extractor = null;
+                    string truepath = cacheStatusGridView.Rows[i].Cells["TruePath"].Value.ToString();
+
                     string path = cacheStatusGridView.Rows[i].Cells["ArchivePath"].Value.ToString();
                     int index = Convert.ToInt32(cacheStatusGridView.Rows[i].Cells["Index"].Value);
-                    string gameInfoPath = PathUtils.GetArchiveCacheGameInfoPath(PathUtils.ArchiveCachePath(PathUtils.GetAbsolutePath(path)));
+                    string gameInfoPath = PathUtils.GetArchiveCacheGameInfoPath(PathUtils.ArchiveCachePath(PathUtils.GetAbsolutePath(truepath)));
 
                     if (File.Exists(gameInfoPath))
                     {
@@ -263,7 +266,6 @@ namespace ArchiveCacheManager
                             }
                             SingleExtractData[i]= new ArchiveContent(Path.GetFullPath(path), full_size, priority, priority_size, ValidatePrefered.ToArray(), prefered_size);
                             archiveSize = full_size;
-                            //Logger.Log(string.Format("DEBUG! SingleExtractData[{0}]={1}",i, SingleExtractData[i]));
 
                         }
                         else
@@ -412,23 +414,34 @@ namespace ArchiveCacheManager
                 if (SingleExtractData.ContainsKey(i) && (!string.IsNullOrEmpty(SingleExtractData[i].Priorityfile) || SingleExtractData[i].Preferedfile.Length>0))
                 {
                     List<string> includeList = new List<string>();
-                    if (chk_PriorityOnly.Checked && !string.IsNullOrEmpty(SingleExtractData[i].Priorityfile))
+                    if (chk_PriorityOnly.Checked == false && chk_PreferedOnly.Checked == false)
                     {
-                        includeList.Add(SingleExtractData[i].Priorityfile);
-                        newsize += SingleExtractData[i].Sizepriority;
+                        includeList.Add("*");
+                        newsize = Convert.ToInt32(size);
                     }
-                    if (chk_PreferedOnly.Checked && SingleExtractData[i].Preferedfile.Length > 0)
+                    else
                     {
-                        foreach (string prf in SingleExtractData[i].Preferedfile)
+                        if (chk_PriorityOnly.Checked && !string.IsNullOrEmpty(SingleExtractData[i].Priorityfile))
                         {
-                            if (prf != "" && includeList.Contains(prf) == false)
-                            {
-                                if (prf == SingleExtractData[i].Priorityfile) newsize = 0;
-                                includeList.Add(prf);
-                            }
+                            includeList.Add(SingleExtractData[i].Priorityfile);
+                            newsize += SingleExtractData[i].Sizepriority;
                         }
-                        newsize += SingleExtractData[i].Sizeprefered;
+                        if (chk_PreferedOnly.Checked && SingleExtractData[i].Preferedfile.Length > 0)
+                        {
+                            foreach (string prf in SingleExtractData[i].Preferedfile)
+                            {
+                                if (prf != "" && includeList.Contains(prf) == false)
+                                {
+                                    if (prf == SingleExtractData[i].Priorityfile) newsize = 0;
+                                    includeList.Add(prf);
+                                }
+                            }
+                            newsize += SingleExtractData[i].Sizeprefered;
+                        }
+
                     }
+
+
                     foreach (var include in includeList.ToArray())
                     {
                         includeArgs = string.Format("{0} \"{1}\"", includeArgs, include);

@@ -51,7 +51,8 @@ namespace ArchiveCacheManager
             mGameCacheData = new CacheData();
             mGameCacheData.ForceInclude = new List<string>();
             mGameCacheData.ArchivePath = mGame.ArchivePath;
-            mGameCacheData.ArchiveCachePath = PathUtils.ArchiveCachePath(mGame.ArchivePath);
+
+            mGameCacheData.ArchiveCachePath = PathUtils.ArchiveCachePath(mGame.TrueArchivePath);
             mGameCacheData.Config = Config.GetEmulatorPlatformConfig(Config.EmulatorPlatformKey(mGame.Emulator, mGame.Platform));
             if (mGame.InfoLoaded)
             {
@@ -62,7 +63,7 @@ namespace ArchiveCacheManager
             foreach (var disc in mGame.Discs)
             {
                 mMultiDiscCacheData[disc.Disc] = new CacheData();
-                mMultiDiscCacheData[disc.Disc].ArchivePath = disc.ArchivePath;
+                mMultiDiscCacheData[disc.Disc].ArchivePath = PathUtils.find_alt_path(disc.ArchivePath, mGameCacheData.Config.AltPath);
                 mMultiDiscCacheData[disc.Disc].ArchiveCachePath = PathUtils.ArchiveCachePath(disc.ArchivePath);
                 Logger.Log(string.Format("Disc {0} archive path set to \"{1}\".", disc.Disc, mMultiDiscCacheData[disc.Disc].ArchivePath));
                 Logger.Log(string.Format("Disc {0} archive cache path set to \"{1}\".", disc.Disc, mMultiDiscCacheData[disc.Disc].ArchiveCachePath));
@@ -256,15 +257,16 @@ namespace ArchiveCacheManager
             {
                 try
                 {
-                    return mMultiDiscCacheData[(int)disc].ArchivePath;
+                    return PathUtils.find_alt_path(mMultiDiscCacheData[(int)disc].ArchivePath, mGameCacheData.Config.AltPath);
+                    //return mMultiDiscCacheData[(int)disc].ArchivePath;
                 }
                 catch (KeyNotFoundException)
                 {
                     Logger.Log(string.Format("Unknown disc number {0}, using ArchivePath instead.", (int)disc));
                 }
             }
-
-            return mGameCacheData.ArchivePath;
+            return PathUtils.find_alt_path(mGameCacheData.ArchivePath, mGameCacheData.Config.AltPath);
+            //return mGameCacheData.ArchivePath;
         }
 
         /// <summary>

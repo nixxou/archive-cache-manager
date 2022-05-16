@@ -117,6 +117,12 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AltPathConfigWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AltPathConfigWindow.Designer.cs">
+      <DependentUpon>AltPathConfigWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="ArchiveListWindowBigBox.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -191,6 +197,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AltPathConfigWindow.resx">
+      <DependentUpon>AltPathConfigWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ArchiveListWindowBigBox.resx">
       <DependentUpon>ArchiveListWindowBigBox.cs</DependentUpon>
     </EmbeddedResource>

@@ -35,16 +35,6 @@ namespace ArchiveCacheManager
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BatchCacheWindow));
             this.cacheStatusGridView = new System.Windows.Forms.DataGridView();
-            this.Index = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.GameId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AppId = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ArchivePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Archive = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ArchivePlatform = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ArchiveSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ArchiveSizeMb = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CacheAction = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CacheStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.closeButton = new System.Windows.Forms.Button();
             this.stopButton = new System.Windows.Forms.Button();
             this.cacheButton = new System.Windows.Forms.Button();
@@ -56,6 +46,17 @@ namespace ArchiveCacheManager
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.BatchSizeLabel = new System.Windows.Forms.Label();
+            this.Index = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GameId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AppId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ArchivePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Archive = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ArchivePlatform = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ArchiveSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ArchiveSizeMb = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CacheAction = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CacheStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TruePath = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.cacheStatusGridView)).BeginInit();
             this.SmartOptionsGroup.SuspendLayout();
             this.SuspendLayout();
@@ -91,7 +92,8 @@ namespace ArchiveCacheManager
             this.ArchiveSize,
             this.ArchiveSizeMb,
             this.CacheAction,
-            this.CacheStatus});
+            this.CacheStatus,
+            this.TruePath});
             this.cacheStatusGridView.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.cacheStatusGridView.Location = new System.Drawing.Point(12, 12);
             this.cacheStatusGridView.MultiSelect = false;
@@ -102,95 +104,6 @@ namespace ArchiveCacheManager
             this.cacheStatusGridView.StandardTab = true;
             this.cacheStatusGridView.TabIndex = 8;
             this.cacheStatusGridView.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.cacheStatusGridView_CellPainting);
-            // 
-            // Index
-            // 
-            this.Index.HeaderText = "Index";
-            this.Index.Name = "Index";
-            this.Index.Visible = false;
-            this.Index.Width = 39;
-            // 
-            // GameId
-            // 
-            this.GameId.HeaderText = "GameId";
-            this.GameId.Name = "GameId";
-            this.GameId.Visible = false;
-            this.GameId.Width = 50;
-            // 
-            // AppId
-            // 
-            this.AppId.HeaderText = "AppId";
-            this.AppId.Name = "AppId";
-            this.AppId.Visible = false;
-            this.AppId.Width = 41;
-            // 
-            // ArchivePath
-            // 
-            this.ArchivePath.HeaderText = "Path";
-            this.ArchivePath.Name = "ArchivePath";
-            this.ArchivePath.Visible = false;
-            this.ArchivePath.Width = 35;
-            // 
-            // Archive
-            // 
-            this.Archive.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(24, 0, 3, 0);
-            this.Archive.DefaultCellStyle = dataGridViewCellStyle2;
-            this.Archive.HeaderText = "Archive";
-            this.Archive.MinimumWidth = 300;
-            this.Archive.Name = "Archive";
-            this.Archive.ReadOnly = true;
-            this.Archive.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // ArchivePlatform
-            // 
-            this.ArchivePlatform.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.ArchivePlatform.FillWeight = 60F;
-            this.ArchivePlatform.HeaderText = "Platform";
-            this.ArchivePlatform.MinimumWidth = 150;
-            this.ArchivePlatform.Name = "ArchivePlatform";
-            this.ArchivePlatform.ReadOnly = true;
-            this.ArchivePlatform.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // ArchiveSize
-            // 
-            this.ArchiveSize.HeaderText = "Size";
-            this.ArchiveSize.Name = "ArchiveSize";
-            this.ArchiveSize.Visible = false;
-            this.ArchiveSize.Width = 52;
-            // 
-            // ArchiveSizeMb
-            // 
-            this.ArchiveSizeMb.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
-            dataGridViewCellStyle3.Format = "N1";
-            this.ArchiveSizeMb.DefaultCellStyle = dataGridViewCellStyle3;
-            this.ArchiveSizeMb.HeaderText = "Size (MB)";
-            this.ArchiveSizeMb.Name = "ArchiveSizeMb";
-            this.ArchiveSizeMb.ReadOnly = true;
-            this.ArchiveSizeMb.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.ArchiveSizeMb.Width = 58;
-            // 
-            // CacheAction
-            // 
-            this.CacheAction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.CacheAction.HeaderText = "Cache Action";
-            this.CacheAction.Name = "CacheAction";
-            this.CacheAction.ReadOnly = true;
-            this.CacheAction.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.CacheAction.Width = 77;
-            // 
-            // CacheStatus
-            // 
-            this.CacheStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            dataGridViewCellStyle4.Padding = new System.Windows.Forms.Padding(24, 0, 3, 0);
-            this.CacheStatus.DefaultCellStyle = dataGridViewCellStyle4;
-            this.CacheStatus.FillWeight = 60F;
-            this.CacheStatus.HeaderText = "Status";
-            this.CacheStatus.MinimumWidth = 220;
-            this.CacheStatus.Name = "CacheStatus";
-            this.CacheStatus.ReadOnly = true;
-            this.CacheStatus.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // closeButton
             // 
@@ -316,6 +229,101 @@ namespace ArchiveCacheManager
             this.BatchSizeLabel.TabIndex = 19;
             this.BatchSizeLabel.Text = "???";
             // 
+            // Index
+            // 
+            this.Index.HeaderText = "Index";
+            this.Index.Name = "Index";
+            this.Index.Visible = false;
+            this.Index.Width = 39;
+            // 
+            // GameId
+            // 
+            this.GameId.HeaderText = "GameId";
+            this.GameId.Name = "GameId";
+            this.GameId.Visible = false;
+            this.GameId.Width = 50;
+            // 
+            // AppId
+            // 
+            this.AppId.HeaderText = "AppId";
+            this.AppId.Name = "AppId";
+            this.AppId.Visible = false;
+            this.AppId.Width = 41;
+            // 
+            // ArchivePath
+            // 
+            this.ArchivePath.HeaderText = "Path";
+            this.ArchivePath.Name = "ArchivePath";
+            this.ArchivePath.Visible = false;
+            this.ArchivePath.Width = 35;
+            // 
+            // Archive
+            // 
+            this.Archive.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(24, 0, 3, 0);
+            this.Archive.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Archive.HeaderText = "Archive";
+            this.Archive.MinimumWidth = 300;
+            this.Archive.Name = "Archive";
+            this.Archive.ReadOnly = true;
+            this.Archive.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // ArchivePlatform
+            // 
+            this.ArchivePlatform.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.ArchivePlatform.FillWeight = 60F;
+            this.ArchivePlatform.HeaderText = "Platform";
+            this.ArchivePlatform.MinimumWidth = 150;
+            this.ArchivePlatform.Name = "ArchivePlatform";
+            this.ArchivePlatform.ReadOnly = true;
+            this.ArchivePlatform.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // ArchiveSize
+            // 
+            this.ArchiveSize.HeaderText = "Size";
+            this.ArchiveSize.Name = "ArchiveSize";
+            this.ArchiveSize.Visible = false;
+            this.ArchiveSize.Width = 52;
+            // 
+            // ArchiveSizeMb
+            // 
+            this.ArchiveSizeMb.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle3.Format = "N1";
+            this.ArchiveSizeMb.DefaultCellStyle = dataGridViewCellStyle3;
+            this.ArchiveSizeMb.HeaderText = "Size (MB)";
+            this.ArchiveSizeMb.Name = "ArchiveSizeMb";
+            this.ArchiveSizeMb.ReadOnly = true;
+            this.ArchiveSizeMb.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.ArchiveSizeMb.Width = 58;
+            // 
+            // CacheAction
+            // 
+            this.CacheAction.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.CacheAction.HeaderText = "Cache Action";
+            this.CacheAction.Name = "CacheAction";
+            this.CacheAction.ReadOnly = true;
+            this.CacheAction.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.CacheAction.Width = 77;
+            // 
+            // CacheStatus
+            // 
+            this.CacheStatus.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            dataGridViewCellStyle4.Padding = new System.Windows.Forms.Padding(24, 0, 3, 0);
+            this.CacheStatus.DefaultCellStyle = dataGridViewCellStyle4;
+            this.CacheStatus.FillWeight = 60F;
+            this.CacheStatus.HeaderText = "Status";
+            this.CacheStatus.MinimumWidth = 220;
+            this.CacheStatus.Name = "CacheStatus";
+            this.CacheStatus.ReadOnly = true;
+            this.CacheStatus.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // TruePath
+            // 
+            this.TruePath.HeaderText = "TruePath";
+            this.TruePath.Name = "TruePath";
+            this.TruePath.Width = 76;
+            // 
             // BatchCacheWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -353,6 +361,14 @@ namespace ArchiveCacheManager
         private System.Windows.Forms.Button stopButton;
         private System.Windows.Forms.Button cacheButton;
         private ProgressBarFlat progressBar;
+        private System.Windows.Forms.Button closeButton;
+        private System.Windows.Forms.CheckBox chk_PriorityOnly;
+        private System.Windows.Forms.CheckBox chk_PreferedOnly;
+        private System.Windows.Forms.GroupBox SmartOptionsGroup;
+        private System.Windows.Forms.Label RequiredSizeLabel;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label BatchSizeLabel;
         private System.Windows.Forms.DataGridViewTextBoxColumn Index;
         private System.Windows.Forms.DataGridViewTextBoxColumn GameId;
         private System.Windows.Forms.DataGridViewTextBoxColumn AppId;
@@ -363,13 +379,6 @@ namespace ArchiveCacheManager
         private System.Windows.Forms.DataGridViewTextBoxColumn ArchiveSizeMb;
         private System.Windows.Forms.DataGridViewTextBoxColumn CacheAction;
         private System.Windows.Forms.DataGridViewTextBoxColumn CacheStatus;
-        private System.Windows.Forms.Button closeButton;
-        private System.Windows.Forms.CheckBox chk_PriorityOnly;
-        private System.Windows.Forms.CheckBox chk_PreferedOnly;
-        private System.Windows.Forms.GroupBox SmartOptionsGroup;
-        private System.Windows.Forms.Label RequiredSizeLabel;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label BatchSizeLabel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TruePath;
     }
 }

@@ -32,7 +32,26 @@ namespace ArchiveCacheManager
 
         public static string GetArchivePath(IGame game, IAdditionalApplication app)
         {
-            return PathUtils.GetAbsolutePath((app != null && app.ApplicationPath != string.Empty) ? app.ApplicationPath : game.ApplicationPath);
+            string archivepath = PathUtils.GetAbsolutePath((app != null && app.ApplicationPath != string.Empty) ? app.ApplicationPath : game.ApplicationPath);
+            string key = Config.EmulatorPlatformKey(PluginHelper.DataManager.GetEmulatorById(game.EmulatorId).Title, game.Platform);
+            string altPath = Config.GetAltPath(key);
+            if (String.IsNullOrEmpty(altPath)) return archivepath;
+            else
+            {
+                return PathUtils.find_alt_path(archivepath, altPath);
+            }
+        }
+
+        public static string GetArchivePath(IGame game, string archivepath = "")
+        {
+            if(archivepath == "") archivepath = game.ApplicationPath;
+            string key = Config.EmulatorPlatformKey(PluginHelper.DataManager.GetEmulatorById(game.EmulatorId).Title, game.Platform);
+            string altPath = Config.GetAltPath(key);
+            if (String.IsNullOrEmpty(altPath)) return archivepath;
+            else
+            {
+                return PathUtils.find_alt_path(archivepath, altPath);
+            }
         }
 
         public static bool GetEmulatorPlatformAutoExtract(string emulatorId, string platformName)

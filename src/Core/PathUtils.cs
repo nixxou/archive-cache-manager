@@ -5,19 +5,29 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Linq;
+using System.Net.NetworkInformation;
+using System.Collections.Generic;
 
 namespace ArchiveCacheManager
 {
+
     /// <summary>
     /// Helper class to manage the paths of files used by the plugin.
     /// </summary>
     public class PathUtils
     {
+        [DllImport("mpr.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        public static extern int WNetGetConnection(
+        [MarshalAs(UnmanagedType.LPTStr)] string localName,
+        [MarshalAs(UnmanagedType.LPTStr)] StringBuilder remoteName,
+        ref int length);
         /* There are multiple root paths to be handled:
          * <LaunchBox>\Core\LaunchBox.exe
          * <LaunchBox>\ThirdParty\7-Zip\7z.exe
          */
         public static readonly int MAX_PATH = 260;
+
+        public static Dictionary<string, string> cache_altpath = new Dictionary<string, string>();
 
         private static readonly string configFileName = @"config.ini";
         private static readonly string gameIndexFileName = @"game-index.ini";
@@ -309,6 +319,7 @@ namespace ArchiveCacheManager
             {
                 hash = md5.ComputeHash(Encoding.UTF8.GetBytes(path));
             }
+            Logger.Log(string.Format("DEBUG! Hash of \"{0}\" = {1}",path, BitConverter.ToString(hash).Replace("-", string.Empty)));
 
             // Example: Doom (USA).zip hashes to 7309402b2dbee883f0f83e3e962dff24
             return BitConverter.ToString(hash).Replace("-", string.Empty);
@@ -523,6 +534,168 @@ namespace ArchiveCacheManager
         {
             string extension = Path.GetExtension(filename).ToLower();
             return extensions.Contains(extension);
+        }
+
+        public static string IsNetworkPath(string path)
+        {
+            if (!path.StartsWith(@"/") && !path.StartsWith(@"\"))
+            {
+                string rootPath = System.IO.Path.GetPathRoot(path); // get drive's letter
+                System.IO.DriveInfo driveInfo = new System.IO.DriveInfo(rootPath); // get info about the drive
+                if (driveInfo.DriveType == DriveType.Network)
+                {
+                    return GetUNCPath(path);
+                }
+                return "";
+            }
+
+            return path; // is a UNC path
+        }
+
+        public static string GetUNCPath(string originalPath)
+        {
+            StringBuilder sb = new StringBuilder(512);
+            int size = sb.Capacity;
+
+            // look for the {LETTER}: combination ...
+            if (originalPath.Length > 2 && originalPath[1] == ':')
+            {
+                // don't use char.IsLetter here - as that can be misleading
+                // the only valid drive letters are a-z && A-Z.
+                char c = originalPath[0];
+                if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+                {
+                    int error = WNetGetConnection(originalPath.Substring(0, 2),
+                        sb, ref size);
+                    if (error == 0)
+                    {
+                        DirectoryInfo dir = new DirectoryInfo(originalPath);
+
+                        string path = Path.GetFullPath(originalPath)
+                            .Substring(Path.GetPathRoot(originalPath).Length);
+                        return Path.Combine(sb.ToString().TrimEnd(), path);
+                    }
+                }
+            }
+
+            return originalPath;
+        }
+
+        public static bool HostExists(string PCName)
+        {
+            Ping pinger = new Ping();
+
+            try
+            {
+                PingReply reply = pinger.Send(PCName);
+                return reply.Status == IPStatus.Success;
+            }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                pinger.Dispose();
+            }
+
+        }
+
+        public static bool DirExistAndSkipNoPing(string path)
+        {
+            string nwpath = IsNetworkPath(path);
+            if (!String.IsNullOrEmpty(nwpath))
+            {
+                var host = new Uri(nwpath).Host;
+                if (!string.IsNullOrEmpty(host))
+                {
+                    if (HostExists(host) == false)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return Directory.Exists(path);
+        }
+
+        public static string find_alt_path(string path_source, string altpath_config)
+        {
+            if (String.IsNullOrEmpty(altpath_config))
+            {
+                return path_source;
+            }
+            if (File.Exists(path_source))
+            {
+                return path_source;
+            }
+
+            if (cache_altpath.ContainsKey(path_source))
+            {
+                if (File.Exists(cache_altpath[path_source]))
+                {
+                    return cache_altpath[path_source];
+                }
+            }
+
+            Dictionary<string, bool> alt_path = new Dictionary<string, bool>();
+            foreach (string apath in altpath_config.Split('|'))
+            {
+                string[] pathdata = apath.Split('>');
+                bool recurse = false;
+                if (pathdata.Length > 1 && pathdata[1] == "R") recurse = true;
+                alt_path[pathdata[0]] = recurse;
+            }
+
+
+
+            path_source = Path.GetFullPath(path_source);
+            string filename = Path.GetFileName(path_source);
+            string fullpath = Path.GetDirectoryName(path_source);
+
+            string nodrive_path = "";
+            string[] dirArray = new string[0];
+            if (!String.IsNullOrEmpty(fullpath))
+            {
+                if ((fullpath.IndexOf(":") == 1) || (fullpath.IndexOf(@"\\") == 0)) nodrive_path = fullpath.Substring(2);
+                if (nodrive_path.IndexOf(@"\") > 0) nodrive_path = nodrive_path.Substring(nodrive_path.IndexOf("\\"));
+                if (nodrive_path.StartsWith(@"\")) nodrive_path = nodrive_path.Substring(1);
+                dirArray = nodrive_path.Split(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+                Array.Reverse(dirArray);
+            }
+
+            
+
+            foreach (var item in alt_path)
+            {
+                string path_dest = item.Key;
+                bool folder_search = item.Value;
+                if (DirExistAndSkipNoPing(path_dest))
+                {
+                    string check_string = filename;
+                    string check_fullpath = Path.Combine(path_dest, filename);
+                    if (File.Exists(check_fullpath))
+                    {
+                        cache_altpath[path_source] = check_fullpath;
+                        cache_altpath[check_fullpath] = check_fullpath;
+                        return check_fullpath;
+                    }
+                    if (folder_search && dirArray.Length > 0)
+                    {
+                        foreach (string dir in dirArray)
+                        {
+                            check_string = dir + Path.DirectorySeparatorChar + check_string;
+                            check_fullpath = Path.Combine(path_dest, check_string);
+                            if (File.Exists(check_fullpath))
+                            {
+                                cache_altpath[path_source] = check_fullpath;
+                                cache_altpath[check_fullpath] = check_fullpath;
+                                return check_fullpath;
+                            }
+                        }
+                    }
+                }
+            }
+            return path_source;
         }
     }
 }

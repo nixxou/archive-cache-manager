@@ -26,7 +26,7 @@ namespace ArchiveCacheManager
 
         public void OnSelected(IGame selectedGame)
         {
-            string path = PathUtils.GetAbsolutePath(selectedGame.ApplicationPath);
+            string path = PathUtils.GetAbsolutePath(PluginUtils.GetArchivePath(selectedGame));
 
             if (File.Exists(path))
             {
@@ -40,7 +40,7 @@ namespace ArchiveCacheManager
 
                 if (fileList.Count() == 0)
                 {
-                    string errorMessage = string.Format("Error listing contents of {0}.\r\n\r\nCheck {1} for details.", Path.GetFileName(selectedGame.ApplicationPath), Path.GetFileName(PathUtils.GetLogFilePath()));
+                    string errorMessage = string.Format("Error listing contents of {0}.\r\n\r\nCheck {1} for details.", Path.GetFileName(PluginUtils.GetArchivePath(selectedGame)), Path.GetFileName(PathUtils.GetLogFilePath()));
 
                     if (PluginHelper.StateManager.IsBigBox)
                     {
@@ -60,12 +60,12 @@ namespace ArchiveCacheManager
 	            Form window;
 	            if (PluginHelper.StateManager.IsBigBox)
 	            {
-	                window = new ArchiveListWindowBigBox(Path.GetFileName(selectedGame.ApplicationPath), Path.GetDirectoryName(selectedGame.ApplicationPath), fileList, GameIndex.GetSelectedFile(selectedGame.Id));
+	                window = new ArchiveListWindowBigBox(Path.GetFileName(selectedGame.ApplicationPath), Path.GetDirectoryName(PluginUtils.GetArchivePath(selectedGame)), fileList, GameIndex.GetSelectedFile(selectedGame.Id));
 	            }
 	            else
 	            {
 	                //window = new ArchiveListWindowBigBox(Path.GetFileName(selectedGame.ApplicationPath), Path.GetDirectoryName(selectedGame.ApplicationPath), fileList, GameIndex.GetSelectedFile(selectedGame.Id));
-	                window = new ArchiveListWindow(Path.GetFileName(selectedGame.ApplicationPath), Path.GetDirectoryName(selectedGame.ApplicationPath), fileList, sizeList, selectedGame.Platform, selectedGame.EmulatorId, PluginHelper.DataManager.GetEmulatorById(selectedGame.EmulatorId).Title, emulatorsTuple.Select(emu => PluginUtils.GetEmulatorTitle(emu.Item1, emu.Item2)).ToArray(), GameIndex.GetSelectedFile(selectedGame.Id), selectedGame.Id);
+	                window = new ArchiveListWindow(Path.GetFileName(selectedGame.ApplicationPath), Path.GetDirectoryName(PluginUtils.GetArchivePath(selectedGame)), fileList, sizeList, selectedGame.Platform, selectedGame.EmulatorId, PluginHelper.DataManager.GetEmulatorById(selectedGame.EmulatorId).Title, emulatorsTuple.Select(emu => PluginUtils.GetEmulatorTitle(emu.Item1, emu.Item2)).ToArray(), GameIndex.GetSelectedFile(selectedGame.Id), selectedGame.Id);
 	            }
                 //NativeWindow parent = new NativeWindow();
 

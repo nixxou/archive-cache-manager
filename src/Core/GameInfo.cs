@@ -19,6 +19,7 @@ namespace ArchiveCacheManager
         private string mVersion = string.Empty;
         private string mSelectedFile = string.Empty;
         private string mPreferedFiles = string.Empty;
+        private string mTrueArchivePath = string.Empty;
         private long mDecompressedSize = 0;
         private bool mKeepInCache = false;
         private bool mEmulatorPlatformM3u = false;
@@ -78,6 +79,12 @@ namespace ArchiveCacheManager
             get => mPreferedFiles;
             set => mPreferedFiles = value;
         }
+
+        public string TrueArchivePath
+        {
+            get => mTrueArchivePath;
+            set => mTrueArchivePath = value;
+        }
         public long DecompressedSize
         {
             get => mDecompressedSize;
@@ -131,6 +138,8 @@ namespace ArchiveCacheManager
             mTitle = game.mTitle;
             mVersion = game.mVersion;
             mSelectedFile = game.mSelectedFile;
+            mPreferedFiles = game.mPreferedFiles;
+            mTrueArchivePath = game.mTrueArchivePath;
             mDecompressedSize = game.mDecompressedSize;
             mKeepInCache = game.mKeepInCache;
             mEmulatorPlatformM3u = game.mEmulatorPlatformM3u;
@@ -163,6 +172,7 @@ namespace ArchiveCacheManager
                     mVersion = iniData[gameSection][nameof(Version)];
                     mSelectedFile = iniData[gameSection][nameof(SelectedFile)];
                     mPreferedFiles = iniData[gameSection][nameof(PreferedFiles)];
+                    mTrueArchivePath = iniData[gameSection][nameof(TrueArchivePath)];
                     mDecompressedSize = Convert.ToInt64(iniData[gameSection][nameof(DecompressedSize)]);
                     mKeepInCache = Convert.ToBoolean(iniData[gameSection][nameof(KeepInCache)]);
                     mEmulatorPlatformM3u = Convert.ToBoolean(iniData[gameSection][nameof(EmulatorPlatformM3u)]);
@@ -223,6 +233,7 @@ namespace ArchiveCacheManager
                 iniData[gameSection][nameof(Version)] = mVersion;
                 iniData[gameSection][nameof(SelectedFile)] = mSelectedFile;
                 iniData[gameSection][nameof(PreferedFiles)] = mPreferedFiles;
+                iniData[gameSection][nameof(TrueArchivePath)] = mTrueArchivePath;
                 iniData[gameSection][nameof(DecompressedSize)] = mDecompressedSize.ToString();
                 iniData[gameSection][nameof(KeepInCache)] = mKeepInCache.ToString();
                 iniData[gameSection][nameof(EmulatorPlatformM3u)] = mEmulatorPlatformM3u.ToString();
@@ -242,7 +253,6 @@ namespace ArchiveCacheManager
                         iniData[discNumberSection][nameof(DiscInfo.Disc)] = discInfo.Disc.ToString();
                     }
                 }
-
                 parser.WriteFile(savePath, iniData);
 
                 return true;

@@ -135,6 +135,7 @@ namespace ArchiveCacheManager
             gameInfo.Version = game.Version;
             gameInfo.SelectedFile = GameIndex.GetSelectedFile(game.Id);
             gameInfo.PreferedFiles = GameIndex.GetPreferedFileString(game.Id);
+            gameInfo.TrueArchivePath = PathUtils.GetAbsolutePath((app != null && app.ApplicationPath != string.Empty) ? app.ApplicationPath : game.ApplicationPath);
             gameInfo.EmulatorPlatformM3u = PluginUtils.GetEmulatorPlatformM3uDiscLoadEnabled(emulator.Id, game.Platform);
             gameInfo.MultiDisc = PluginUtils.IsLaunchedGameMultiDisc(game, app);
             if (gameInfo.MultiDisc)

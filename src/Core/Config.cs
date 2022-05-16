@@ -55,6 +55,7 @@ namespace ArchiveCacheManager
         private static readonly bool defaultChdman = false;
         private static readonly bool defaultDolphinTool = false;
         private static readonly string defaultTexturePath = "";
+        private static readonly string defaultAltPath = "";
 
         public class EmulatorPlatformConfig
         {
@@ -67,6 +68,7 @@ namespace ArchiveCacheManager
             public bool Chdman;
             public bool DolphinTool;
             public string TexturePath;
+            public string AltPath;
 
             public EmulatorPlatformConfig()
             {
@@ -79,6 +81,7 @@ namespace ArchiveCacheManager
                 Chdman = defaultChdman;
                 DolphinTool = defaultDolphinTool;
                 TexturePath = defaultTexturePath;
+                AltPath = defaultAltPath;
             }
         };
 
@@ -341,6 +344,23 @@ namespace ArchiveCacheManager
             return defaultTexturePath;
         }
 
+        public static string GetAltPath(string key)
+        {
+            try
+            {
+                return mEmulatorPlatformConfig[key].AltPath;
+            }
+            catch (KeyNotFoundException) { }
+
+            try
+            {
+                return mEmulatorPlatformConfig[defaultEmulatorPlatform].AltPath;
+            }
+            catch (KeyNotFoundException) { }
+
+            return defaultAltPath;
+        }
+
         public static string EmulatorPlatformKey(string emulator, string platform) => string.Format(@"{0} \ {1}", emulator, platform);
 
         /// <summary>
@@ -502,6 +522,10 @@ namespace ArchiveCacheManager
                             {
                                 mEmulatorPlatformConfig[section.SectionName].TexturePath = section.Keys[nameof(EmulatorPlatformConfig.TexturePath)];
                             }
+                            if (section.Keys.ContainsKey(nameof(EmulatorPlatformConfig.AltPath)))
+                            {
+                                mEmulatorPlatformConfig[section.SectionName].AltPath = section.Keys[nameof(EmulatorPlatformConfig.AltPath)];
+                            }
                         }
                     }
 
@@ -592,6 +616,7 @@ namespace ArchiveCacheManager
                 iniData[priority.Key][nameof(EmulatorPlatformConfig.Chdman)] = priority.Value.Chdman.ToString();
                 iniData[priority.Key][nameof(EmulatorPlatformConfig.DolphinTool)] = priority.Value.DolphinTool.ToString();
                 iniData[priority.Key][nameof(EmulatorPlatformConfig.TexturePath)] = priority.Value.TexturePath.ToString();
+                iniData[priority.Key][nameof(EmulatorPlatformConfig.AltPath)] = priority.Value.AltPath.ToString();
             }
 
             try
