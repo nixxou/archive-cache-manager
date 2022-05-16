@@ -135,6 +135,12 @@
     <Compile Include="CacheConfigWindow.Designer.cs">
       <DependentUpon>CacheConfigWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="HiresConfigWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HiresConfigWindow.Designer.cs">
+      <DependentUpon>HiresConfigWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="NewConfigWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -193,6 +199,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CacheConfigWindow.resx">
       <DependentUpon>CacheConfigWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HiresConfigWindow.resx">
+      <DependentUpon>HiresConfigWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NewConfigWindow.resx">
       <DependentUpon>NewConfigWindow.cs</DependentUpon>

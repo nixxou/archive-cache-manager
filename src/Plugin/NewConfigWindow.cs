@@ -420,29 +420,22 @@ namespace ArchiveCacheManager
 
         private void emulatorPlatformConfigDataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            
-            //MessageBox.Show(e.RowIndex.ToString() + " " + e.ColumnIndex.ToString());
-
-            using (var fbd = new FolderBrowserDialog())
+            if(e.ColumnIndex == 10)
             {
-                string base_dir = Directory.GetParent(Path.GetDirectoryName(Application.ExecutablePath)).FullName;
-                base_dir = base_dir + @"\Emulators";
-                fbd.RootFolder = Environment.SpecialFolder.DesktopDirectory;
-                fbd.SelectedPath = base_dir;
-
-                DialogResult result = fbd.ShowDialog();
-                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath) && Directory.Exists(fbd.SelectedPath))
+                HiresConfigWindow.txtpath = emulatorPlatformConfigDataGridView.Rows[e.RowIndex].Cells[10].Value.ToString();
+                HiresConfigWindow window = new HiresConfigWindow();
+                window.ShowDialog(this);
+                if (window.DialogResult == DialogResult.OK)
                 {
-                    //TexturePath_txt.Text = fbd.SelectedPath;                    
-                    emulatorPlatformConfigDataGridView.Rows[e.RowIndex].Cells[10].Value = Path.GetFullPath(fbd.SelectedPath);
+                    emulatorPlatformConfigDataGridView.Rows[e.RowIndex].Cells[10].Value = HiresConfigWindow.txtpath;
                 }
-                if (result == DialogResult.Cancel)
-                {
-                    //TexturePath_txt.Text = fbd.SelectedPath;                    
-                    emulatorPlatformConfigDataGridView.Rows[e.RowIndex].Cells[10].Value = "";
-                }
-
             }
+
+
+            //
+
+
+
 
         }
 
@@ -532,6 +525,11 @@ namespace ArchiveCacheManager
             if (Directory.Exists(outdir) == false) return;
             DiskUtils.DeleteDirectory(outdir, true, false);
             UpdateExtractCache();
+        }
+
+        private void cacheDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
