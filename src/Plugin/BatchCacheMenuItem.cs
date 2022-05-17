@@ -22,10 +22,7 @@ namespace ArchiveCacheManager
         public bool GetIsValidForGame(IGame selectedGame) => true;
         public bool GetIsValidForGames(IGame[] selectedGames) => true;
 
-        public void OnSelected(IGame selectedGame)
-        {
-            OnSelected(new IGame[] { selectedGame });
-        }
+        public void OnSelected(IGame selectedGame) => OnSelected(new IGame[] { selectedGame });
 
         public void OnSelected(IGame[] selectedGames)
         {

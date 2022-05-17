@@ -290,6 +290,10 @@ namespace ArchiveCacheManager
                     }
                     RequiredSizeLabel.Text = Math.Round(requiredCacheSize, 2).ToString();
                     progressBar.PerformStep();
+                    if (mStatus == StatusEnum.Closing)
+                    {
+                        return;
+                    }
                 }
 
                 double batchsizemb = (fullsize_pending / 1048576.0);
@@ -565,11 +569,17 @@ namespace ArchiveCacheManager
                 Bitmap cellIcon = null;
 
                 if (e.ColumnIndex == cacheStatusGridView.Columns["Archive"].Index)
+                {
                     cellIcon = UserInterface.GetMediaIcon(cacheStatusGridView.Rows[e.RowIndex].Cells["ArchivePlatform"].Value.ToString());
+                }
                 else if (e.ColumnIndex == cacheStatusGridView.Columns["CacheStatus"].Index)
                 {
                     string statusText = cacheStatusGridView.Rows[e.RowIndex].Cells["CacheStatus"].Value.ToString().ToLower();
-                    if (statusText.Contains("complete") || statusText.Contains("already cached"))
+                    if (statusText.Contains("ready."))
+                    {
+                        // No icon. Also skip all subsequent checks.
+                    }
+                    else if (statusText.Contains("complete") || statusText.Contains("already cached"))
                     {
                         cellIcon = Resources.tick;
                     }

@@ -141,7 +141,7 @@ namespace ArchiveCacheManager
                 foreach (var discInfo in LaunchInfo.Game.Discs)
                 {
                     // Delete any previously generated m3u file, so it doesn't get included in the subsequent archive listing
-                    DiskUtils.DeleteFile(LaunchInfo.GetM3uName(discInfo.Disc));
+                    DiskUtils.DeleteFile(LaunchInfo.GetM3uPath(LaunchInfo.GetArchiveCachePath(discInfo.Disc), discInfo.Disc));
                     filePaths.Add(discInfo.Disc, ListCacheArchive(LaunchInfo.GetArchiveCachePath(discInfo.Disc), discInfo.Disc).FirstOrDefault());
                 }
 
@@ -160,7 +160,7 @@ namespace ArchiveCacheManager
                         }
                     }
 
-                    string m3uPath = LaunchInfo.GetM3uName(discInfo.Disc);
+                    string m3uPath = LaunchInfo.GetM3uPath(LaunchInfo.GetArchiveCachePath(discInfo.Disc), discInfo.Disc);
                     try
                     {
                         File.WriteAllLines(m3uPath, multiDiscPaths);
@@ -235,7 +235,7 @@ namespace ArchiveCacheManager
                 if (LaunchInfo.Game.MultiDisc && LaunchInfo.MultiDiscSupport && LaunchInfo.Game.EmulatorPlatformM3u)
                 {
                     // This is a multi-disc game, and the emulator supports m3u files. Set the file list to the generated m3u file.
-                    fileList.Add(LaunchInfo.GetM3uName(LaunchInfo.Game.SelectedDisc));
+                    fileList.Add(LaunchInfo.GetM3uPath(LaunchInfo.GetArchiveCacheLaunchPath(LaunchInfo.Game.SelectedDisc), LaunchInfo.Game.SelectedDisc));
                 }
                 else
                 {

@@ -348,23 +348,41 @@ namespace ArchiveCacheManager
             {
                 case Config.M3uName.GameId:
                 default:
-                    m3uName = PathUtils.GetArchiveCacheM3uGameIdPath(GetArchiveCachePath(disc), mGame.GameId);
+                    m3uName = PathUtils.GetArchiveCacheM3uGameIdPath(GetArchiveCacheLaunchPath(disc), mGame.GameId);
                     break;
                 case Config.M3uName.TitleVersion:
-                    m3uName = PathUtils.GetArchiveCacheM3uGameTitlePath(GetArchiveCachePath(disc), mGame.GameId, mGame.Title, mGame.Version, disc);
+                    m3uName = PathUtils.GetArchiveCacheM3uGameTitlePath(GetArchiveCacheLaunchPath(disc), mGame.GameId, mGame.Title, mGame.Version, disc);
                     break;
             }
 
             return m3uName;
         }
 
-        public static string GetM3uName(int? disc = null)
+        private static string GetM3uName(string archiveCachePath, int? disc = null)
+        {
+            string m3uName;
+
+            switch (mGameCacheData.Config.M3uName)
+            {
+                case Config.M3uName.GameId:
+                default:
+                    m3uName = PathUtils.GetArchiveCacheM3uGameIdPath(archiveCachePath, mGame.GameId);
+                    break;
+                case Config.M3uName.TitleVersion:
+                    m3uName = PathUtils.GetArchiveCacheM3uGameTitlePath(archiveCachePath, mGame.GameId, mGame.Title, mGame.Version, disc);
+                    break;
+            }
+
+            return m3uName;
+        }
+
+        public static string GetM3uPath(string archiveCachePath, int? disc = null)
         {
             if (disc != null)
             {
                 if (mMultiDiscCacheData[(int)disc].M3uName == null)
                 {
-                    mMultiDiscCacheData[(int)disc].M3uName = GetM3u(disc);
+                    mMultiDiscCacheData[(int)disc].M3uName = GetM3uName(archiveCachePath, disc);
                 }
 
                 return mMultiDiscCacheData[(int)disc].M3uName;
@@ -372,7 +390,7 @@ namespace ArchiveCacheManager
 
             if (mGameCacheData.M3uName == null)
             {
-                mGameCacheData.M3uName = GetM3u();
+                mGameCacheData.M3uName = GetM3uName(archiveCachePath);
             }
 
             return mGameCacheData.M3uName;
