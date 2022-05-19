@@ -42,6 +42,7 @@ namespace ArchiveCacheManager
             string archivePath = PluginUtils.GetArchivePath(game, app);
             bool extract = (Config.GetAction(key) == Config.Action.Extract || Config.GetAction(key) == Config.Action.ExtractCopy);
             bool copy = (Config.GetAction(key) == Config.Action.Copy || Config.GetAction(key) == Config.Action.ExtractCopy);
+            bool issoftlink = (Config.GetAction(key) == Config.Action.Softlink);
 
             if (extract && (Zip.SupportedType(archivePath) || (Config.GetChdman(key) && Chdman.SupportedType(archivePath))
                             || (Config.GetDolphinTool(key) && DolphinTool.SupportedType(archivePath))))
@@ -49,6 +50,10 @@ namespace ArchiveCacheManager
                 return true;
             }
             else if (copy)
+            {
+                return true;
+            }
+            else if (issoftlink)
             {
                 return true;
             }
@@ -72,9 +77,10 @@ namespace ArchiveCacheManager
             string key = Config.EmulatorPlatformKey(emulator.Title, game.Platform);
             bool extract = (Config.GetAction(key) == Config.Action.Extract || Config.GetAction(key) == Config.Action.ExtractCopy);
             bool copy = (Config.GetAction(key) == Config.Action.Copy || Config.GetAction(key) == Config.Action.ExtractCopy);
+            bool issoftlink = (Config.GetAction(key) == Config.Action.Softlink);
 
             // Always redirect on copy or extract/copy when type isn't zip, 7z or rar (already checked above)
-            if (copy)
+            if (copy || issoftlink)
             {
                 return true;
             }
@@ -95,6 +101,7 @@ namespace ArchiveCacheManager
             string key = Config.EmulatorPlatformKey(emulator.Title, game.Platform);
             bool extract = (Config.GetAction(key) == Config.Action.Extract || Config.GetAction(key) == Config.Action.ExtractCopy);
             bool copy = (Config.GetAction(key) == Config.Action.Copy || Config.GetAction(key) == Config.Action.ExtractCopy);
+            bool issoftlink = (Config.GetAction(key) == Config.Action.Softlink);
             Extractor extractor;
 
             if (extract && Zip.SupportedType(archivePath))
@@ -112,6 +119,10 @@ namespace ArchiveCacheManager
             else if (copy)
             {
                 extractor = new Robocopy();
+            }
+            else if (issoftlink)
+            {
+                extractor = new Softlink();
             }
             else
             {

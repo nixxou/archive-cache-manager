@@ -144,6 +144,7 @@ namespace ArchiveCacheManager
 
         static void PreCacheArchive(string[] args)
         {
+            if (LaunchInfo.Extractor.Name() == "Softlink") LaunchInfo.Extractor = new Robocopy();
             CacheManager.BatchCacheArchive(args);
         }
     }

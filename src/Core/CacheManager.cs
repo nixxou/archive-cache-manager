@@ -707,7 +707,7 @@ namespace ArchiveCacheManager
                 // Always store multi-disc games in the cache, regardless of minimum size.
                 // Always store games if LaunchPath is non-default, regardless of minimum size.
                 // Always store games when pre-caching
-                if ((LaunchInfo.GetSize() > Config.MinArchiveSize * 1048576)
+                if ((LaunchInfo.GetSize() > Config.MinArchiveSize * 1048576 && (LaunchInfo.Extractor.Name() != "Softlink"))
                     || (LaunchInfo.Game.MultiDisc && LaunchInfo.MultiDiscSupport)
                     || (LaunchInfo.LaunchPathConfig != Config.LaunchPath.Default)
                     || LaunchInfo.BatchCache)
@@ -743,6 +743,51 @@ namespace ArchiveCacheManager
                 }
             }
             ExtractArchive(args);
+        }
+
+        public static void ClearSystemLinkCache()
+        {
+            foreach (string directory in Directory.GetDirectories(PathUtils.GetAbsolutePath(Config.CachePath), "*", SearchOption.TopDirectoryOnly))
+            {
+                dynamic liste_file = Directory.EnumerateFiles(directory, "*", SearchOption.AllDirectories);
+                bool is_symb_link_cache = false;
+                foreach (string fl in liste_file)
+                {
+                    if (DiskUtils.IsSymbolic(fl))
+                    {
+                        is_symb_link_cache = true;
+                    }
+                }
+                if (is_symb_link_cache)
+                {
+                    string linkSource = string.Empty;
+                    try
+                    {
+                        linkSource = File.ReadAllText(PathUtils.GetArchiveCacheLinkFlagPath(directory));
+                    }
+                    catch (Exception)
+                    {
+                    }
+                    // Enumerate and delete all files in all subdirectories
+                    foreach (string filePath in liste_file)
+                    {
+                        // Clear any read-only or other special file attributes.
+                        File.SetAttributes(filePath, FileAttributes.Normal);
+                        File.Delete(filePath);
+                    }
+                    // Enumerate and delete all subdirectories
+                    foreach (string dirPath in Directory.EnumerateDirectories(directory))
+                    {
+                        Directory.Delete(dirPath, true);
+                    }
+                    Directory.Delete(directory, true);
+                    if (!string.IsNullOrEmpty(linkSource))
+                    {
+                        DiskUtils.SetDirectoryContentsReadOnly(linkSource);
+                        File.Delete(PathUtils.GetArchiveCacheLinkFlagPath(linkSource));
+                    }
+                }
+            }
         }
     }
 }

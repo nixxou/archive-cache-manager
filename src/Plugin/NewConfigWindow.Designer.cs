@@ -802,7 +802,8 @@ namespace ArchiveCacheManager
             this.Action.Items.AddRange(new object[] {
             "Extract",
             "Copy",
-            "Extract or Copy"});
+            "Extract or Copy",
+            "Softlink"});
             this.Action.Name = "Action";
             this.Action.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.Action.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;

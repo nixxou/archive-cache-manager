@@ -16,6 +16,7 @@ namespace ArchiveCacheManager
         public NewConfigWindow()
         {
             InitializeComponent();
+            CacheManager.ClearSystemLinkCache();
 
             UserInterface.SetDoubleBuffered(cacheDataGridView, true);
             UserInterface.SetDoubleBuffered(emulatorPlatformConfigDataGridView, true);
@@ -181,7 +182,6 @@ namespace ArchiveCacheManager
                 foreach (string directory in Directory.GetDirectories(PathUtils.GetAbsolutePath(Config.CachePath), "*", SearchOption.TopDirectoryOnly))
                 {
                     GameInfo gameInfo = new GameInfo(Path.Combine(directory, PathUtils.GetGameInfoFileName()));
-
                     if (gameInfo.InfoLoaded)
                     {
                         cacheDataGridView.Rows.Add(new object[] { directory, Path.GetFileName(gameInfo.ArchivePath),
@@ -530,6 +530,7 @@ namespace ArchiveCacheManager
 
         private void NewConfigWindow_Load(object sender, EventArgs e)
         {
+            
             UpdateExtractCache();
         }
 

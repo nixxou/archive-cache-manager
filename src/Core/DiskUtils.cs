@@ -10,6 +10,9 @@ namespace ArchiveCacheManager
     {
         [DllImport("Kernel32.dll", CharSet = CharSet.Unicode)]
         static extern bool CreateHardLink(string lpFileName, string lpExistingFileName, IntPtr lpSecurityAttributes);
+        [DllImport("Kernel32.dll", CharSet = CharSet.Unicode)]
+        static extern bool CreateSymbolicLink(string lpSymlinkFileName, string lpTargetFileName, int dwFlags);
+
 
         /// <summary>
         /// Deletes the entire content of a directory, and optionally the path itself.
@@ -263,6 +266,16 @@ namespace ArchiveCacheManager
         public static void HardLink(string dest, string source)
         {
             bool result = CreateHardLink(dest, source, IntPtr.Zero);
+        }
+
+        public static void SoftLink(string dest, string source)
+        {
+            bool result = CreateSymbolicLink(dest, source, 0);
+        }
+        public static bool IsSymbolic(string path)
+        {
+            FileInfo pathInfo = new FileInfo(path);
+            return pathInfo.Attributes.HasFlag(FileAttributes.ReparsePoint);
         }
     }
 }

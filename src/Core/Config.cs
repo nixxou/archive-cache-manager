@@ -12,7 +12,8 @@ namespace ArchiveCacheManager
         {
             Extract,
             Copy,
-            ExtractCopy
+            ExtractCopy,
+            Softlink
         };
 
         public enum LaunchPath

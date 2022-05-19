@@ -77,7 +77,8 @@ namespace ArchiveCacheManager
         {
             bool extract = (mGameCacheData.Config.Action == Config.Action.Extract || mGameCacheData.Config.Action == Config.Action.ExtractCopy);
             bool copy = (mGameCacheData.Config.Action == Config.Action.Copy || mGameCacheData.Config.Action == Config.Action.ExtractCopy);
-
+            bool issoftlink = (mGameCacheData.Config.Action == Config.Action.Softlink);
+            
             if (extract && Zip.SupportedType(archivePath))
             {
                 return new Zip();
@@ -93,6 +94,10 @@ namespace ArchiveCacheManager
             else if (copy)
             {
                 return new Robocopy();
+            }
+            else if (issoftlink)
+            {
+                return new Softlink();
             }
 
             // Default to Zip extractor

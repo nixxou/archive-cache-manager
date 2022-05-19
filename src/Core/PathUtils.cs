@@ -319,8 +319,6 @@ namespace ArchiveCacheManager
             {
                 hash = md5.ComputeHash(Encoding.UTF8.GetBytes(path));
             }
-            Logger.Log(string.Format("DEBUG! Hash of \"{0}\" = {1}",path, BitConverter.ToString(hash).Replace("-", string.Empty)));
-
             // Example: Doom (USA).zip hashes to 7309402b2dbee883f0f83e3e962dff24
             return BitConverter.ToString(hash).Replace("-", string.Empty);
         }

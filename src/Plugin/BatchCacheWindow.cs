@@ -84,6 +84,8 @@ namespace ArchiveCacheManager
         public BatchCacheWindow(IGame[] selectedGames)
         {
             InitializeComponent();
+            CacheManager.ClearSystemLinkCache();
+
             UserInterface.SetDoubleBuffered(cacheStatusGridView, true);
             UserInterface.SetDoubleBuffered(progressBar, true);
             UserInterface.ApplyTheme(this);
@@ -152,6 +154,7 @@ namespace ArchiveCacheManager
             Extractor chdman = new Chdman();
             Extractor dolphinTool = new DolphinTool();
             Extractor robocopy = new Robocopy();
+            Extractor softlink = new Softlink();
             long archiveSize = 0;
             double archiveSizeMb = 0;
             requiredCacheSize = 0;
@@ -209,7 +212,8 @@ namespace ArchiveCacheManager
                     key = Config.EmulatorPlatformKey(PluginHelper.DataManager.GetEmulatorById(mSelectedGames[index].EmulatorId).Title, mSelectedGames[index].Platform);
                     Config.Action action = Config.GetAction(key);
                     bool extract = (action == Config.Action.Extract || action == Config.Action.ExtractCopy);
-                    bool copy = (action == Config.Action.Copy || action == Config.Action.ExtractCopy);
+                    bool copy = (action == Config.Action.Copy || action == Config.Action.ExtractCopy || action == Config.Action.Softlink);
+
 
                     bool is_smart_extract = Config.GetSmartExtract(key);
 
@@ -224,6 +228,7 @@ namespace ArchiveCacheManager
                         extractor = robocopy;
                         extract = false;
                     }
+                    
 
                     if (extract || copy)
                     {

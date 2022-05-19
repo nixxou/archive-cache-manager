@@ -94,6 +94,7 @@
     <Compile Include="Extractors\DolphinTool.cs" />
     <Compile Include="Extractors\Robocopy.cs" />
     <Compile Include="Extractors\Extractor.cs" />
+    <Compile Include="Extractors\Softlink.cs" />
     <Compile Include="LaunchInfo.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="GameIndex.cs" />
